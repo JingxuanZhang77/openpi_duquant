@@ -1,7 +1,9 @@
 import contextlib
 import functools as ft
 import inspect
-from typing import TypeAlias, TypeVar, cast
+from typing import TypeVar, cast
+
+from openpi._compat import TypeAlias
 
 import beartype
 import jax

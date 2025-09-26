@@ -1,4 +1,5 @@
 from collections.abc import Sequence
+from dataclasses import dataclass
 import logging
 
 import torch
@@ -17,6 +18,17 @@ IMAGE_KEYS = (
 IMAGE_RESOLUTION = (224, 224)
 
 
+@dataclass
+class ProcessedObservation:
+    images: dict
+    image_masks: dict
+    state: torch.Tensor
+    tokenized_prompt: torch.Tensor
+    tokenized_prompt_mask: torch.Tensor
+    token_ar_mask: torch.Tensor
+    token_loss_mask: torch.Tensor
+
+
 def preprocess_observation_pytorch(
     observation,
     *,
@@ -28,8 +40,9 @@ def preprocess_observation_pytorch(
 
     This function avoids complex type annotations that can cause torch.compile issues.
     """
-    if not set(image_keys).issubset(observation.images):
-        raise ValueError(f"images dict missing keys: expected {image_keys}, got {list(observation.images)}")
+    missing = [key for key in image_keys if key not in observation.images]
+    if missing:
+        raise ValueError(f"images dict missing keys: expected {image_keys}, got missing {missing}")
 
     batch_shape = observation.state.shape[:-1]
 
@@ -156,13 +169,7 @@ def preprocess_observation_pytorch(
         else:
             out_masks[key] = observation.image_masks[key]
 
-    # Create a simple object with the required attributes instead of using the complex Observation class
-    class SimpleProcessedObservation:
-        def __init__(self, **kwargs):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-
-    return SimpleProcessedObservation(
+    return ProcessedObservation(
         images=out_images,
         image_masks=out_masks,
         state=observation.state,

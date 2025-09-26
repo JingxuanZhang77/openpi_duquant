@@ -2,7 +2,12 @@ from collections.abc import Sequence
 import logging
 import pathlib
 import time
-from typing import Any, TypeAlias
+from typing import Any
+
+try:
+    from typing import TypeAlias
+except ImportError:  # Python < 3.10
+    from typing_extensions import TypeAlias
 
 import flax
 import flax.traverse_util

@@ -53,6 +53,16 @@ def create_trained_policy(
     if is_pytorch:
         model = train_config.model.load_pytorch(train_config, weight_path)
         model.paligemma_with_expert.to_bfloat16_for_selected_params("bfloat16")
+        # Optional: enable DuQuant fake-quant for selected Linear layers via env vars
+        try:
+            from openpi.models_pytorch.duquant_layers import enable_duquant_if_configured
+
+            enable_duquant_if_configured(model)
+        except Exception as e:  # noqa: BLE001
+            # Do not fail server startup; just log and continue in FP
+            import logging as _logging
+
+            _logging.warning(f"DUQUANT init failed or skipped: {e}")
     else:
         model = train_config.model.load(_model.restore_params(checkpoint_dir / "params", dtype=jnp.bfloat16))
     data_config = train_config.data.create(train_config.assets_dirs, train_config.model)

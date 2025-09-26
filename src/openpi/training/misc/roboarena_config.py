@@ -1,6 +1,6 @@
 """RoboArena baseline policy configs."""
 
-from typing import TypeAlias
+from openpi._compat import TypeAlias
 
 import openpi.models.model as _model
 import openpi.models.pi0_config as pi0_config

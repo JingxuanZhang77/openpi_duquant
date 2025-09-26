@@ -1,7 +1,10 @@
 import logging
 import math
+import os
 
 import torch
+import torch._dynamo.config as dynamo_config
+import torch._inductor.config as inductor_config
 from torch import Tensor
 from torch import nn
 import torch.nn.functional as F  # noqa: N812
@@ -109,7 +112,51 @@ class PI0Pytorch(nn.Module):
             self.action_time_mlp_out = nn.Linear(action_expert_config.width, action_expert_config.width)
 
         torch.set_float32_matmul_precision("high")
-        self.sample_actions = torch.compile(self.sample_actions, mode="max-autotune")
+        torch.backends.cuda.matmul.allow_tf32 = True
+
+        disable_compile = os.environ.get("OPENPI_DISABLE_TORCH_COMPILE", "0").lower() in {"1", "true", "yes"}
+
+        self._compiled_sample_actions_impl = None
+
+        # Conservative defaults to keep inductor fast but stable
+        if not disable_compile and hasattr(torch, "compile"):
+            triton_cfg = getattr(inductor_config, "triton", None)
+            if triton_cfg is not None:
+                if hasattr(triton_cfg, "autotune"):
+                    triton_cfg.autotune = False
+                else:
+                    if hasattr(inductor_config, "max_autotune"):
+                        inductor_config.max_autotune = 0
+                    if hasattr(inductor_config, "max_autotune_gemm"):
+                        inductor_config.max_autotune_gemm = 0
+                if hasattr(triton_cfg, "cudagraphs"):
+                    triton_cfg.cudagraphs = True
+                elif hasattr(inductor_config, "cudagraphs"):
+                    inductor_config.cudagraphs = True
+                if hasattr(triton_cfg, "max_tiles"):
+                    triton_cfg.max_tiles = 1
+            else:
+                if hasattr(inductor_config, "max_autotune"):
+                    inductor_config.max_autotune = 0
+                if hasattr(inductor_config, "max_autotune_gemm"):
+                    inductor_config.max_autotune_gemm = 0
+                if hasattr(inductor_config, "cudagraphs"):
+                    inductor_config.cudagraphs = True
+            if hasattr(dynamo_config, "dynamic_shapes"):
+                dynamo_config.dynamic_shapes = False
+            os.environ.setdefault("TORCHINDUCTOR_DISABLE_CUDAGRAPHS", "1")
+
+            try:
+                self._compiled_sample_actions_impl = torch.compile(
+                    self._sample_actions_impl,
+                    backend="inductor",
+                    mode="reduce-overhead",
+                )
+            except Exception as exc:  # pragma: no cover - defensive fallback
+                logging.warning("Unable to torch.compile sample_actions_impl (falling back to eager): %s", exc)
+        else:
+            if disable_compile:
+                logging.info("Skipping torch.compile(sample_actions) because OPENPI_DISABLE_TORCH_COMPILE is set")
 
         # Initialize gradient checkpointing flag
         self.gradient_checkpointing_enabled = False
@@ -381,6 +428,33 @@ class PI0Pytorch(nn.Module):
             noise = self.sample_noise(actions_shape, device)
 
         images, img_masks, lang_tokens, lang_masks, state = self._preprocess_observation(observation, train=False)
+        images = tuple(images)
+        img_masks = tuple(img_masks)
+
+        impl = self._compiled_sample_actions_impl or self._sample_actions_impl
+        return impl(
+            device,
+            images,
+            img_masks,
+            lang_tokens,
+            lang_masks,
+            state,
+            noise,
+            num_steps,
+        )
+
+    def _sample_actions_impl(
+        self,
+        device,
+        images,
+        img_masks,
+        lang_tokens,
+        lang_masks,
+        state,
+        noise,
+        num_steps,
+    ) -> Tensor:
+        bsize = state.shape[0]
 
         prefix_embs, prefix_pad_masks, prefix_att_masks = self.embed_prefix(images, img_masks, lang_tokens, lang_masks)
         prefix_att_2d_masks = make_att_2d_masks(prefix_pad_masks, prefix_att_masks)
@@ -398,12 +472,11 @@ class PI0Pytorch(nn.Module):
             use_cache=True,
         )
 
-        dt = -1.0 / num_steps
-        dt = torch.tensor(dt, dtype=torch.float32, device=device)
+        dt = torch.tensor(-1.0 / num_steps, dtype=torch.float32, device=device)
 
         x_t = noise
         time = torch.tensor(1.0, dtype=torch.float32, device=device)
-        while time >= -dt / 2:
+        for _ in range(num_steps):
             expanded_time = time.expand(bsize)
             v_t = self.denoise_step(
                 state,
@@ -415,7 +488,7 @@ class PI0Pytorch(nn.Module):
 
             # Euler step - use new tensor assignment instead of in-place operation
             x_t = x_t + dt * v_t
-            time += dt
+            time = time + dt
         return x_t
 
     def denoise_step(

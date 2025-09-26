@@ -27,7 +27,9 @@ We follow this einsum axis naming convention:
 
 from collections.abc import Sequence
 import dataclasses
-from typing import Literal, TypeAlias
+from typing import Literal
+
+from openpi._compat import TypeAlias
 
 import einops
 import flax.linen as nn

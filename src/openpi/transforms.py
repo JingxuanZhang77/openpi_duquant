@@ -1,7 +1,9 @@
 from collections.abc import Callable, Mapping, Sequence
 import dataclasses
 import re
-from typing import Protocol, TypeAlias, TypeVar, runtime_checkable
+from typing import Protocol, TypeVar, runtime_checkable
+
+from openpi._compat import TypeAlias
 
 import flax.traverse_util as traverse_util
 import jax

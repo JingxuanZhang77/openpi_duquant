@@ -6,7 +6,9 @@ import dataclasses
 import difflib
 import logging
 import pathlib
-from typing import Any, Literal, Protocol, TypeAlias
+from typing import Any, Literal, Protocol
+
+from openpi._compat import TypeAlias
 
 import etils.epath as epath
 import flax.nnx as nnx
