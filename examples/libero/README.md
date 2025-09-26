@@ -119,13 +119,16 @@ checkpoint was trained in openpi with the `pi05_libero` config.
 
 - Dry-run which Linear layers would be quantized (no replacement):
   - `CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch`
-  - `OPENPI_DUQUANT_DRYRUN=1 OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model."
+  - `
+  OPENPI_DUQUANT_DEBUG=1
+  OPENPI_DUQUANT_DRYRUN=1 OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model."
     uv run --active scripts/serve_policy.py --env LIBERO \
       policy:checkpoint --policy.config=pi05_libero --policy.dir="$CKPT"`
 
 - Run PTQ simulation (default W4A8, block=16, permute on, input x->xPR_in, row-rot restore):
   - `CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch`
   export OPENPI_DISABLE_TORCH_COMPILE=1
+  OPENPI_DUQUANT_DEBUG=1
   OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \
     uv run --active scripts/serve_policy.py --env LIBERO \
       policy:checkpoint --policy.config=pi05_libero --policy.dir="$CKPT"`
@@ -148,7 +151,7 @@ export OPENPI_DISABLE_TORCH_COMPILE=1
 OPENPI_DUQUANT_DEBUG=1
 OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \
 OPENPI_DUQUANT_WBITS_DEFAULT=4 OPENPI_DUQUANT_ABITS=8 \
-OPENPI_DUQUANT_ACT_PCT=99.0 OPENPI_DUQUANT_BLOCK=64 OPENPI_DUQUANT_PERMUTE=0 \
+OPENPI_DUQUANT_ACT_PCT=98.0 OPENPI_DUQUANT_BLOCK=64 OPENPI_DUQUANT_PERMUTE=0 \
 OPENPI_DUQUANT_ROW_ROT=0 OPENPI_DUQUANT_CALIB_STEPS=64 \
 uv run --active scripts/serve_policy.py --env LIBERO \
   policy:checkpoint --policy.config=pi05_libero --policy.dir="$CKPT"
