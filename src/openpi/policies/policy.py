@@ -11,7 +11,12 @@ except ImportError:  # Python < 3.10
 
 import flax
 import flax.traverse_util
-import jax
+try:
+    import flax  # 只有走 JAX 权重时才会用到
+    _HAS_JAX = True
+except Exception:
+    flax = None
+    _HAS_JAX = False
 import jax.numpy as jnp
 import numpy as np
 from openpi_client import base_policy as _base_policy
