@@ -1,9 +1,20 @@
 import logging
 import os
 
-import jax
+try:
+    import jax
+    import jax.numpy as jnp
+except Exception:  # pragma: no cover - optional for PyTorch-only runs
+    jax = None
+    jnp = None
+
 import numpy as np
-import orbax.checkpoint as ocp
+
+try:
+    import orbax.checkpoint as ocp
+except Exception:  # pragma: no cover - optional for PyTorch-only runs
+    ocp = None
+
 import sentencepiece
 from transformers import AutoProcessor
 
@@ -251,6 +262,10 @@ class FSQTokenizer:
     def __init__(self, max_len: int = 256, fsq_tokenizer_path: str | None = None):
         self._max_len = max_len
 
+        if ocp is None or jax is None:
+            raise ImportError(
+                "FSQTokenizer requires orbax.checkpoint and jax. Install the JAX stack to use FSQ tokenizers."
+            )
         assert fsq_tokenizer_path is not None, "fsq_tokenizer_path must be provided"
         # Download tokenizer
         path = download.maybe_download(fsq_tokenizer_path)
