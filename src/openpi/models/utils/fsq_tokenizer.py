@@ -3,250 +3,201 @@ from typing import Any, Literal
 
 import chex
 from einops import einops
+from flax import linen as nn
+from flax.linen.module import Module
+from flax.linen.module import compact
+from flax.struct import dataclass
+from flax.typing import Array
 import jax
 import jax.numpy as jnp
 
-try:
-    from flax import linen as nn
-    from flax.linen.module import Module
-    from flax.linen.module import compact
-    from flax.struct import dataclass
-    from flax.typing import Array
-    _FLAX_AVAILABLE = True
-except Exception:  # pragma: no cover - optional dependency
-    nn = None
-    Module = object
 
-    def compact(fn):  # type: ignore[misc]
-        def _wrapper(*_args, **_kwargs):  # pragma: no cover
-            raise ImportError("flax.linen is required for FSQ tokenizer components")
+class FsqCodebook(nn.Module):
+    input_dim: int
+    target_codebook_size: int
+    codebook_type: Literal["fsq", "lfq"]
 
-        return _wrapper
+    _bins_per_dim: tuple[int] | None = None
 
-    from dataclasses import dataclass  # type: ignore[assignment]
+    @property
+    def bins_per_dim(self) -> tuple[int]:
+        if self._bins_per_dim is not None:
+            return self._bins_per_dim
 
-    Array = Any  # type: ignore[assignment]
-_FLAX_AVAILABLE = False
+        if self.codebook_type == "fsq":
+            return self._get_bins_fsq(self.target_codebook_size)
+        elif self.codebook_type == "lfq":  # noqa: RET505
+            return self._get_bins_lfq(self.target_codebook_size)
+        elif self.codebook_type == "custom":
+            return self._get_bins_custom(self.target_codebook_size)
+        else:
+            raise ValueError(f"Codebook type {self.codebook_type} not supported.")
 
+    @property
+    def place_values(self) -> jnp.ndarray:
+        place_values = [1]
+        for b in self.bins_per_dim[:-1]:
+            place_values.append(place_values[-1] * b)
+        return jnp.array(place_values)
 
-if _FLAX_AVAILABLE:
+    @staticmethod
+    def _get_bins_fsq(target_codebook_size: int) -> tuple[int]:
+        """
+        Get bins per dimension based on codebook size, from the original FSQ paper.
+        """
+        if target_codebook_size == 2**8:
+            return (8, 6, 5)
+        elif target_codebook_size == 2**10:  # noqa: RET505
+            return (8, 5, 5, 5)
+        elif target_codebook_size == 2**12:
+            return (7, 5, 5, 5, 5)
+        elif target_codebook_size == 2**14:
+            return (8, 8, 8, 6, 5)
+        elif target_codebook_size == 2**16:
+            return (8, 8, 8, 5, 5, 5)
+        else:
+            raise ValueError(f"Codebook size {target_codebook_size} not supported.")
 
-    class FsqCodebook(nn.Module):
-        input_dim: int
-        target_codebook_size: int
-        codebook_type: Literal["fsq", "lfq"]
+    @staticmethod
+    def _get_bins_custom(target_codebook_size: int) -> tuple[int]:
+        if target_codebook_size == 2**8:
+            return (16, 16)
+        elif target_codebook_size == 2**10:  # noqa: RET505
+            return (32, 32)
+        elif target_codebook_size == 2**12:
+            return (64, 64)
+        elif target_codebook_size == 2**14:
+            return (128, 128)
+        elif target_codebook_size == 2**16:
+            return (256, 256)
+        return None
 
-        _bins_per_dim: tuple[int] | None = None
+    @staticmethod
+    def _get_bins_lfq(target_codebook_size: int) -> tuple[int]:
+        """
+        Get bins per dimension according to the Lookup-Free Quantization paper (2 bins per dimension)
+        """
+        assert target_codebook_size & (target_codebook_size - 1) == 0, "Codebook size should be a power of two for LFQ"
 
-        @property
-        def bins_per_dim(self) -> tuple[int]:
-            if self._bins_per_dim is not None:
-                return self._bins_per_dim
+        return (2,) * int(math.log2(target_codebook_size))
 
-            if self.codebook_type == "fsq":
-                return self._get_bins_fsq(self.target_codebook_size)
-            elif self.codebook_type == "lfq":  # noqa: RET505
-                return self._get_bins_lfq(self.target_codebook_size)
-            elif self.codebook_type == "custom":
-                return self._get_bins_custom(self.target_codebook_size)
-            else:
-                raise ValueError(f"Codebook type {self.codebook_type} not supported.")
+    def setup(self):
+        self.proj_down = nn.Dense(len(self.bins_per_dim))
+        self.proj_up = nn.Dense(self.input_dim)
 
-        @property
-        def place_values(self) -> jnp.ndarray:
-            place_values = [1]
-            for b in self.bins_per_dim[:-1]:
-                place_values.append(place_values[-1] * b)
-            return jnp.array(place_values)
+    def __call__(self, inputs: jnp.ndarray) -> tuple[jnp.ndarray, jnp.ndarray]:
+        tokens, z = self.encode(inputs)
+        output = self.decode(tokens, z_grad=z)
+        return tokens, output
 
-        @staticmethod
-        def _get_bins_fsq(target_codebook_size: int) -> tuple[int]:
-            if target_codebook_size == 2**8:
-                return (8, 6, 5)
-            elif target_codebook_size == 2**10:  # noqa: RET505
-                return (8, 5, 5, 5)
-            elif target_codebook_size == 2**12:
-                return (7, 5, 5, 5, 5)
-            elif target_codebook_size == 2**14:
-                return (8, 8, 8, 6, 5)
-            elif target_codebook_size == 2**16:
-                return (8, 8, 8, 5, 5, 5)
-            else:
-                raise ValueError(f"Codebook size {target_codebook_size} not supported.")
+    def encode(self, inputs: jnp.ndarray) -> tuple[jnp.ndarray, jnp.ndarray]:
+        bases = jnp.array(self.bins_per_dim)
 
-        @staticmethod
-        def _get_bins_custom(target_codebook_size: int) -> tuple[int]:
-            if target_codebook_size == 2**8:
-                return (16, 16)
-            elif target_codebook_size == 2**10:  # noqa: RET505
-                return (32, 32)
-            elif target_codebook_size == 2**12:
-                return (64, 64)
-            elif target_codebook_size == 2**14:
-                return (128, 128)
-            elif target_codebook_size == 2**16:
-                return (256, 256)
-            return None
+        x = self.proj_down(inputs)
+        z = jnp.tanh(x)
 
-        @staticmethod
-        def _get_bins_lfq(target_codebook_size: int) -> tuple[int]:
-            assert (
-                target_codebook_size & (target_codebook_size - 1) == 0
-            ), "Codebook size should be a power of two for LFQ"
+        # Quantize
+        digits = jnp.round((z + 1) * (bases - 1) / 2).astype(jnp.int32)
+        tokens = self.undigitize(digits)
 
-            return (2,) * int(math.log2(target_codebook_size))
+        return tokens, z
 
-        def setup(self):
-            self.proj_down = nn.Dense(len(self.bins_per_dim))
-            self.proj_up = nn.Dense(self.input_dim)
+    def decode(self, tokens: jnp.ndarray, z_grad: jax.Array | None = None) -> jnp.ndarray:
+        bases = jnp.array(self.bins_per_dim)
+        digits = self.digitize(tokens)
 
-        def __call__(self, inputs: jnp.ndarray) -> tuple[jnp.ndarray, jnp.ndarray]:
-            tokens, z = self.encode(inputs)
-            output = self.decode(tokens, z_grad=z)
-            return tokens, output
+        z_q = digits / (bases - 1) * 2 - 1
 
-        def encode(self, inputs: jnp.ndarray) -> tuple[jnp.ndarray, jnp.ndarray]:
-            bases = jnp.array(self.bins_per_dim)
+        if z_grad is not None:
+            chex.assert_equal_shape([z_q, z_grad])
+            z_q = jax.lax.stop_gradient(z_q - z_grad) + z_grad
 
-            x = self.proj_down(inputs)
-            z = jnp.tanh(x)
+        return self.proj_up(z_q)
 
-            digits = jnp.round((z + 1) * (bases - 1) / 2).astype(jnp.int32)
-            tokens = self.undigitize(digits)
+    def undigitize(self, digits: jnp.ndarray) -> jnp.ndarray:
+        return jnp.sum(digits * jnp.array(self.place_values), axis=-1)
 
-            return tokens, z
+    def digitize(self, tokens: jnp.ndarray) -> jnp.ndarray:
+        return (tokens[..., None] // jnp.array(self.place_values)) % jnp.array(self.bins_per_dim)
 
-        def decode(self, tokens: jnp.ndarray, z_grad: jax.Array | None = None) -> jnp.ndarray:
-            bases = jnp.array(self.bins_per_dim)
-            digits = self.digitize(tokens)
-
-            z_q = digits / (bases - 1) * 2 - 1
-
-            if z_grad is not None:
-                chex.assert_equal_shape([z_q, z_grad])
-                z_q = jax.lax.stop_gradient(z_q - z_grad) + z_grad
-
-            return self.proj_up(z_q)
-
-        def undigitize(self, digits: jnp.ndarray) -> jnp.ndarray:
-            return jnp.sum(digits * jnp.array(self.place_values), axis=-1)
-
-        def digitize(self, tokens: jnp.ndarray) -> jnp.ndarray:
-            return (tokens[..., None] // jnp.array(self.place_values)) % jnp.array(self.bins_per_dim)
-
-        @property
-        def vocab_size(self) -> int:
-            return math.prod(self.bins_per_dim)
+    @property
+    def vocab_size(self) -> int:
+        return math.prod(self.bins_per_dim)
 
 
-    class ResNetDownBlock(nn.Module):
-        stride: int = 1
-        n_filters: int = 64
-        dropout_rate: float = 0.0
-        group_size: int = 32
+class ResNetDownBlock(nn.Module):
+    stride: int = 1
+    n_filters: int = 64
+    dropout_rate: float = 0.0
+    group_size: int = 32
 
-        @nn.compact
-        def __call__(self, x: jnp.ndarray, *, train: bool = True) -> jnp.ndarray:
-            skip = x
+    @nn.compact
+    def __call__(self, x: jnp.ndarray, *, train: bool = True) -> jnp.ndarray:
+        skip = x
 
-            if self.stride > 1 or x.shape[-1] != self.n_filters:
-                skip = nn.Conv(self.n_filters, (self.stride,), (self.stride,), "SAME")(skip)
+        if self.stride > 1 or x.shape[-1] != self.n_filters:
+            skip = nn.Conv(self.n_filters, (self.stride,), (self.stride,), "SAME")(skip)
 
-            x = nn.Conv(self.n_filters, (3,), (self.stride,), "SAME")(x)
-            x = nn.GroupNorm(num_groups=self.n_filters // self.group_size)(x)
-            x = nn.Dropout(self.dropout_rate)(x, deterministic=not train)
-            x = nn.relu(x)
-            x = nn.Conv(self.n_filters, (3,), (1,), "SAME")(x)
+        x = nn.Conv(self.n_filters, (3,), (self.stride,), "SAME")(x)
+        x = nn.GroupNorm(num_groups=self.n_filters // self.group_size)(x)
+        x = nn.Dropout(self.dropout_rate)(x, deterministic=not train)
+        x = nn.relu(x)
+        x = nn.Conv(self.n_filters, (3,), (1,), "SAME")(x)
 
-            return skip + x
-
-
-    class ResNetUpBlock(nn.Module):
-        stride: int = 1
-        n_filters: int = 64
-        dropout_rate: float = 0.0
-        group_size: int = 32
-
-        @nn.compact
-        def __call__(self, x: jnp.ndarray, *, train: bool = True) -> jnp.ndarray:
-            skip = x
-
-            if self.stride > 1:
-                skip = nn.ConvTranspose(self.n_filters, (self.stride,), (self.stride,), "SAME")(skip)
-
-            x = nn.ConvTranspose(self.n_filters, (3,), (self.stride,), "SAME")(x)
-            x = nn.GroupNorm(num_groups=self.n_filters // self.group_size)(x)
-            x = nn.Dropout(self.dropout_rate)(x, deterministic=not train)
-            x = nn.relu(x)
-            x = nn.ConvTranspose(self.n_filters, (3,), (1,), "SAME")(x)
-
-            return skip + x
+        return skip + x
 
 
-    @dataclass
-    class LfqCodebookOutput:
-        tokens: jnp.ndarray
-        z: jnp.ndarray
-        z_q: jnp.ndarray
-        token_log_probs: jnp.ndarray
-        commit_loss: jnp.ndarray
+class ResNetUpBlock(nn.Module):
+    stride: int = 1
+    n_filters: int = 64
+    dropout_rate: float = 0.0
+    group_size: int = 32
+
+    @nn.compact
+    def __call__(self, x: jnp.ndarray, *, train: bool = True) -> jnp.ndarray:
+        skip = x
+
+        if self.stride > 1:
+            skip = nn.ConvTranspose(self.n_filters, (self.stride,), (self.stride,), "SAME")(skip)
+
+        x = nn.ConvTranspose(self.n_filters, (3,), (self.stride,), "SAME")(x)
+        x = nn.GroupNorm(num_groups=self.n_filters // self.group_size)(x)
+        x = nn.Dropout(self.dropout_rate)(x, deterministic=not train)
+        x = nn.relu(x)
+        x = nn.ConvTranspose(self.n_filters, (3,), (1,), "SAME")(x)
+
+        return skip + x
 
 
-    class LookupFreeQuantization(nn.Module):
-        num_dims: int
-        latent_dim: int
-
-        def setup(self):
-            self.codebook = jnp.array([-1, 1])
-            self.activation = nn.tanh
-
-            self.project_down = nn.Dense(self.num_dims)
-            self.project_up = nn.Dense(self.latent_dim)
-
-        def encode(self, z: jnp.ndarray) -> jnp.ndarray:
-            z = self.project_down(z)
-            token_squared_distances = jnp.square(z[..., None] - self.codebook)
-            token_bits = jnp.argmin(token_squared_distances, axis=-1)
-            return jnp.sum(token_bits * (2 ** jnp.arange(self.num_dims)), axis=-1)
-
-        def decode(self, tokens: jnp.ndarray) -> jnp.ndarray:
-            token_bits = (tokens[..., None] & (2 ** jnp.arange(self.num_dims))).astype(jnp.int32)
-            return self.project_up(self.codebook[token_bits])
+@dataclass
+class LfqCodebookOutput:
+    tokens: jnp.ndarray
+    z: jnp.ndarray
+    z_q: jnp.ndarray
+    token_log_probs: jnp.ndarray
+    commit_loss: jnp.ndarray
 
 
-else:  # _FLAX_AVAILABLE is False
+class LookupFreeQuantization(nn.Module):
+    num_dims: int
+    latent_dim: int
 
-    def _require_flax() -> None:  # pragma: no cover - runtime guard
-        raise ImportError("flax.linen is required for FSQ tokenizer components")
+    def setup(self):
+        self.codebook = jnp.array([-1, 1])
+        self.activation = nn.tanh
 
+        self.project_down = nn.Dense(self.num_dims)
+        self.project_up = nn.Dense(self.latent_dim)
 
-    class FsqCodebook:
-        def __init__(self, *args, **kwargs):
-            _require_flax()
+    def encode(self, z: jnp.ndarray) -> jnp.ndarray:
+        z = self.project_down(z)
+        token_squared_distances = jnp.square(z[..., None] - self.codebook)
+        token_bits = jnp.argmin(token_squared_distances, axis=-1)
+        return jnp.sum(token_bits * (2 ** jnp.arange(self.num_dims)), axis=-1)
 
-
-    class ResNetDownBlock:
-        def __init__(self, *args, **kwargs):
-            _require_flax()
-
-
-    class ResNetUpBlock:
-        def __init__(self, *args, **kwargs):
-            _require_flax()
-
-
-    @dataclass
-    class LfqCodebookOutput:
-        tokens: Any
-        z: Any
-        z_q: Any
-        token_log_probs: Any
-        commit_loss: Any
-
-
-    class LookupFreeQuantization:
-        def __init__(self, *args, **kwargs):
-            _require_flax()
+    def decode(self, tokens: jnp.ndarray) -> jnp.ndarray:
+        token_bits = (tokens[..., None] & (2 ** jnp.arange(self.num_dims))).astype(jnp.int32)
+        return self.project_up(self.codebook[token_bits])
 
     def loss(self, x: jnp.ndarray) -> LfqCodebookOutput:
         z = self.project_down(x)
