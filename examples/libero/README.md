@@ -84,7 +84,7 @@ python $(python -c "import robosuite, pathlib; \
 
 # 6) 启动客户端前设好 PYTHONPATH
 export PYTHONPATH=$PWD/src:$PWD/third_party/libero
-
+export CKPT=/global/homes/y/yunta/repo/openpi/ckpts/pi05_libero_torch
 python examples/libero/main.py \
   --args.task-suite-name libero_spatial \
   --args.num-trials-per-task 20 \
@@ -129,6 +129,7 @@ checkpoint was trained in openpi with the `pi05_libero` config.
 
 - Run PTQ simulation (default W4A8, block=16, permute on, input x->xPR_in, row-rot restore):
   - `CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch`
+  CKPT=/global/homes/y/yunta/repo/openpi/ckpts/pi05_libero_torch
   export OPENPI_DISABLE_TORCH_COMPILE=1
   OPENPI_DUQUANT_DEBUG=1
   OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \

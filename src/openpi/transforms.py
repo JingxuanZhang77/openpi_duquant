@@ -5,7 +5,11 @@ from typing import Protocol, TypeVar, runtime_checkable
 
 from openpi._compat import TypeAlias
 
-import flax.traverse_util as traverse_util
+try:
+    import flax.traverse_util as traverse_util
+except Exception:  # pragma: no cover - optional for PyTorch-only runs
+    traverse_util = None
+
 import jax
 import numpy as np
 from openpi_client import image_tools
@@ -341,12 +345,36 @@ class PadStatesAndActions(DataTransformFn):
 
 def flatten_dict(tree: at.PyTree) -> dict:
     """Flatten a nested dictionary. Uses '/' as the separator."""
-    return traverse_util.flatten_dict(tree, sep="/")
+    if traverse_util is not None:
+        return traverse_util.flatten_dict(tree, sep="/")
+
+    flat: dict[str, at.Array] = {}
+
+    def _recurse(prefix: tuple[str, ...], value):
+        if isinstance(value, dict):
+            for k, v in value.items():
+                _recurse(prefix + (str(k),), v)
+        else:
+            flat["/".join(prefix)] = value
+
+    for key, val in tree.items():
+        _recurse((str(key),), val)
+    return flat
 
 
 def unflatten_dict(tree: dict) -> at.PyTree:
     """Unflatten a flattened dictionary. Assumes that '/' was used as a separator."""
-    return traverse_util.unflatten_dict(tree, sep="/")
+    if traverse_util is not None:
+        return traverse_util.unflatten_dict(tree, sep="/")
+
+    root: dict[str, at.Array] = {}
+    for path, value in tree.items():
+        keys = path.split("/")
+        cursor = root
+        for key in keys[:-1]:
+            cursor = cursor.setdefault(key, {})
+        cursor[keys[-1]] = value
+    return root
 
 
 def transform_dict(patterns: Mapping[str, str | None], tree: at.PyTree) -> at.PyTree:
