@@ -9,14 +9,7 @@ try:
 except ImportError:  # Python < 3.10
     from typing_extensions import TypeAlias
 
-import flax
-import flax.traverse_util
-try:
-    import flax  # 只有走 JAX 权重时才会用到
-    _HAS_JAX = True
-except Exception:
-    flax = None
-    _HAS_JAX = False
+import jax
 import jax.numpy as jnp
 import numpy as np
 from openpi_client import base_policy as _base_policy
@@ -27,6 +20,32 @@ from openpi import transforms as _transforms
 from openpi.models import model as _model
 from openpi.shared import array_typing as at
 from openpi.shared import nnx_utils
+
+
+def _flatten_for_record(data: dict) -> dict:
+    """Flatten nested dictionaries for logging, without requiring Flax."""
+
+    if _flax_traverse_util is not None:
+        return _flax_traverse_util.flatten_dict(data, sep="/")
+
+    def _flatten(prefix: tuple[str, ...], value: Any, out: dict[str, Any]) -> None:
+        if isinstance(value, dict):
+            for k, v in value.items():
+                _flatten(prefix + (str(k),), v, out)
+        else:
+            out["/".join(prefix)] = value
+
+    result: dict[str, Any] = {}
+    for key, val in data.items():
+        _flatten((str(key),), val, result)
+    return result
+
+try:
+    import flax
+    import flax.traverse_util as _flax_traverse_util
+except Exception:  # pragma: no cover - optional dependency for PyTorch-only runs
+    flax = None
+    _flax_traverse_util = None
 
 BasePolicy: TypeAlias = _base_policy.BasePolicy
 
@@ -136,7 +155,7 @@ class PolicyRecorder(_base_policy.BasePolicy):
         results = self._policy.infer(obs)
 
         data = {"inputs": obs, "outputs": results}
-        data = flax.traverse_util.flatten_dict(data, sep="/")
+        data = _flatten_for_record(data)
 
         output_path = self._record_dir / f"step_{self._record_step}"
         self._record_step += 1

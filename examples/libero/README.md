@@ -61,6 +61,8 @@ MUJOCO_GL=glx python examples/libero/main.py
 rm -rf examples/libero/.venv-libero
 uv python install 3.9
 uv venv --python 3.9 examples/libero/.venv-libero
+module load python/3.9
+python3.9 -m venv examples/libero/.venv-libero
 source examples/libero/.venv-libero/bin/activate
 
 # 2) 装 pip，并升级
@@ -132,10 +134,8 @@ checkpoint was trained in openpi with the `pi05_libero` config.
   OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \
     uv run --active scripts/serve_policy.py --env LIBERO \
       policy:checkpoint --policy.config=pi05_libero --policy.dir="$CKPT"`
-      
-OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." 
-python scripts/serve_policy.py --env LIBERO \
-      policy:checkpoint --policy.config=pi05_libero --policy.dir="$CKPT"
+
+OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \ python scripts/serve_policy.py --env LIBERO \ policy:checkpoint --policy.config=pi05_libero --policy.dir="$CKPT"
 
 - Change bits/settings:
   - `OPENPI_DUQUANT_WBITS_DEFAULT=4 OPENPI_DUQUANT_ABITS=8 OPENPI_DUQUANT_BLOCK=16 OPENPI_DUQUANT_PERMUTE=1 OPENPI_DUQUANT_LS=0.15 \

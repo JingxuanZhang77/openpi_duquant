@@ -4,18 +4,60 @@ import dataclasses
 import enum
 import logging
 import pathlib
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 import augmax
-from flax import nnx
-from flax import struct
-from flax import traverse_util
 import jax
 import jax.numpy as jnp
 import numpy as np
 import orbax.checkpoint as ocp
 import safetensors
 import torch
+
+try:
+    from flax import nnx, struct, traverse_util
+    _FLAX_AVAILABLE = True
+except Exception:  # pragma: no cover - optional when running PyTorch-only pipelines
+    nnx = None
+    traverse_util = None
+
+    class _StructShim:
+        @staticmethod
+        def dataclass(*args, **kwargs):
+            return dataclasses.dataclass(*args, **kwargs)
+
+    struct = _StructShim()
+    _FLAX_AVAILABLE = False
+
+
+def _flatten_dict(tree: dict) -> dict:
+    if traverse_util is not None:
+        return traverse_util.flatten_dict(tree)
+
+    flat: dict[tuple[str, ...], Any] = {}
+
+    def _recurse(prefix: tuple[str, ...], value: Any) -> None:
+        if isinstance(value, dict):
+            for k, v in value.items():
+                _recurse(prefix + (str(k),), v)
+        else:
+            flat[prefix] = value
+
+    _recurse(tuple(), tree)
+    return flat
+
+
+def _unflatten_dict(flat: dict[tuple[str, ...], Any]) -> dict:
+    if traverse_util is not None:
+        return traverse_util.unflatten_dict(flat)
+
+    root: dict[str, Any] = {}
+    for path, value in flat.items():
+        cursor = root
+        for key in path[:-1]:
+            cursor = cursor.setdefault(str(key), {})
+        cursor[str(path[-1])] = value
+    return root
 
 from openpi.models_pytorch import pi0_pytorch
 from openpi.shared import image_tools
@@ -326,7 +368,7 @@ def restore_params(
 
     # If the params were saved with `save_state` during openpi training, every key path will end with "value", which is
     # added by `nnx.State`. We remove the "value" suffix here and always return what NNX calls a "pure dict".
-    flat_params = traverse_util.flatten_dict(params)
+    flat_params = _flatten_dict(params)
     if all(kp[-1] == "value" for kp in flat_params):
         flat_params = {kp[:-1]: v for kp, v in flat_params.items()}
-    return traverse_util.unflatten_dict(flat_params)
+    return _unflatten_dict(flat_params)

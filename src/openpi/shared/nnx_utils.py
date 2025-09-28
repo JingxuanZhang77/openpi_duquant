@@ -5,7 +5,13 @@ import inspect
 import re
 from typing import Any, ParamSpec, TypeVar
 
-import flax.nnx as nnx
+try:
+    import flax.nnx as nnx
+    _HAS_NNX = True
+except Exception:  # pragma: no cover - optional when running PyTorch-only pipelines
+    nnx = None
+    _HAS_NNX = False
+
 import jax
 
 P = ParamSpec("P")
@@ -25,6 +31,9 @@ def module_jit(meth: Callable[P, R], *jit_args, **jit_kwargs) -> Callable[P, R]:
     when `module_jit` was called. Mutations to the module within `meth` are still allowed, but they will be discarded
     after the method call completes.
     """
+    if not _HAS_NNX:
+        raise ImportError("flax.nnx is required to use JAX models. Install flax >= 0.7.2.")
+
     if not (inspect.ismethod(meth) and isinstance(meth.__self__, nnx.Module)):
         raise ValueError("module_jit must only be used on bound methods of nnx.Modules.")
 
@@ -57,13 +66,15 @@ class PathRegex:
         if not isinstance(self.pattern, re.Pattern):
             object.__setattr__(self, "pattern", re.compile(self.pattern))
 
-    def __call__(self, path: nnx.filterlib.PathParts, x: Any) -> bool:
+    def __call__(self, path: Any, x: Any) -> bool:
         joined_path = self.sep.join(str(x) for x in path)
         assert isinstance(self.pattern, re.Pattern)
         return self.pattern.fullmatch(joined_path) is not None
 
 
-def state_map(state: nnx.State, filter: nnx.filterlib.Filter, fn: Callable[[Any], Any]) -> nnx.State:
+def state_map(state: Any, filter: Any, fn: Callable[[Any], Any]) -> Any:
     """Apply a function to the leaves of the state that match the filter."""
+    if not _HAS_NNX:
+        raise ImportError("flax.nnx is required to use JAX models. Install flax >= 0.7.2.")
     filtered_keys = set(state.filter(filter).flat_state())
     return state.map(lambda k, v: fn(v) if k in filtered_keys else v)
