@@ -99,15 +99,6 @@ uv run scripts/serve_policy.py --env LIBERO
 ```
 
 
-uv venv --python 3.11 examples/libero/.venv
-source examples/libero/.venv/bin/activate
-uv pip sync examples/libero/requirements.txt third_party/libero/requirements.txt --extra-index-url https://download.pytorch.org/whl/cu113 --index-strategy=unsafe-best-match
-然后别忘了 uv pip install -e packages/openpi-client, uv pip install -e third_party/libero，以及 export PYTHONPATH=$PWD/third_party/libero。
-
-
-
-
-
 ## Results
 
 If you want to reproduce the following numbers, you can evaluate the checkpoint at `gs://openpi-assets/checkpoints/pi05_libero/`. This
