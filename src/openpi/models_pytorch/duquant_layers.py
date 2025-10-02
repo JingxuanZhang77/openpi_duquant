@@ -389,7 +389,7 @@ def enable_duquant_if_configured(model: nn.Module) -> None:
     scope = env.get("OPENPI_DUQUANT_SCOPE", "policy.dit.")
     whitelist = env.get("OPENPI_DUQUANT_LAYERS")
     whitelist_list = [x.strip() for x in whitelist.split(",") if x.strip()] if whitelist else None
-    inc = env.get("OPENPI_DUQUANT_INCLUDE", r".*(q_proj|k_proj|v_proj|out_proj|fc1|fc2|up_proj|down_proj).*")
+    inc = env.get("OPENPI_DUQUANT_INCLUDE", r".*(q_proj|k_proj|v_proj|o_proj|out_proj|fc1|fc2|gate_proj|up_proj|down_proj).*")
     exc = env.get("OPENPI_DUQUANT_EXCLUDE", r"(?:^|\.)(norm|ln|layernorm|emb)(?:\.|$)")
     per_layer_wbits = _parse_per_layer_wbits(env.get("OPENPI_DUQUANT_WBITS"))
     dry_run = env.get("OPENPI_DUQUANT_DRYRUN", "0") not in ("0", "false", "False")
@@ -405,7 +405,21 @@ def enable_duquant_if_configured(model: nn.Module) -> None:
         blacklist=None,
     )
     layer_names = [n for n, _ in targets]
+    print(f"[DUQUANT] SCOPE filter: '{scope}'")
     print(f"[DUQUANT] Matched Linear layers: {len(layer_names)}")
+    if len(layer_names) == 0 and scope:
+        # Debug: print some layer names to help diagnose
+        all_linears = [(n, m) for n, m in model.named_modules() if isinstance(m, __import__('torch').nn.Linear)]
+        print(f"[DUQUANT] DEBUG: Total Linear layers in model: {len(all_linears)}")
+        print(f"[DUQUANT] DEBUG: First 10 Linear layer names:")
+        for name, _ in all_linears[:10]:
+            print(f"[DUQUANT] DEBUG:   {name}")
+        if scope:
+            matching_prefix = [n for n, _ in all_linears if n.startswith(scope.rstrip('.'))]
+            print(f"[DUQUANT] DEBUG: Layers matching prefix '{scope.rstrip('.')}': {len(matching_prefix)}")
+            if matching_prefix:
+                for name in matching_prefix[:5]:
+                    print(f"[DUQUANT] DEBUG:   {name}")
     if dry_run:
         wrap_duquant(model, layer_names, cfg, per_layer_wbits, dry_run=True)
         return

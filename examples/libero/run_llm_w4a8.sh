@@ -45,14 +45,14 @@ export PYTHONPATH=$PWD/src:$PWD/third_party/libero
 # ============================================
 # CRITICAL: This quantizes the LANGUAGE MODEL, not the DiT!
 export OPENPI_DUQUANT_DEBUG=1
-export OPENPI_DUQUANT_SCOPE="paligemma_with_expert.paligemma.language_model."
+export OPENPI_DUQUANT_SCOPE="paligemma_with_expert.paligemma.model.language_model."
 export OPENPI_DUQUANT_WBITS_DEFAULT=4
 export OPENPI_DUQUANT_ABITS=8
 export OPENPI_DUQUANT_BLOCK=16
-export OPENPI_DUQUANT_PERMUTE=1           # Enable for better accuracy (or set to 0 for speed)
-export OPENPI_DUQUANT_ROW_ROT=restore     # Enable for better accuracy (or set to 0 for speed)
+export OPENPI_DUQUANT_PERMUTE=1           # Enable input permutation
+export OPENPI_DUQUANT_ROW_ROT=restore     # ← Now FAST with QR optimization! (was too slow with SVD)
 export OPENPI_DUQUANT_ACT_PCT=99.9
-export OPENPI_DUQUANT_CALIB_STEPS=32
+export OPENPI_DUQUANT_CALIB_STEPS=32      # Restored to default for better accuracy
 export OPENPI_DUQUANT_LS=0.15             # Lambda smooth (only used when PERMUTE=1)
 
 # Disable torch.compile for faster startup (can be enabled for better throughput)
@@ -107,9 +107,11 @@ else
     echo "  ❌ Input permutation disabled (faster)"
 fi
 if [ "$OPENPI_DUQUANT_ROW_ROT" = "restore" ]; then
-    echo "  ✅ Rotation matrices with output restoration (better accuracy)"
+    echo "  ✅ Row rotation with output restoration (better accuracy)"
+elif [ "$OPENPI_DUQUANT_ROW_ROT" = "0" ]; then
+    echo "  ❌ Row rotation disabled (MUCH faster - SVD very slow for 16384-dim)"
 else
-    echo "  ❌ Rotation matrices disabled (faster)"
+    echo "  ❌ Row rotation disabled"
 fi
 echo "  ✅ Pre-cached rotation matrices (optimized)"
 echo "  ✅ Pre-quantized weights (optimized)"

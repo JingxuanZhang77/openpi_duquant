@@ -36,7 +36,7 @@ export OPENPI_DUQUANT_BLOCK=16
 export OPENPI_DUQUANT_PERMUTE=1           # Enable input permutation
 export OPENPI_DUQUANT_ROW_ROT=restore     # Enable rotation with output restoration
 export OPENPI_DUQUANT_ACT_PCT=99.9
-export OPENPI_DUQUANT_CALIB_STEPS=32
+export OPENPI_DUQUANT_CALIB_STEPS=0
 export OPENPI_DUQUANT_LS=0.15             # Lambda smooth for permutation
 
 # torch.compile configuration
