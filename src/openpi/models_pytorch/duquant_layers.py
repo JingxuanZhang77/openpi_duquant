@@ -77,6 +77,40 @@ class DuQuantLinear(nn.Module):
             save_pack(self.name, pack, cfg.pack_dir)
         self.pack: PackResult = pack
 
+        # ========================================
+        # OPTIMIZATION: Pre-cache rotation matrices as torch tensors
+        # This avoids torch.from_numpy() and .to(device) in every forward pass
+        # ========================================
+        # Cache permutation tensor
+        if pack.perm is not None:
+            self.register_buffer("_perm_cache", torch.from_numpy(pack.perm).long())
+        else:
+            self._perm_cache = None
+
+        # Cache input rotation matrices (R_in_blocks)
+        # Store block indices, not tensor references (tensors auto-follow device via register_buffer)
+        self._R_in_block_indices: List[int] = []
+        if pack.R_in_blocks:
+            for b, R in pack.R_in_blocks.items():
+                # Register as buffer so it moves with model to device
+                # Use weight dtype to match model precision (float32/bfloat16/etc)
+                buffer_name = f"_R_in_{b}"
+                self.register_buffer(buffer_name, torch.from_numpy(R).to(dtype=self._weight.dtype))
+                self._R_in_block_indices.append(b)
+
+        # Cache output rotation matrices (R_out_blocks)
+        self._R_out_block_indices: List[int] = []
+        if pack.R_out_blocks:
+            for b, R in pack.R_out_blocks.items():
+                buffer_name = f"_R_out_{b}"
+                self.register_buffer(buffer_name, torch.from_numpy(R).to(dtype=self._weight.dtype))
+                self._R_out_block_indices.append(b)
+
+        # Store metadata needed for fast paths
+        self._block_size = int(pack.meta.get("block_size", 16))
+        self._block_out_size = int(pack.meta.get("block_out_size", self._block_size))
+        # ========================================
+
         # Calibrator for activation
         self.calibrator = PercentileCalibrator(
             percentile=cfg.act_percentile, max_batches=cfg.calib_batches
@@ -87,9 +121,32 @@ class DuQuantLinear(nn.Module):
         self._cached_weight_key: Optional[Tuple[str, torch.dtype]] = None
         self.register_buffer("_W_t", torch.zeros_like(self._weight))
         self.register_buffer("_w_scales", torch.ones(self.out_features, dtype=self._weight.dtype))
+        # OPTIMIZATION: Pre-cache quantized weights
+        self.register_buffer("_W_t_quantized", torch.zeros_like(self._weight))
+        self._weight_quantized_cached = False
+
         self._bias_rot: Optional[torch.Tensor] = None
         self._debug_enabled = os.environ.get("OPENPI_DUQUANT_DEBUG", "0") not in ("0", "false", "False")
         self._debug_forward_logged = False
+
+    def _get_R_in_cache(self) -> Dict[int, torch.Tensor]:
+        """Get R_in rotation matrices on the correct device."""
+        # Cache the dict to avoid recreating it every forward pass
+        # This helps torch.compile recognize the same computation graph
+        if not hasattr(self, '_R_in_cache_dict'):
+            self._R_in_cache_dict = {}
+        # Update references (buffers may have moved to different device)
+        for b in self._R_in_block_indices:
+            self._R_in_cache_dict[b] = getattr(self, f"_R_in_{b}")
+        return self._R_in_cache_dict
+
+    def _get_R_out_cache(self) -> Dict[int, torch.Tensor]:
+        """Get R_out rotation matrices on the correct device."""
+        if not hasattr(self, '_R_out_cache_dict'):
+            self._R_out_cache_dict = {}
+        for b in self._R_out_block_indices:
+            self._R_out_cache_dict[b] = getattr(self, f"_R_out_{b}")
+        return self._R_out_cache_dict
 
     @property
     def weight(self) -> torch.Tensor:
@@ -106,36 +163,54 @@ class DuQuantLinear(nn.Module):
         key = (str(self._weight.device), self._weight.dtype, int(self.weight_bits), int(apply_row))
         if self._cached_weight_key == key:
             return
-        W_t, scales = transform_weight_for_forward(
+
+        # Import here to use optimized version
+        from .duquant_preprocess import transform_weight_for_forward_optimized
+
+        W_t, scales = transform_weight_for_forward_optimized(
             self._weight,
             self.pack,
             weight_bits=self.weight_bits,
             apply_row_rot=apply_row,
+            perm_cache=self._perm_cache,
+            R_in_cache=self._get_R_in_cache(),  # Get tensors on correct device
+            R_out_cache=self._get_R_out_cache(),  # Get tensors on correct device
+            block_size=self._block_size,
+            block_out_size=self._block_out_size,
         )
         # in-place copy to preserve buffers and state_dict tracking
         self._W_t.copy_(W_t)
         self._w_scales.copy_(scales)
+
+        # OPTIMIZATION: Pre-quantize weights if weight_bits > 0
+        if self.weight_bits > 0:
+            with torch.no_grad():
+                self._W_t_quantized.copy_(fake_quantize_sym(W_t, scales[:, None], self.weight_bits))
+            self._weight_quantized_cached = True
+        else:
+            self._weight_quantized_cached = False
+
         self._cached_weight_key = key
         if self.bias is not None:
             if self.cfg.row_rot_mode == "propagate" and self.pack.R_out_blocks is not None:
                 with torch.no_grad():
-                    self._bias_rot = apply_bias_row_rot(self.bias.detach(), self.pack)
+                    # Use optimized version with cached tensors
+                    from .duquant_preprocess import apply_bias_row_rot_optimized
+                    self._bias_rot = apply_bias_row_rot_optimized(
+                        self.bias.detach(), self.pack, self._get_R_out_cache(), self._block_out_size
+                    )
             else:
                 self._bias_rot = None
         if self._debug_enabled:
-            print(
+            # Avoid .item() which causes graph breaks in torch.compile
+            import logging
+            logging.info(
                 f"[DUQUANT][CACHE] {self.name} device={self._weight.device} dtype={self._weight.dtype} "
                 f"Wbits={self.weight_bits} Abits={self.cfg.act_bits} block_in={self.cfg.block_size} "
                 f"permute={self.pack.perm is not None} row_rot={self.cfg.row_rot_mode}"
             )
-            print(
-                f"[DUQUANT][CACHE] {self.name} weight_scales shape={tuple(self._w_scales.shape)} "
-                f"min={self._w_scales.min().item():.4e} max={self._w_scales.max().item():.4e}"
-            )
-            if self._bias_rot is not None:
-                print(
-                    f"[DUQUANT][CACHE] {self.name} bias rotated shape={tuple(self._bias_rot.shape)}"
-                )
+            if self._weight_quantized_cached:
+                logging.info(f"[DUQUANT][CACHE] {self.name} pre-quantized weights cached")
 
     def _get_act_scale(self, x: torch.Tensor) -> torch.Tensor:
         if self.cfg.act_bits <= 0:
@@ -162,26 +237,39 @@ class DuQuantLinear(nn.Module):
         return self._act_scale
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # Apply inverse transforms to inputs
-        x_t = apply_input_transform(x, self.pack)
+        # Import optimized functions
+        from .duquant_preprocess import apply_input_transform_optimized, apply_output_restore_optimized
+
+        # Apply inverse transforms to inputs using optimized version
+        x_t = apply_input_transform_optimized(
+            x, self.pack, self._perm_cache, self._get_R_in_cache(), self._block_size
+        )
+
         # Fake-quantize activations if enabled
         if self.cfg.act_bits > 0:
             s_a = self._get_act_scale(x_t)
             x_t = fake_quantize_sym(x_t, s_a, self.cfg.act_bits)
-        # Transform and fake-quantize weights
+
+        # Transform and fake-quantize weights (only once, cached)
         self._maybe_update_weight_cache()
-        W_t = self._W_t
-        if self.weight_bits > 0:
-            # Per-output channel fake quantization
+
+        # OPTIMIZATION: Use pre-quantized weights instead of quantizing every forward pass
+        if self._weight_quantized_cached:
+            # Use pre-quantized weights (major speedup)
+            y_lin = torch.nn.functional.linear(x_t, self._W_t_quantized, None)
+        elif self.weight_bits > 0:
+            # Fallback: quantize on-the-fly (slower, should not happen after warmup)
             y_lin = torch.nn.functional.linear(
-                x_t, fake_quantize_sym(W_t, self._w_scales[:, None], self.weight_bits), None
+                x_t, fake_quantize_sym(self._W_t, self._w_scales[:, None], self.weight_bits), None
             )
         else:
-            y_lin = torch.nn.functional.linear(x_t, W_t, None)
+            y_lin = torch.nn.functional.linear(x_t, self._W_t, None)
 
-        # Apply row restore if requested
+        # Apply row restore if requested using optimized version
         if self.cfg.row_rot_mode == "restore" and self.pack.R_out_blocks is not None:
-            y_lin = apply_output_restore(y_lin, self.pack)
+            y_lin = apply_output_restore_optimized(
+                y_lin, self.pack, self._get_R_out_cache(), self._block_out_size
+            )
             # add bias after restore to preserve exact equivalence
             if self.bias is not None:
                 y_lin = y_lin + self.bias
@@ -195,7 +283,8 @@ class DuQuantLinear(nn.Module):
                 )
                 y_lin = y_lin + bias_to_add
         if self._debug_enabled and not self._debug_forward_logged:
-            print(
+            import logging
+            logging.info(
                 f"[DUQUANT][FORWARD] {self.name} input={tuple(x.shape)} output={tuple(y_lin.shape)} "
                 f"weight_bits={self.weight_bits} act_bits={self.cfg.act_bits}"
             )

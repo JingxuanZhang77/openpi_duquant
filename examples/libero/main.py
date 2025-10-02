@@ -1,7 +1,10 @@
 import collections
+import csv
 import dataclasses
+import json
 import logging
 import math
+import os
 import pathlib
 
 import imageio
@@ -38,9 +41,17 @@ class Args:
     num_trials_per_task: int = 50  # Number of rollouts per task
 
     #################################################################################################################
+    # Headless mode parameters
+    #################################################################################################################
+    headless: bool = False  # Run without WebSocket/UI (local direct inference)
+    policy_config: str = "pi05_libero"  # Policy config name (for headless mode)
+    policy_dir: str = ""  # Policy checkpoint directory (for headless mode)
+
+    #################################################################################################################
     # Utils
     #################################################################################################################
     video_out_path: str = "data/libero/videos"  # Path to save videos
+    results_out_path: str = "results/libero"  # Path to save evaluation results
 
     seed: int = 7  # Random Seed (for reproducibility)
 
@@ -56,6 +67,7 @@ def eval_libero(args: Args) -> None:
     logging.info(f"Task suite: {args.task_suite_name}")
 
     pathlib.Path(args.video_out_path).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(args.results_out_path).mkdir(parents=True, exist_ok=True)
 
     if args.task_suite_name == "libero_spatial":
         max_steps = 220  # longest training demo has 193 steps
@@ -70,10 +82,51 @@ def eval_libero(args: Args) -> None:
     else:
         raise ValueError(f"Unknown task suite: {args.task_suite_name}")
 
-    client = _websocket_client_policy.WebsocketClientPolicy(args.host, args.port)
+    # Initialize policy client (WebSocket or Local)
+    if args.headless:
+        logging.info("Running in HEADLESS mode - no WebSocket connection")
+        # Import locally to avoid dependency issues when not using headless mode
+        from openpi_client import local_policy as _local_policy
+        from openpi.policies import policy_config as _policy_config
+        from openpi.training import config as _config
+        import torch
+
+        # Set deterministic mode for reproducibility (optional, controlled by env var)
+        # Deterministic mode is slower (~5-15%) but ensures fully reproducible results
+        # Set OPENPI_DETERMINISTIC=1 to enable, default is disabled for maximum speed
+        enable_deterministic = os.environ.get("OPENPI_DETERMINISTIC", "0") == "1"
+        if enable_deterministic:
+            torch.use_deterministic_algorithms(True, warn_only=True)
+            torch.backends.cudnn.benchmark = False
+            logging.info("Deterministic mode ENABLED (slower but fully reproducible)")
+            logging.info("Remember to set: export CUBLAS_WORKSPACE_CONFIG=:4096:8")
+        else:
+            torch.backends.cudnn.benchmark = True
+            logging.info("Deterministic mode DISABLED (faster, ~5-15% speedup)")
+
+        # Load policy directly
+        if not args.policy_dir:
+            # Use default checkpoint from environment variable or error
+            args.policy_dir = os.environ.get("CKPT", "")
+            if not args.policy_dir:
+                raise ValueError("--policy-dir or CKPT environment variable must be set in headless mode")
+
+        logging.info(f"Loading policy: config={args.policy_config}, dir={args.policy_dir}")
+        policy_obj = _policy_config.create_trained_policy(
+            _config.get_config(args.policy_config),
+            args.policy_dir,
+            default_prompt=None,
+        )
+
+        client = _local_policy.LocalPolicy(policy_obj)
+    else:
+        logging.info("Running in WebSocket mode")
+        client = _websocket_client_policy.WebsocketClientPolicy(args.host, args.port)
 
     # Start evaluation
     total_episodes, total_successes = 0, 0
+    all_results = []  # Store results for CSV/JSON export
+
     for task_id in tqdm.tqdm(range(num_tasks_in_suite)):
         # Get task
         task = task_suite.get_task(task_id)
@@ -173,6 +226,17 @@ def eval_libero(args: Args) -> None:
                 fps=10,
             )
 
+            # Store episode results
+            episode_result = {
+                "task_id": task_id,
+                "task_name": task_description,
+                "episode_idx": episode_idx,
+                "success": bool(done),
+                "steps": t,
+                "max_steps": max_steps + args.num_steps_wait,
+            }
+            all_results.append(episode_result)
+
             # Log current results
             logging.info(f"Success: {done}")
             logging.info(f"# episodes completed so far: {total_episodes}")
@@ -184,6 +248,33 @@ def eval_libero(args: Args) -> None:
 
     logging.info(f"Total success rate: {float(total_successes) / float(total_episodes)}")
     logging.info(f"Total episodes: {total_episodes}")
+
+    # Save results to CSV and JSON
+    timestamp = pathlib.Path(args.results_out_path).stem
+    csv_path = pathlib.Path(args.results_out_path) / f"{args.task_suite_name}_results.csv"
+    json_path = pathlib.Path(args.results_out_path) / f"{args.task_suite_name}_results.json"
+
+    # Save CSV
+    with open(csv_path, "w", newline="") as f:
+        if all_results:
+            writer = csv.DictWriter(f, fieldnames=all_results[0].keys())
+            writer.writeheader()
+            writer.writerows(all_results)
+    logging.info(f"Results saved to: {csv_path}")
+
+    # Save JSON with summary statistics
+    summary = {
+        "task_suite": args.task_suite_name,
+        "total_episodes": total_episodes,
+        "total_successes": total_successes,
+        "success_rate": float(total_successes) / float(total_episodes) if total_episodes > 0 else 0.0,
+        "seed": args.seed,
+        "headless": args.headless,
+        "results": all_results,
+    }
+    with open(json_path, "w") as f:
+        json.dump(summary, f, indent=2)
+    logging.info(f"Results saved to: {json_path}")
 
 
 def _get_libero_env(task, resolution, seed):

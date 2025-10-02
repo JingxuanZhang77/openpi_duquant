@@ -91,6 +91,37 @@ python examples/libero/main.py \
   --args.video-out-path data/libero/videos \
   --args.seed 42
 
+export CKPT=/path/to/your/checkpoint
+
+cd ~/VLM_REPO/openpi
+source examples/libero/.venv/bin/activate
+
+export PYTHONPATH=$PWD/src:$PWD/third_party/libero
+# export CUBLAS_WORKSPACE_CONFIG=:4096:8
+
+# 完整体 DuQuant 默认配置
+export OPENPI_DUQUANT_DEBUG=1
+export OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model."
+export OPENPI_DUQUANT_WBITS_DEFAULT=4
+export OPENPI_DUQUANT_ABITS=8
+export OPENPI_DUQUANT_BLOCK=16           # 默认 16，比你的 64 快
+export OPENPI_DUQUANT_PERMUTE=1          # 默认开启，比你的 0 好
+export OPENPI_DUQUANT_ROW_ROT=restore    # 默认 restore，比你的 0 好
+export OPENPI_DUQUANT_ACT_PCT=99.9       # 默认 99.9，比你的 98.0 好
+export OPENPI_DUQUANT_CALIB_STEPS=32     # 默认 32，比你的 64 快
+export OPENPI_DUQUANT_LS=0.15            # lambda smooth 默认值
+
+# Pack 目录命名：b16_p1_rrestore_a999
+export OPENPI_DUQUANT_PACKDIR="duquant_packed_b16_p1_rrestore_a999"
+
+python examples/libero/main.py \
+  --args.headless \
+  --args.policy-config pi05_libero \
+  --args.policy-dir "$CKPT" \
+  --args.task-suite-name libero_spatial \
+  --args.num-trials-per-task 20 \
+  --args.seed 42
+
 Terminal window 2:
 
 ```bash
@@ -98,6 +129,113 @@ Terminal window 2:
 uv run scripts/serve_policy.py --env LIBERO
 ```
 
+
+## Headless Evaluation Mode (No WebSocket)
+
+To avoid WebSocket timeout issues (error 1011), you can run evaluation in **headless mode** where the policy runs directly in the same process without any network communication.
+
+### Prerequisites
+
+Headless mode requires both LIBERO and OpenPI dependencies. Choose one setup method:
+
+**Method A: Quick setup (if you have existing .venv-libero)**
+```bash
+source examples/libero/.venv-libero/bin/activate
+pip install -e .  # Install OpenPI from project root
+```
+
+**Method B: Complete new environment (recommended)**
+```bash
+bash examples/libero/setup_headless_env.sh
+source examples/libero/.venv-headless/bin/activate
+```
+
+See [ENVIRONMENT_SETUP.md](ENVIRONMENT_SETUP.md) for detailed instructions.
+
+### Option 1: Using the helper script (recommended)
+
+```bash
+export CKPT=/path/to/your/checkpoint
+
+# Use DuQuant defaults (block=16, permute=1, row-rot=restore)
+export CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch
+DUQUANT_PRESET=default bash examples/libero/run_headless_eval.sh
+
+# OR use custom config (block=64, permute=0, row-rot=0, act_pct=98.0)
+DUQUANT_PRESET=custom bash examples/libero/run_headless_eval.sh
+# OR simply (custom is the default):
+bash examples/libero/run_headless_eval.sh
+```
+
+### Option 2: Direct Python command
+
+```bash
+source examples/libero/.venv-libero/bin/activate
+export PYTHONPATH=$PWD/src:$PWD/third_party/libero
+export CKPT=/path/to/your/checkpoint  # e.g., ~/VLM_REPO/openpi/ckpts/pi05_libero_torch
+
+# A) Use DuQuant internal defaults (block=16, permute on, row-rot restore)
+OPENPI_DUQUANT_DEBUG=1 \
+OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \
+python examples/libero/main.py \
+  --args.headless \
+  --args.policy-config pi05_libero \
+  --args.policy-dir "$CKPT" \
+  --args.task-suite-name libero_spatial \
+  --args.num-trials-per-task 20 \
+  --args.seed 42
+
+# B) Use custom explicit parameters (block=64, permute=0, row-rot=0)
+OPENPI_DUQUANT_DEBUG=1 \
+OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \
+OPENPI_DUQUANT_WBITS_DEFAULT=4 \
+export CUBLAS_WORKSPACE_CONFIG=:4096:8\
+OPENPI_DUQUANT_ABITS=8 \
+OPENPI_DUQUANT_ACT_PCT=98.0 \
+OPENPI_DUQUANT_BLOCK=64 \
+OPENPI_DUQUANT_PERMUTE=0 \
+OPENPI_DUQUANT_ROW_ROT=0 \
+OPENPI_DUQUANT_CALIB_STEPS=64 \
+python examples/libero/main.py \
+  --args.headless \
+  --args.policy-config pi05_libero \
+  --args.policy-dir "$CKPT" \
+  --args.task-suite-name libero_spatial \
+  --args.num-trials-per-task 20 \
+  --args.seed 42
+```
+export CUBLAS_WORKSPACE_CONFIG=:4096:8\
+export PYTHONWARNINGS="ignore::UserWarning"
+OPENPI_DUQUANT_DEBUG=1 \
+OPENPI_DUQUANT_PACKDIR="duquant_packed" \
+OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \
+python examples/libero/main.py \
+  --args.headless \
+  --args.policy-config pi05_libero \
+  --args.policy-dir "$CKPT" \
+  --args.task-suite-name libero_spatial \
+  --args.num-trials-per-task 20 \
+  --args.seed 42
+
+**DuQuant Configuration Comparison:**
+
+| Config | BLOCK | PERMUTE | ROW_ROT | ACT_PCT | CALIB_STEPS | Notes |
+|--------|-------|---------|---------|---------|-------------|-------|
+| **Default** | 16 (internal) | 1 (internal) | restore (internal) | - | - | Uses DuQuant's internal defaults |
+| **Custom** | 64 | 0 | 0 | 98.0 | 64 | Explicit parameters for faster inference |
+
+Choose "default" if you want to match the original DuQuant paper settings, or "custom" for potentially faster inference.
+
+**Key benefits of headless mode:**
+- ✅ No WebSocket connection or timeout errors
+- ✅ Direct local inference: `policy.predict()` → `env.step()`
+- ✅ Deterministic evaluation with fixed seeds
+- ✅ Results automatically saved to CSV and JSON
+- ✅ Works seamlessly with DuQuant quantization
+
+**Output:**
+- Videos: `data/libero/videos/*.mp4`
+- Results: `results/libero/{task_suite}_results.csv` and `.json`
 
 ## Results
 
@@ -111,7 +249,7 @@ checkpoint was trained in openpi with the `pi05_libero` config.
 ## DuQuant PTQ (optional)
 
 - Dry-run which Linear layers would be quantized (no replacement):
-  - `CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch`
+  - `export CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch`
   - `
   OPENPI_DUQUANT_DEBUG=1
   OPENPI_DUQUANT_DRYRUN=1 OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model."
@@ -121,7 +259,7 @@ checkpoint was trained in openpi with the `pi05_libero` config.
 - Run PTQ simulation (default W4A8, block=16, permute on, input x->xPR_in, row-rot restore):
   - `CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch`
   CKPT=/global/homes/y/yunta/repo/openpi/ckpts/pi05_libero_torch
-  export OPENPI_DISABLE_TORCH_COMPILE=1
+  export OPENPI_DISABLE_TORCH_COMPILE=0
   OPENPI_DUQUANT_DEBUG=1
   OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model." \
     uv run --active scripts/serve_policy.py --env LIBERO \

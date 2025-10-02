@@ -425,3 +425,154 @@ def load_pack(layer_name: str, pack_dir: Optional[str] = None) -> Optional[PackR
             weight_scale=weight_scale,
             meta=meta,
         )
+
+
+# ========================================
+# OPTIMIZED VERSIONS - Use pre-cached tensors
+# These functions avoid torch.from_numpy() and clone() operations
+# ========================================
+
+
+def apply_input_transform_optimized(
+    x: torch.Tensor,
+    pack: PackResult,
+    perm_cache: Optional[torch.Tensor],
+    R_in_cache: Dict[int, torch.Tensor],
+    block_size: int,
+) -> torch.Tensor:
+    """Optimized version using pre-cached torch tensors instead of numpy arrays."""
+    if perm_cache is None and not R_in_cache:
+        return x
+
+    in_features = x.shape[-1]
+
+    # First apply permutation using cached tensor
+    if perm_cache is not None:
+        x = x.index_select(dim=-1, index=perm_cache)
+
+    # Then apply input block rotations using cached tensors
+    if R_in_cache:
+        original_shape = x.shape
+        x_view = x.reshape(-1, in_features)
+        # Need to clone to avoid in-place modification issues
+        x_t = x_view.clone()
+        n_blocks = (in_features + block_size - 1) // block_size
+        for b in range(n_blocks):
+            if b not in R_in_cache:
+                continue
+            start = b * block_size
+            end = min((b + 1) * block_size, in_features)
+            R = R_in_cache[b][: (end - start), : (end - start)]
+            # Update the cloned tensor
+            x_t[:, start:end] = x_view[:, start:end] @ R
+        x = x_t.reshape(*original_shape)
+    return x
+
+
+def apply_output_restore_optimized(
+    y: torch.Tensor,
+    pack: PackResult,
+    R_out_cache: Dict[int, torch.Tensor],
+    block_out_size: int,
+) -> torch.Tensor:
+    """Optimized version using pre-cached torch tensors."""
+    if not R_out_cache:
+        return y
+
+    original_shape = y.shape
+    out_features = y.shape[-1]
+    n_row_blocks = (out_features + block_out_size - 1) // block_out_size
+    y_view = y.reshape(-1, out_features)
+
+    # Need to clone to avoid in-place modification issues
+    y_out = y_view.clone()
+
+    for b in range(n_row_blocks):
+        if b not in R_out_cache:
+            continue
+        rs = b * block_out_size
+        re = min((b + 1) * block_out_size, out_features)
+        Rb = R_out_cache[b][: (re - rs), : (re - rs)]
+        # Update the cloned tensor
+        y_out[:, rs:re] = y_view[:, rs:re] @ Rb
+
+    return y_out.reshape(*original_shape)
+
+
+def transform_weight_for_forward_optimized(
+    W: torch.Tensor,
+    pack: PackResult,
+    *,
+    weight_bits: int,
+    apply_row_rot: bool,
+    perm_cache: Optional[torch.Tensor],
+    R_in_cache: Dict[int, torch.Tensor],
+    R_out_cache: Dict[int, torch.Tensor],
+    block_size: int,
+    block_out_size: int,
+) -> Tuple[torch.Tensor, torch.Tensor]:
+    """Optimized version using pre-cached torch tensors."""
+    W_t = W
+
+    # Apply permutation using cached tensor
+    if perm_cache is not None:
+        W_t = W_t.index_select(dim=1, index=perm_cache)
+
+    # Apply input block rotations using cached tensors
+    if R_in_cache:
+        in_features = W_t.shape[1]
+        n_blocks = (in_features + block_size - 1) // block_size
+        for b in range(n_blocks):
+            if b not in R_in_cache:
+                continue
+            start = b * block_size
+            end = min((b + 1) * block_size, in_features)
+            R = R_in_cache[b][: (end - start), : (end - start)]
+            # In-place update for efficiency
+            W_t[:, start:end] = W_t[:, start:end] @ R
+
+    # Apply row rotations using cached tensors
+    if apply_row_rot and R_out_cache:
+        out_features = W_t.shape[0]
+        n_row_blocks = (out_features + block_out_size - 1) // block_out_size
+        for b in range(n_row_blocks):
+            if b not in R_out_cache:
+                continue
+            rs = b * block_out_size
+            re = min((b + 1) * block_out_size, out_features)
+            Rb = R_out_cache[b][: (re - rs), : (re - rs)]
+            W_t[rs:re, :] = Rb @ W_t[rs:re, :]
+
+    # Per-output scales via MSE mini-grid
+    with torch.no_grad():
+        if weight_bits >= 16:
+            scales = torch.ones(W_t.shape[0], device=W_t.device, dtype=W_t.dtype)
+        else:
+            scales = compute_mse_scales(W_t, weight_bits)
+
+    return W_t, scales
+
+
+def apply_bias_row_rot_optimized(
+    bias: torch.Tensor,
+    pack: PackResult,
+    R_out_cache: Dict[int, torch.Tensor],
+    block_out_size: int,
+) -> torch.Tensor:
+    """Optimized version using pre-cached torch tensors."""
+    if not R_out_cache:
+        return bias
+
+    out_features = bias.shape[-1]
+    n_row_blocks = (out_features + block_out_size - 1) // block_out_size
+    bias_out = bias.clone()  # Need clone here since bias is a parameter
+
+    for b in range(n_row_blocks):
+        if b not in R_out_cache:
+            continue
+        rs = b * block_out_size
+        re = min((b + 1) * block_out_size, out_features)
+        Rb = R_out_cache[b][: (re - rs), : (re - rs)]
+        bias_out[rs:re] = Rb @ bias[rs:re]
+
+    return bias_out
