@@ -1,8 +1,8 @@
 {
   "task_suite": "libero_spatial",
   "total_episodes": 50,
-  "total_successes": 38,
-  "success_rate": 0.76,
+  "total_successes": 39,
+  "success_rate": 0.78,
   "seed": 42,
   "headless": true,
   "results": [
@@ -19,7 +19,7 @@
       "task_name": "pick up the black bowl between the plate and the ramekin and place it on the plate",
       "episode_idx": 1,
       "success": true,
-      "steps": 148,
+      "steps": 181,
       "max_steps": 230
     },
     {
@@ -27,7 +27,7 @@
       "task_name": "pick up the black bowl between the plate and the ramekin and place it on the plate",
       "episode_idx": 2,
       "success": true,
-      "steps": 143,
+      "steps": 175,
       "max_steps": 230
     },
     {
@@ -35,7 +35,7 @@
       "task_name": "pick up the black bowl between the plate and the ramekin and place it on the plate",
       "episode_idx": 3,
       "success": true,
-      "steps": 99,
+      "steps": 102,
       "max_steps": 230
     },
     {
@@ -59,21 +59,13 @@
       "task_name": "pick up the black bowl next to the ramekin and place it on the plate",
       "episode_idx": 1,
       "success": true,
-      "steps": 167,
+      "steps": 128,
       "max_steps": 230
     },
     {
       "task_id": 1,
       "task_name": "pick up the black bowl next to the ramekin and place it on the plate",
       "episode_idx": 2,
-      "success": true,
-      "steps": 223,
-      "max_steps": 230
-    },
-    {
-      "task_id": 1,
-      "task_name": "pick up the black bowl next to the ramekin and place it on the plate",
-      "episode_idx": 3,
       "success": false,
       "steps": 230,
       "max_steps": 230
@@ -81,9 +73,17 @@
     {
       "task_id": 1,
       "task_name": "pick up the black bowl next to the ramekin and place it on the plate",
+      "episode_idx": 3,
+      "success": true,
+      "steps": 146,
+      "max_steps": 230
+    },
+    {
+      "task_id": 1,
+      "task_name": "pick up the black bowl next to the ramekin and place it on the plate",
       "episode_idx": 4,
       "success": true,
-      "steps": 201,
+      "steps": 192,
       "max_steps": 230
     },
     {
@@ -91,29 +91,13 @@
       "task_name": "pick up the black bowl from table center and place it on the plate",
       "episode_idx": 0,
       "success": true,
-      "steps": 129,
+      "steps": 132,
       "max_steps": 230
     },
     {
       "task_id": 2,
       "task_name": "pick up the black bowl from table center and place it on the plate",
       "episode_idx": 1,
-      "success": true,
-      "steps": 135,
-      "max_steps": 230
-    },
-    {
-      "task_id": 2,
-      "task_name": "pick up the black bowl from table center and place it on the plate",
-      "episode_idx": 2,
-      "success": true,
-      "steps": 166,
-      "max_steps": 230
-    },
-    {
-      "task_id": 2,
-      "task_name": "pick up the black bowl from table center and place it on the plate",
-      "episode_idx": 3,
       "success": true,
       "steps": 133,
       "max_steps": 230
@@ -121,9 +105,25 @@
     {
       "task_id": 2,
       "task_name": "pick up the black bowl from table center and place it on the plate",
+      "episode_idx": 2,
+      "success": true,
+      "steps": 125,
+      "max_steps": 230
+    },
+    {
+      "task_id": 2,
+      "task_name": "pick up the black bowl from table center and place it on the plate",
+      "episode_idx": 3,
+      "success": true,
+      "steps": 140,
+      "max_steps": 230
+    },
+    {
+      "task_id": 2,
+      "task_name": "pick up the black bowl from table center and place it on the plate",
       "episode_idx": 4,
       "success": true,
-      "steps": 128,
+      "steps": 136,
       "max_steps": 230
     },
     {
@@ -131,13 +131,29 @@
       "task_name": "pick up the black bowl on the cookie box and place it on the plate",
       "episode_idx": 0,
       "success": true,
-      "steps": 121,
+      "steps": 124,
       "max_steps": 230
     },
     {
       "task_id": 3,
       "task_name": "pick up the black bowl on the cookie box and place it on the plate",
       "episode_idx": 1,
+      "success": true,
+      "steps": 111,
+      "max_steps": 230
+    },
+    {
+      "task_id": 3,
+      "task_name": "pick up the black bowl on the cookie box and place it on the plate",
+      "episode_idx": 2,
+      "success": true,
+      "steps": 122,
+      "max_steps": 230
+    },
+    {
+      "task_id": 3,
+      "task_name": "pick up the black bowl on the cookie box and place it on the plate",
+      "episode_idx": 3,
       "success": true,
       "steps": 116,
       "max_steps": 230
@@ -145,25 +161,9 @@
     {
       "task_id": 3,
       "task_name": "pick up the black bowl on the cookie box and place it on the plate",
-      "episode_idx": 2,
-      "success": true,
-      "steps": 127,
-      "max_steps": 230
-    },
-    {
-      "task_id": 3,
-      "task_name": "pick up the black bowl on the cookie box and place it on the plate",
-      "episode_idx": 3,
-      "success": true,
-      "steps": 115,
-      "max_steps": 230
-    },
-    {
-      "task_id": 3,
-      "task_name": "pick up the black bowl on the cookie box and place it on the plate",
       "episode_idx": 4,
       "success": true,
-      "steps": 122,
+      "steps": 121,
       "max_steps": 230
     },
     {
@@ -195,7 +195,7 @@
       "task_name": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
       "episode_idx": 3,
       "success": true,
-      "steps": 193,
+      "steps": 185,
       "max_steps": 230
     },
     {
@@ -211,15 +211,15 @@
       "task_name": "pick up the black bowl on the ramekin and place it on the plate",
       "episode_idx": 0,
       "success": true,
-      "steps": 163,
+      "steps": 181,
       "max_steps": 230
     },
     {
       "task_id": 5,
       "task_name": "pick up the black bowl on the ramekin and place it on the plate",
       "episode_idx": 1,
-      "success": false,
-      "steps": 230,
+      "success": true,
+      "steps": 173,
       "max_steps": 230
     },
     {
@@ -227,79 +227,79 @@
       "task_name": "pick up the black bowl on the ramekin and place it on the plate",
       "episode_idx": 2,
       "success": true,
-      "steps": 162,
+      "steps": 161,
       "max_steps": 230
     },
     {
       "task_id": 5,
       "task_name": "pick up the black bowl on the ramekin and place it on the plate",
       "episode_idx": 3,
+      "success": true,
+      "steps": 119,
+      "max_steps": 230
+    },
+    {
+      "task_id": 5,
+      "task_name": "pick up the black bowl on the ramekin and place it on the plate",
+      "episode_idx": 4,
+      "success": true,
+      "steps": 191,
+      "max_steps": 230
+    },
+    {
+      "task_id": 6,
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "episode_idx": 0,
+      "success": true,
+      "steps": 146,
+      "max_steps": 230
+    },
+    {
+      "task_id": 6,
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "episode_idx": 1,
+      "success": true,
+      "steps": 159,
+      "max_steps": 230
+    },
+    {
+      "task_id": 6,
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "episode_idx": 2,
+      "success": true,
+      "steps": 138,
+      "max_steps": 230
+    },
+    {
+      "task_id": 6,
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "episode_idx": 3,
+      "success": true,
+      "steps": 142,
+      "max_steps": 230
+    },
+    {
+      "task_id": 6,
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "episode_idx": 4,
+      "success": true,
+      "steps": 129,
+      "max_steps": 230
+    },
+    {
+      "task_id": 7,
+      "task_name": "pick up the black bowl on the stove and place it on the plate",
+      "episode_idx": 0,
       "success": true,
       "steps": 157,
       "max_steps": 230
     },
     {
-      "task_id": 5,
-      "task_name": "pick up the black bowl on the ramekin and place it on the plate",
-      "episode_idx": 4,
-      "success": true,
-      "steps": 171,
-      "max_steps": 230
-    },
-    {
-      "task_id": 6,
-      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
-      "episode_idx": 0,
-      "success": true,
-      "steps": 147,
-      "max_steps": 230
-    },
-    {
-      "task_id": 6,
-      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
-      "episode_idx": 1,
-      "success": true,
-      "steps": 153,
-      "max_steps": 230
-    },
-    {
-      "task_id": 6,
-      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
-      "episode_idx": 2,
-      "success": true,
-      "steps": 145,
-      "max_steps": 230
-    },
-    {
-      "task_id": 6,
-      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
-      "episode_idx": 3,
-      "success": true,
-      "steps": 143,
-      "max_steps": 230
-    },
-    {
-      "task_id": 6,
-      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
-      "episode_idx": 4,
-      "success": true,
-      "steps": 130,
-      "max_steps": 230
-    },
-    {
-      "task_id": 7,
-      "task_name": "pick up the black bowl on the stove and place it on the plate",
-      "episode_idx": 0,
-      "success": true,
-      "steps": 161,
-      "max_steps": 230
-    },
-    {
       "task_id": 7,
       "task_name": "pick up the black bowl on the stove and place it on the plate",
       "episode_idx": 1,
       "success": true,
-      "steps": 154,
+      "steps": 151,
       "max_steps": 230
     },
     {
@@ -307,7 +307,7 @@
       "task_name": "pick up the black bowl on the stove and place it on the plate",
       "episode_idx": 2,
       "success": true,
-      "steps": 161,
+      "steps": 155,
       "max_steps": 230
     },
     {
@@ -330,8 +330,8 @@
       "task_id": 8,
       "task_name": "pick up the black bowl next to the plate and place it on the plate",
       "episode_idx": 0,
-      "success": true,
-      "steps": 135,
+      "success": false,
+      "steps": 230,
       "max_steps": 230
     },
     {
@@ -339,7 +339,7 @@
       "task_name": "pick up the black bowl next to the plate and place it on the plate",
       "episode_idx": 1,
       "success": true,
-      "steps": 138,
+      "steps": 134,
       "max_steps": 230
     },
     {
@@ -347,7 +347,7 @@
       "task_name": "pick up the black bowl next to the plate and place it on the plate",
       "episode_idx": 2,
       "success": true,
-      "steps": 175,
+      "steps": 163,
       "max_steps": 230
     },
     {
@@ -355,7 +355,7 @@
       "task_name": "pick up the black bowl next to the plate and place it on the plate",
       "episode_idx": 3,
       "success": true,
-      "steps": 131,
+      "steps": 128,
       "max_steps": 230
     },
     {
@@ -363,7 +363,7 @@
       "task_name": "pick up the black bowl next to the plate and place it on the plate",
       "episode_idx": 4,
       "success": true,
-      "steps": 123,
+      "steps": 174,
       "max_steps": 230
     },
     {
@@ -394,8 +394,8 @@
       "task_id": 9,
       "task_name": "pick up the black bowl on the wooden cabinet and place it on the plate",
       "episode_idx": 3,
-      "success": false,
-      "steps": 230,
+      "success": true,
+      "steps": 180,
       "max_steps": 230
     },
     {
