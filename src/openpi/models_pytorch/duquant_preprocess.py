@@ -1,6 +1,8 @@
 import os
 import re
 import json
+import time
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Dict, Optional, Tuple
 
@@ -26,14 +28,113 @@ def qmax(bits: int) -> int:
     return (1 << (bits - 1)) - 1
 
 
-def fake_quantize_sym(x: torch.Tensor, scale: torch.Tensor, bits: int) -> torch.Tensor:
+class _DuQuantProfiler:
+    """Optional profiler for fake quantization cost."""
+
+    def __init__(self) -> None:
+        flag = os.environ.get("OPENPI_DUQUANT_PROFILE", "0")
+        self.enabled = flag not in ("0", "false", "False")
+        sync_flag = os.environ.get("OPENPI_DUQUANT_PROFILE_SYNC", "1")
+        self.sync_cuda = sync_flag not in ("0", "false", "False")
+        self._stats: Dict[str, Dict[str, float]] = self._new_store()
+        if self.enabled:
+            import atexit
+
+            atexit.register(self.report)
+
+    @staticmethod
+    def _new_store() -> Dict[str, Dict[str, float]]:
+        return defaultdict(
+            lambda: {
+                "time": 0.0,
+                "count": 0.0,
+                "elements": 0.0,
+                "bytes": 0.0,
+            }
+        )
+
+    def record(self, label: str, tensor: torch.Tensor, scale: torch.Tensor, bits: int, fn):
+        if not self.enabled:
+            return fn()
+
+        devices = []
+        if self.sync_cuda:
+            if tensor.is_cuda:
+                devices.append(tensor.device)
+            if isinstance(scale, torch.Tensor) and scale.is_cuda:
+                devices.append(scale.device)
+
+        for device in devices:
+            torch.cuda.synchronize(device=device)
+        start = time.perf_counter()
+        result = fn()
+        for device in devices:
+            torch.cuda.synchronize(device=device)
+        elapsed = time.perf_counter() - start
+
+        stats = self._stats[label]
+        stats["time"] += elapsed
+        stats["count"] += 1
+        stats["elements"] += tensor.numel()
+        stats["bytes"] += tensor.numel() * tensor.element_size()
+        if isinstance(scale, torch.Tensor):
+            stats["bytes"] += scale.numel() * scale.element_size()
+        stats["bits"] = float(bits)
+        return result
+
+    def report(self, *, reset: bool = False, header_suffix: Optional[str] = None) -> None:
+        if not self.enabled or not self._stats:
+            return
+        print("=" * 100)
+        title = (
+            "[DUQUANT][PROFILE] fake quantization summary "
+            f"(cuda_sync={'on' if self.sync_cuda else 'off'})"
+        )
+        if header_suffix:
+            title += f" {header_suffix}"
+        print(title)
+        header = (
+            f"{'Label':<28} {'Calls':>8} {'Total ms':>12} {'Avg ms':>10} "
+            f"{'Elems':>14} {'GB/s':>10}"
+        )
+        print(header)
+        print("-" * len(header))
+        for label, stats in sorted(self._stats.items()):
+            total_time = stats["time"]
+            calls = stats["count"]
+            avg_time = total_time / calls if calls else 0.0
+            elems = int(stats["elements"])
+            gbps = (stats["bytes"] / total_time / 1e9) if total_time > 0 else 0.0
+            print(
+                f"{label:<28} {int(calls):>8d} {total_time * 1000:12.2f} "
+                f"{avg_time * 1000:10.3f} {elems:14d} {gbps:10.2f}"
+            )
+        print("=" * 100)
+        if reset:
+            self._stats = self._new_store()
+
+
+_DUQUANT_PROFILER = _DuQuantProfiler()
+
+
+def fake_quantize_sym(
+    x: torch.Tensor,
+    scale: torch.Tensor,
+    bits: int,
+    *,
+    label: Optional[str] = None,
+) -> torch.Tensor:
     if bits <= 0:
         return x
-    # Symmetric quantization with per-tensor or per-channel scale
-    max_q = qmax(bits)
-    x_scaled = x / scale
-    x_clamped = torch.clamp(torch.round(x_scaled), -max_q - 1, max_q)
-    return x_clamped * scale
+
+    def _impl() -> torch.Tensor:
+        max_q = qmax(bits)
+        x_scaled = x / scale
+        x_clamped = torch.clamp(torch.round(x_scaled), -max_q - 1, max_q)
+        return x_clamped * scale
+
+    tag = label or "fake_quantize_sym"
+    return _DUQUANT_PROFILER.record(tag, x, scale, bits, _impl)
 
 
 @dataclass

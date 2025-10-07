@@ -6,6 +6,7 @@ import logging
 import math
 import os
 import pathlib
+import time
 
 import imageio
 from libero.libero import benchmark
@@ -17,8 +18,119 @@ from openpi_client import websocket_client_policy as _websocket_client_policy
 import tqdm
 import tyro
 
+try:  # Optional: only present when DuQuant is active
+    from openpi.models_pytorch.duquant_preprocess import _DUQUANT_PROFILER
+except Exception:  # pragma: no cover - duquant disabled or JAX policy
+    _DUQUANT_PROFILER = None
+
+
+class _PolicyCallProfiler:
+    """Collect policy inference latency stats regardless of DuQuant usage."""
+
+    def __init__(self) -> None:
+        flag = os.environ.get("OPENPI_POLICY_PROFILE", os.environ.get("OPENPI_DUQUANT_PROFILE", "0"))
+        self.enabled = flag not in ("0", "false", "False")
+        self._stats = {"policy_infer": {"time_ms": 0.0, "count": 0, "elements": 0.0, "bytes": 0.0}}
+
+    def record(self, duration_ms: float, *, elements: int = 0, byte_size: int = 0) -> None:
+        if not self.enabled:
+            return
+        entry = self._stats["policy_infer"]
+        entry["time_ms"] += float(duration_ms)
+        entry["count"] += 1
+        entry["elements"] += float(elements)
+        entry["bytes"] += float(byte_size)
+
+    def report(self, context: str, *, reset: bool = False) -> None:
+        if not self.enabled:
+            return
+        entry = self._stats.get("policy_infer")
+        if not entry or entry["count"] == 0:
+            return
+        total_ms = entry["time_ms"]
+        calls = int(entry["count"])
+        avg_ms = total_ms / calls if calls else 0.0
+        elems = int(entry["elements"])
+        total_bytes = entry["bytes"]
+        gbps = (total_bytes / 1e9) / (total_ms / 1000.0) if total_ms > 0 else 0.0
+        print("=" * 100)
+        print(f"[POLICY][PROFILE] inference summary [{context}]")
+        header = (
+            f"{'Label':<28} {'Calls':>8} {'Total ms':>12} {'Avg ms':>10} "
+            f"{'Elems':>14} {'GB/s':>10}"
+        )
+        print(header)
+        print("-" * len(header))
+        print(
+            f"{'policy_infer':<28} {calls:>8d} {total_ms:12.2f} {avg_ms:10.3f} {elems:14d} {gbps:10.2f}"
+        )
+        print("=" * 100)
+        if reset:
+            self._stats = {
+                "policy_infer": {"time_ms": 0.0, "count": 0, "elements": 0.0, "bytes": 0.0}
+            }
+
+
+_POLICY_PROFILER = _PolicyCallProfiler()
+
 LIBERO_DUMMY_ACTION = [0.0] * 6 + [-1.0]
 LIBERO_ENV_RESOLUTION = 256  # resolution used to render training data
+
+
+def _duquant_report_if_enabled(context: str) -> None:
+    profiler = _DUQUANT_PROFILER
+    if profiler is not None and getattr(profiler, "enabled", False):
+        profiler.report(reset=True, header_suffix=f"[{context}]")
+
+
+def _policy_report_if_enabled(context: str, *, reset: bool = False) -> None:
+    if _POLICY_PROFILER.enabled:
+        _POLICY_PROFILER.report(context, reset=reset)
+
+
+def _maybe_register_linear_shape_logging(model) -> None:
+    flag = os.environ.get("OPENPI_PRINT_LINEAR_SHAPES", "0")
+    if flag in ("0", "false", "False"):
+        return
+    try:
+        import torch
+    except ImportError:  # pragma: no cover - torch missing
+        logging.warning("OPENPI_PRINT_LINEAR_SHAPES set but torch is unavailable.")
+        return
+
+    target_prefixes = (
+        "paligemma_with_expert.paligemma.model.language_model.",
+        "paligemma_with_expert.gemma_expert.model.",
+    )
+
+    handles = []
+
+    def _should_track(name: str) -> bool:
+        return any(name.startswith(prefix) for prefix in target_prefixes)
+
+    def _make_hook(module_name: str):
+        def _hook(mod: torch.nn.Module, inputs, _output):
+            if not inputs:
+                print(f"[LINEAR-MM] {module_name}: missing input tensor")
+                return
+            x = inputs[0]
+            x_shape = tuple(x.shape) if hasattr(x, "shape") else "unknown"
+            weight = getattr(mod, "weight", None)
+            w_shape = tuple(weight.shape) if isinstance(weight, torch.Tensor) else "unknown"
+            x_shape_str = list(x_shape) if isinstance(x_shape, tuple) else x_shape
+            w_shape_str = list(w_shape) if isinstance(w_shape, tuple) else w_shape
+            print(f"[LINEAR-MM] {module_name}: x{x_shape_str} @ W{w_shape_str}")
+
+        return _hook
+
+    linear_cls = torch.nn.Linear
+    for name, module in model.named_modules():
+        if isinstance(module, linear_cls) and _should_track(name):
+            handles.append(module.register_forward_hook(_make_hook(name)))
+
+    if handles:
+        print(f"[LINEAR-MM] logging enabled on {len(handles)} Linear layers (LLM/DiT scopes).")
+        setattr(model, "_linear_shape_logging_handles", handles)
 
 
 @dataclasses.dataclass
@@ -117,6 +229,8 @@ def eval_libero(args: Args) -> None:
             args.policy_dir,
             default_prompt=None,
         )
+        if getattr(policy_obj, "_is_pytorch_model", False):
+            _maybe_register_linear_shape_logging(policy_obj._model)
 
         client = _local_policy.LocalPolicy(policy_obj)
     else:
@@ -125,6 +239,7 @@ def eval_libero(args: Args) -> None:
 
     # Start evaluation
     total_episodes, total_successes = 0, 0
+    all_infer_ms: list[float] = []
     all_results = []  # Store results for CSV/JSON export
 
     for task_id in tqdm.tqdm(range(num_tasks_in_suite)):
@@ -152,6 +267,7 @@ def eval_libero(args: Args) -> None:
             # Setup
             t = 0
             replay_images = []
+            episode_infer_ms: list[float] = []
 
             logging.info(f"Starting episode {task_episodes+1}...")
             while t < max_steps + args.num_steps_wait:
@@ -193,8 +309,31 @@ def eval_libero(args: Args) -> None:
                             "prompt": str(task_description),
                         }
 
-                        # Query model to get action
-                        action_chunk = client.infer(element)["actions"]
+                        # Query model to get action and record inference cost
+                        call_start = time.perf_counter()
+                        infer_result = client.infer(element)
+                        elapsed_ms = (time.perf_counter() - call_start) * 1000.0
+                        action_chunk = infer_result["actions"]
+                        infer_ms = infer_result.get("policy_timing", {}).get("infer_ms")
+                        recorded_ms = float(infer_ms) if infer_ms is not None else elapsed_ms
+                        episode_infer_ms.append(recorded_ms)
+                        try:
+                            import torch  # type: ignore
+                        except ImportError:  # pragma: no cover - torch missing
+                            torch = None  # type: ignore
+
+                        if torch is not None and torch.is_tensor(action_chunk):
+                            elems = int(action_chunk.numel())
+                            byte_size = int(action_chunk.element_size() * action_chunk.numel())
+                        else:
+                            action_chunk_np = np.asarray(action_chunk)
+                            elems = int(action_chunk_np.size)
+                            byte_size = int(action_chunk_np.nbytes)
+                        _POLICY_PROFILER.record(
+                            recorded_ms,
+                            elements=elems,
+                            byte_size=byte_size,
+                        )
                         assert (
                             len(action_chunk) >= args.replan_steps
                         ), f"We want to replan every {args.replan_steps} steps, but policy only predicts {len(action_chunk)} steps."
@@ -241,6 +380,17 @@ def eval_libero(args: Args) -> None:
             logging.info(f"Success: {done}")
             logging.info(f"# episodes completed so far: {total_episodes}")
             logging.info(f"# successes: {total_successes} ({total_successes / total_episodes * 100:.1f}%)")
+            if episode_infer_ms:
+                total_ms = sum(episode_infer_ms)
+                avg_ms = total_ms / len(episode_infer_ms)
+                throughput = len(episode_infer_ms) / (total_ms / 1000.0)
+                logging.info(
+                    f"[PERF] Episode {total_episodes}: {len(episode_infer_ms)} policy calls, "
+                    f"avg {avg_ms:.1f} ms, throughput {throughput:.2f} calls/s"
+                )
+                all_infer_ms.extend(episode_infer_ms)
+            _duquant_report_if_enabled(f"episode {total_episodes}")
+            _policy_report_if_enabled(f"episode {total_episodes}", reset=True)
 
         # Log final results
         logging.info(f"Current task success rate: {float(task_successes) / float(task_episodes)}")
@@ -248,6 +398,16 @@ def eval_libero(args: Args) -> None:
 
     logging.info(f"Total success rate: {float(total_successes) / float(total_episodes)}")
     logging.info(f"Total episodes: {total_episodes}")
+    _policy_report_if_enabled("overall", reset=False)
+    if all_infer_ms:
+        total_ms = sum(all_infer_ms)
+        total_calls = len(all_infer_ms)
+        avg_ms = total_ms / total_calls
+        throughput = total_calls / (total_ms / 1000.0)
+        logging.info(
+            f"[PERF] Overall policy throughput: {total_calls} calls, avg {avg_ms:.1f} ms, "
+            f"throughput {throughput:.2f} calls/s"
+        )
 
     # Save results to CSV and JSON
     timestamp = pathlib.Path(args.results_out_path).stem

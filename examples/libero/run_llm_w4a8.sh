@@ -65,6 +65,10 @@ unset CUBLAS_WORKSPACE_CONFIG
 # IMPORTANT: This MUST be different from DiT pack directory!
 export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_llm_w4a8"
 
+
+export OPENPI_DUQUANT_PROFILE=1
+echo "check check check"
+echo $OPENPI_DUQUANT_PROFILE
 # Default parameters
 TASK_SUITE="${TASK_SUITE:-libero_spatial}"
 NUM_TRIALS="${NUM_TRIALS:-20}"

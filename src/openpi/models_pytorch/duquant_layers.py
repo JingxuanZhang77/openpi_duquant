@@ -185,7 +185,9 @@ class DuQuantLinear(nn.Module):
         # OPTIMIZATION: Pre-quantize weights if weight_bits > 0
         if self.weight_bits > 0:
             with torch.no_grad():
-                self._W_t_quantized.copy_(fake_quantize_sym(W_t, scales[:, None], self.weight_bits))
+                self._W_t_quantized.copy_(
+                    fake_quantize_sym(W_t, scales[:, None], self.weight_bits, label="weight_prequant")
+                )
             self._weight_quantized_cached = True
         else:
             self._weight_quantized_cached = False
@@ -248,7 +250,7 @@ class DuQuantLinear(nn.Module):
         # Fake-quantize activations if enabled
         if self.cfg.act_bits > 0:
             s_a = self._get_act_scale(x_t)
-            x_t = fake_quantize_sym(x_t, s_a, self.cfg.act_bits)
+            x_t = fake_quantize_sym(x_t, s_a, self.cfg.act_bits, label="activation_forward")
 
         # Transform and fake-quantize weights (only once, cached)
         self._maybe_update_weight_cache()
@@ -260,7 +262,14 @@ class DuQuantLinear(nn.Module):
         elif self.weight_bits > 0:
             # Fallback: quantize on-the-fly (slower, should not happen after warmup)
             y_lin = torch.nn.functional.linear(
-                x_t, fake_quantize_sym(self._W_t, self._w_scales[:, None], self.weight_bits), None
+                x_t,
+                fake_quantize_sym(
+                    self._W_t,
+                    self._w_scales[:, None],
+                    self.weight_bits,
+                    label="weight_fallback",
+                ),
+                None
             )
         else:
             y_lin = torch.nn.functional.linear(x_t, self._W_t, None)
