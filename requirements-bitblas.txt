@@ -1,0 +1,7 @@
+torch>=2.2
+numpy
+# BitBLAS installation options:
+# 1) Preferred: official pip package (if available)
+bitblas
+# 2) Fallback (handled automatically by scripts/setup_bitblas.sh):
+#    git clone https://github.com/microsoft/BitBLAS && cd BitBLAS && pip install -e .

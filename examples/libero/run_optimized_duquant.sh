@@ -27,7 +27,7 @@ export PYTHONPATH=$PWD/src:$PWD/third_party/libero
 #
 # For simpler/faster config without permutation/rotation, use run_simple_w4a8.sh
 # ============================================
-
+export OPENPI_DUQUANT_BACKEND=bitblas
 export OPENPI_DUQUANT_DEBUG=1
 export OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model."
 export OPENPI_DUQUANT_WBITS_DEFAULT=4

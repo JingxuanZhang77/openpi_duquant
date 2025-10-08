@@ -3,6 +3,14 @@ import re
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Optional, Tuple
 
+import importlib
+import sys
+from pathlib import Path
+
+SRC_ROOT = Path(__file__).resolve().parents[2]
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
 import torch
 from torch import nn
 
@@ -19,6 +27,7 @@ from .duquant_preprocess import (
     save_pack,
     transform_weight_for_forward,
 )
+from .quant_backends import QLinearW4A8BitBLAS
 
 
 @dataclass
@@ -33,6 +42,47 @@ class DuQuantConfig:
     pack_dir: Optional[str] = os.environ.get("OPENPI_DUQUANT_PACKDIR", None)
     row_rot_mode: str = os.environ.get("OPENPI_DUQUANT_ROW_ROT", "restore")  # values: '0', 'restore', 'propagate'
     block_out_size: int = int(os.environ.get("OPENPI_DUQUANT_BLOCK_OUT", os.environ.get("OPENPI_DUQUANT_BLOCK", 16)))
+
+
+def _load_bitblas_fallback():
+    try:
+        module = importlib.import_module("openpi.models_pytorch.quant_backends.bitblas_fallback")
+    except Exception:
+        return None
+    sys.modules["bitblas"] = module  # type: ignore[assignment]
+    print("[DUQUANT][INFO] Using fallback BitBLAS stub implementation.")
+    return module
+
+
+def _bitblas_is_available() -> bool:
+    try:
+        bitblas = importlib.import_module("bitblas")  # type: ignore
+    except Exception:
+        module = _load_bitblas_fallback()
+        return hasattr(module, "linear_w4a8") if module is not None else False
+
+    if hasattr(bitblas, "linear_w4a8"):
+        return True
+    ops = getattr(bitblas, "ops", None)
+    if ops is not None and hasattr(ops, "linear_w4a8"):
+        return True
+
+    module = _load_bitblas_fallback()
+    return hasattr(module, "linear_w4a8") if module is not None else False
+
+
+def _load_or_create_pack(mod: nn.Linear, name: str, cfg: DuQuantConfig) -> PackResult:
+    pack = load_pack(name, cfg.pack_dir)
+    if pack is None:
+        pack = pack_weight(
+            mod.weight.detach(),
+            block_size=cfg.block_size,
+            block_out_size=cfg.block_out_size,
+            enable_permute=cfg.enable_permute,
+            lambda_smooth=cfg.lambda_smooth,
+        )
+        save_pack(name, pack, cfg.pack_dir)
+    return pack
 
 
 def _parse_per_layer_wbits(env_val: Optional[str]) -> Dict[str, int]:
@@ -344,9 +394,12 @@ def wrap_duquant(
     cfg: DuQuantConfig,
     per_layer_wbits: Optional[Dict[str, int]] = None,
     dry_run: bool = False,
+    backend: str = "fake",
+    bitblas_available: bool = False,
 ) -> None:
     per_layer_wbits = per_layer_wbits or {}
     replaced = 0
+    replaced_by_backend: Dict[str, int] = {"fake": 0, "bitblas": 0}
     listed = 0
     for name in layer_names:
         # Skip action head by default unless explicitly requested via OPENPI_DUQUANT_INCLUDE
@@ -358,26 +411,77 @@ def wrap_duquant(
         if not isinstance(mod, nn.Linear):
             continue
         wbits = per_layer_wbits.get(name, cfg.weight_bits)
+
+        desired_backend = backend
+        if backend == "auto":
+            desired_backend = "bitblas" if bitblas_available else "fake"
+
+        if desired_backend == "bitblas" and wbits != 4:
+            if backend == "auto":
+                print(
+                    f"[DUQUANT][AUTO] {name}: requested W{wbits}, falling back to fake backend (BitBLAS supports W4 only)"
+                )
+                desired_backend = "fake"
+            else:
+                raise ValueError(f"[DUQUANT] BitBLAS backend currently supports only 4-bit weights (layer {name})")
+
         if dry_run:
             msg = (
                 f"[DUQUANT][DRYRUN] {name}: Linear({mod.in_features}->{mod.out_features}) "
                 f"W{wbits} A{cfg.act_bits} perm={cfg.enable_permute} "
-                f"block_in={cfg.block_size} block_out={cfg.block_out_size} row_rot={cfg.row_rot_mode}"
+                f"block_in={cfg.block_size} block_out={cfg.block_out_size} row_rot={cfg.row_rot_mode} "
+                f"backend={desired_backend}"
             )
             print(msg)
             listed += 1
             continue
-        dq = DuQuantLinear(mod, name=name, cfg=cfg, weight_bits=wbits)
-        setattr(parent, attr, dq)
-        print(
-            f"[DUQUANT][REPLACED] {name}: Linear({mod.in_features}->{mod.out_features}) -> DuQuantLinear "
-            f"W{wbits} A{cfg.act_bits} perm={cfg.enable_permute} block_in={cfg.block_size} block_out={cfg.block_out_size} row_rot={cfg.row_rot_mode}"
-        )
-        replaced += 1
+
+        backend_used = desired_backend
+        dq_module: nn.Module
+        if desired_backend == "bitblas":
+            pack = _load_or_create_pack(mod, name, cfg)
+            try:
+                dq_module = QLinearW4A8BitBLAS(
+                    mod, name=name, cfg=cfg, pack=pack, weight_bits=wbits
+                )
+            except Exception as exc:
+                if backend == "auto":
+                    print(
+                        f"[DUQUANT][AUTO] {name}: BitBLAS backend unavailable ({exc!r}), falling back to fake."
+                    )
+                    backend_used = "fake"
+                else:
+                    raise
+            else:
+                setattr(parent, attr, dq_module)
+                print(
+                    f"[DUQUANT][REPLACED] {name}: Linear({mod.in_features}->{mod.out_features}) -> QLinearW4A8BitBLAS "
+                    f"W{wbits} A{cfg.act_bits} block_in={cfg.block_size} block_out={cfg.block_out_size}"
+                )
+                replaced += 1
+                replaced_by_backend["bitblas"] += 1
+                continue
+
+        if backend_used != "bitblas":
+            dq_module = DuQuantLinear(mod, name=name, cfg=cfg, weight_bits=wbits)
+            setattr(parent, attr, dq_module)
+            print(
+                f"[DUQUANT][REPLACED] {name}: Linear({mod.in_features}->{mod.out_features}) -> DuQuantLinear "
+                f"W{wbits} A{cfg.act_bits} perm={cfg.enable_permute} block_in={cfg.block_size} block_out={cfg.block_out_size} row_rot={cfg.row_rot_mode}"
+            )
+            replaced += 1
+            replaced_by_backend["fake"] += 1
+
     if dry_run:
         print(f"[DUQUANT] Dry-run total layers listed: {listed}")
     else:
-        print(f"[DUQUANT] Total layers replaced: {replaced}")
+        bitblas_count = replaced_by_backend.get("bitblas", 0)
+        fake_count = replaced_by_backend.get("fake", 0)
+        summary = (
+            f"[DUQUANT] Total layers replaced: {replaced} "
+            f"(bitblas={bitblas_count}, fake={fake_count})"
+        )
+        print(summary)
 
 
 def enable_duquant_if_configured(model: nn.Module) -> None:
@@ -402,6 +506,22 @@ def enable_duquant_if_configured(model: nn.Module) -> None:
     exc = env.get("OPENPI_DUQUANT_EXCLUDE", r"(?:^|\.)(norm|ln|layernorm|emb)(?:\.|$)")
     per_layer_wbits = _parse_per_layer_wbits(env.get("OPENPI_DUQUANT_WBITS"))
     dry_run = env.get("OPENPI_DUQUANT_DRYRUN", "0") not in ("0", "false", "False")
+
+    backend = env.get("OPENPI_DUQUANT_BACKEND", "fake").lower()
+    valid_backends = {"off", "fake", "bitblas", "auto"}
+    if backend not in valid_backends:
+        print(f"[DUQUANT] Unknown backend '{backend}', defaulting to 'fake'")
+        backend = "fake"
+    if backend == "off":
+        print("[DUQUANT] Backend set to 'off'; skipping DuQuant replacement.")
+        return
+
+    bitblas_available = _bitblas_is_available()
+    if backend == "bitblas" and not bitblas_available:
+        raise RuntimeError(
+            "[DUQUANT] OPENPI_DUQUANT_BACKEND=bitblas but BitBLAS kernels are unavailable. "
+            "Install BitBLAS or set backend to 'fake' or 'auto'."
+        )
 
     cfg = DuQuantConfig()
 
@@ -430,6 +550,22 @@ def enable_duquant_if_configured(model: nn.Module) -> None:
                 for name in matching_prefix[:5]:
                     print(f"[DUQUANT] DEBUG:   {name}")
     if dry_run:
-        wrap_duquant(model, layer_names, cfg, per_layer_wbits, dry_run=True)
+        wrap_duquant(
+            model,
+            layer_names,
+            cfg,
+            per_layer_wbits,
+            dry_run=True,
+            backend=backend,
+            bitblas_available=bitblas_available,
+        )
         return
-    wrap_duquant(model, layer_names, cfg, per_layer_wbits, dry_run=False)
+    wrap_duquant(
+        model,
+        layer_names,
+        cfg,
+        per_layer_wbits,
+        dry_run=False,
+        backend=backend,
+        bitblas_available=bitblas_available,
+    )
