@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import math
 import os
-from typing import Dict, Optional, Tuple, TYPE_CHECKING
+from typing import Dict, List, Optional, Tuple, TYPE_CHECKING
 
 import torch
 from torch import nn
@@ -13,9 +13,11 @@ from ..duquant_preprocess import (
     PackResult,
     PercentileCalibrator,
     apply_bias_row_rot_optimized,
+    apply_output_restore_optimized,
     qmax,
     transform_weight_for_forward_optimized,
 )
+from .bitblas_utils import ensure_bitblas_linear_kernel
 
 if TYPE_CHECKING:  # pragma: no cover - type checking only
     from ..duquant_layers import DuQuantConfig
@@ -85,14 +87,29 @@ class QLinearW4A8BitBLAS(nn.Module):
 
         # Cache transform tensors on matching device/dtype
         weight = base.weight.detach()
+        # Preserve a float copy of the original weights so modules that expect
+        # a ``.weight`` attribute (logging/export/tools shared with the fake
+        # backend) continue to work when we swap in the BitBLAS implementation.
+        self.register_buffer("_weight_ref", weight.clone(), persistent=False)
         dtype = weight.dtype
         device = weight.device
 
-        perm_cache = torch.from_numpy(pack.perm).long().to(device=device) if pack.perm is not None else None
+        if pack.perm is not None:
+            perm_tensor = torch.from_numpy(pack.perm).long()
+            self.register_buffer("_perm_cache", perm_tensor)
+            perm_cache = perm_tensor.to(device=device)
+        else:
+            self._perm_cache = None
+            perm_cache = None
+
         R_in_cache: Dict[int, torch.Tensor] = {}
+        self._R_in_block_indices = []
         if pack.R_in_blocks:
             for idx, R in pack.R_in_blocks.items():
-                R_in_cache[idx] = torch.from_numpy(R).to(device=device, dtype=dtype)
+                tensor = torch.from_numpy(R).to(dtype=dtype)
+                self.register_buffer(f"_R_in_{idx}", tensor)
+                self._R_in_block_indices.append(idx)
+                R_in_cache[idx] = tensor.to(device=device, dtype=dtype)
         R_out_cache: Dict[int, torch.Tensor] = {}
         if pack.R_out_blocks:
             for idx, R in pack.R_out_blocks.items():
@@ -127,9 +144,11 @@ class QLinearW4A8BitBLAS(nn.Module):
         packed = pack_int4_nibbles(q_w, self.in_align, self.out_align)
         self.register_buffer("packed_w", packed)
 
+        # Store bias handling based on row rotation mode
         if base.bias is not None:
             bias_vec = base.bias.detach().clone()
-            if apply_row_rot and pack.R_out_blocks:
+            # Only apply bias rotation in propagate mode (not in restore mode)
+            if cfg.row_rot_mode == "propagate" and apply_row_rot and pack.R_out_blocks:
                 bias_vec = apply_bias_row_rot_optimized(bias_vec, pack, R_out_cache, block_out_size)
             self.bias = nn.Parameter(bias_vec)
         else:
@@ -137,8 +156,18 @@ class QLinearW4A8BitBLAS(nn.Module):
 
         self._block_size = block_size
         self._block_out_size = block_out_size
+        self._apply_row_rot = apply_row_rot
+
+        # Cache R_out rotation matrices for output restore
+        self._R_out_block_indices = []
+        if cfg.row_rot_mode == "restore" and pack.R_out_blocks:
+            for idx, R in pack.R_out_blocks.items():
+                tensor = torch.from_numpy(R).to(dtype=dtype)
+                self.register_buffer(f"_R_out_{idx}", tensor)
+                self._R_out_block_indices.append(idx)
 
         self.pack_meta = dict(pack.meta)
+        self.pack_result = pack
         self.register_buffer(
             "input_mask",
             torch.tensor(
@@ -217,14 +246,53 @@ class QLinearW4A8BitBLAS(nn.Module):
         self._act_scale_cache[cache_key] = scale_vec
         return scale_vec
 
-    def _prepare_input(self, x: torch.Tensor) -> Tuple[torch.Tensor, bool]:
-        original_shape = x.shape
+    def _prepare_input_and_pad(self, x: torch.Tensor) -> torch.Tensor:
+        """Pad transformed input to aligned dimension."""
         x_2d = x.reshape(-1, self.in_features)
         needs_pad = self.in_features_aligned > self.in_features
         if needs_pad:
             pad = self.in_features_aligned - self.in_features
             x_2d = F.pad(x_2d, (0, pad), value=0.0)
-        return x_2d, needs_pad
+        return x_2d
+
+    def _apply_input_transform(self, x: torch.Tensor) -> torch.Tensor:
+        """Apply input transform (permutation and R_in rotation) to match weight transform."""
+        if getattr(self, "_perm_cache", None) is None and not getattr(self, "_R_in_block_indices", []):
+            return x
+
+        # Input should be [..., in_features] before any padding
+        in_features = x.shape[-1]
+        if in_features != self.in_features:
+            raise ValueError(
+                f"Input last dim {in_features} != expected in_features {self.in_features}"
+            )
+
+        # Apply permutation
+        if getattr(self, "_perm_cache", None) is not None:
+            perm = self._perm_cache.to(device=x.device)
+            x = x.index_select(dim=-1, index=perm)
+
+        # Apply R_in rotation blocks
+        if getattr(self, "_R_in_block_indices", []):
+            original_shape = x.shape
+            x_view = x.reshape(-1, in_features)
+            x_t = x_view.clone()
+            for idx in self._R_in_block_indices:
+                start = idx * self._block_size
+                end = min(start + self._block_size, in_features)
+                if start >= end:
+                    continue
+                R = getattr(self, f"_R_in_{idx}")[: (end - start), : (end - start)]
+                if R.device != x_view.device or R.dtype != x_view.dtype:
+                    R = R.to(device=x_view.device, dtype=x_view.dtype)
+                x_t[:, start:end] = x_view[:, start:end] @ R
+            x = x_t.reshape(*original_shape)
+        return x
+
+    @property
+    def weight(self) -> torch.Tensor:
+        """Expose a read-only view of the original float weights."""
+        return self._weight_ref
 
     def _prepare_bias(self, device: torch.device, dtype: torch.dtype) -> Optional[torch.Tensor]:
         if self.bias is None:
@@ -236,33 +304,36 @@ class QLinearW4A8BitBLAS(nn.Module):
         return F.pad(bias_vec, (0, pad), value=0.0)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x_in, padded = self._prepare_input(x)
-        s_a = self._get_act_scale(x)
+        # Step 1: Apply input transform (permutation and R_in rotation)
+        x_t = self._apply_input_transform(x)
+
+        # Step 2: Get activation scale (on transformed but unpadded input)
+        s_a = self._get_act_scale(x_t)
+
+        # Step 3: Pad transformed input to aligned dimension
+        x_in = self._prepare_input_and_pad(x_t)
+
         if s_a.device != x_in.device:
             s_a = s_a.to(device=x_in.device)
 
-        try:
-            import bitblas  # type: ignore
-        except Exception as exc:  # pragma: no cover - runtime failure path
-            raise RuntimeError(
-                "BitBLAS is not available, set OPENPI_DUQUANT_BACKEND=fake to fallback."
-            ) from exc
+        linear_fn = ensure_bitblas_linear_kernel()
+        if linear_fn is None:  # pragma: no cover - runtime failure path
+            logging.warning(
+                "[BITBLAS][FALLBACK] BitBLAS kernel unavailable, using PyTorch fallback implementation"
+            )
+            from . import bitblas_fallback
 
-        linear_fn = getattr(bitblas, "linear_w4a8", None)
-        if linear_fn is None:
-            ops = getattr(bitblas, "ops", None)
-            linear_fn = getattr(ops, "linear_w4a8", None) if ops is not None else None
-        if linear_fn is None:
-            raise RuntimeError("bitblas.linear_w4a8 kernel not found in BitBLAS installation")
+            linear_fn = bitblas_fallback.linear_w4a8
 
-        bias = self._prepare_bias(x_in.device, x_in.dtype)
+        # In restore mode, add bias after restore; otherwise add it in the kernel
+        bias_for_kernel = None if self.cfg.row_rot_mode == "restore" else self._prepare_bias(x_in.device, x_in.dtype)
         try:
             y = linear_fn(
                 x_in,
                 self.packed_w.to(device=x_in.device),
                 self.s_w.to(device=x_in.device),
                 s_a,
-                bias=bias,
+                bias=bias_for_kernel,
             )
         except RuntimeError as exc:
             raise RuntimeError(
@@ -279,6 +350,21 @@ class QLinearW4A8BitBLAS(nn.Module):
             y = y[..., : self.out_features]
 
         y = y.reshape(*x.shape[:-1], self.out_features)
+
+        # Apply row rotation restore if needed
+        if self.cfg.row_rot_mode == "restore" and self._R_out_block_indices:
+            R_out_cache = {}
+            for idx in self._R_out_block_indices:
+                R = getattr(self, f"_R_out_{idx}")
+                if R.device != y.device or R.dtype != y.dtype:
+                    R = R.to(device=y.device, dtype=y.dtype)
+                R_out_cache[idx] = R
+            y = apply_output_restore_optimized(
+                y, self.pack_result, R_out_cache, self._block_out_size
+            )
+            # Add bias after restore in restore mode
+            if self.bias is not None:
+                y = y + self.bias.to(device=y.device, dtype=y.dtype)
 
         if not self._debug_logged:
             logging.info(

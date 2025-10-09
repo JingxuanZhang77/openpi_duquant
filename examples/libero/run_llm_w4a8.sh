@@ -39,7 +39,7 @@ fi
 
 # Set environment
 export PYTHONPATH=$PWD/src:$PWD/third_party/libero
-
+export OPENPI_DUQUANT_BACKEND=bitblas
 # ============================================
 # LLM W4A8 DuQuant Configuration
 # ============================================
@@ -65,28 +65,10 @@ unset CUBLAS_WORKSPACE_CONFIG
 # IMPORTANT: This MUST be different from DiT pack directory!
 export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_llm_w4a8"
 
-# Enable true DuQuant execution with BitBLAS by default (override to "fake" to disable).
-export OPENPI_DUQUANT_BACKEND=${OPENPI_DUQUANT_BACKEND:-bitblas}
 
-# Ensure runtime uses 4-bit weights (BitBLAS currently supports W4 only).
-export OPENPI_DUQUANT_WBITS=${OPENPI_DUQUANT_WBITS:-$OPENPI_DUQUANT_WBITS_DEFAULT}
-
-# Optional profiling of DuQuant passes.
 export OPENPI_DUQUANT_PROFILE=1
 echo "check check check"
 echo $OPENPI_DUQUANT_PROFILE
-
-if [ "$OPENPI_DUQUANT_BACKEND" = "bitblas" ]; then
-  python - <<'PY'
-import importlib, sys
-try:
-    bitblas = importlib.import_module("bitblas")
-except Exception as exc:
-    sys.exit(f"[DUQUANT] BitBLAS import failed: {exc}")
-if not (hasattr(bitblas, "linear_w4a8") or hasattr(getattr(bitblas, "ops", object()), "linear_w4a8")):
-    sys.exit("[DUQUANT] BitBLAS linear_w4a8 kernel missing. Install/update BitBLAS or set OPENPI_DUQUANT_BACKEND=fake.")
-PY
-fi
 # Default parameters
 TASK_SUITE="${TASK_SUITE:-libero_spatial}"
 NUM_TRIALS="${NUM_TRIALS:-20}"

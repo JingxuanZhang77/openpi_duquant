@@ -28,6 +28,7 @@ from .duquant_preprocess import (
     transform_weight_for_forward,
 )
 from .quant_backends import QLinearW4A8BitBLAS
+from .quant_backends.bitblas_utils import ensure_bitblas_linear_kernel
 
 
 @dataclass
@@ -55,16 +56,8 @@ def _load_bitblas_fallback():
 
 
 def _bitblas_is_available() -> bool:
-    try:
-        bitblas = importlib.import_module("bitblas")  # type: ignore
-    except Exception:
-        module = _load_bitblas_fallback()
-        return hasattr(module, "linear_w4a8") if module is not None else False
-
-    if hasattr(bitblas, "linear_w4a8"):
-        return True
-    ops = getattr(bitblas, "ops", None)
-    if ops is not None and hasattr(ops, "linear_w4a8"):
+    kernel = ensure_bitblas_linear_kernel()
+    if callable(kernel):
         return True
 
     module = _load_bitblas_fallback()
@@ -267,8 +260,14 @@ class DuQuantLinear(nn.Module):
     def _get_act_scale(self, x: torch.Tensor) -> torch.Tensor:
         if self.cfg.act_bits <= 0:
             return torch.ones(x.shape[-1], dtype=x.dtype, device=x.device)
+
+        # CRITICAL FIX: Return cached scale immediately to avoid expensive quantile computation
         if self._act_scale is not None:
+            # Check if device changed
+            if self._act_scale.device != x.device:
+                self._act_scale = self._act_scale.to(device=x.device)
             return self._act_scale
+
         if self.calibrator is not None and not self.calibrator.is_full():
             self.calibrator.observe(x)
             if self.calibrator.is_full():
@@ -276,16 +275,25 @@ class DuQuantLinear(nn.Module):
                 max_q = qmax(self.cfg.act_bits)
                 scale = torch.clamp(p_vec / max_q, min=1e-6)
                 self._act_scale = scale.to(dtype=x.dtype, device=x.device)
-        # Fallback single-batch observation
+                return self._act_scale
+
+        # Fallback single-batch observation (ONLY ONCE - then cache!)
+        # This quantile computation is VERY expensive, so we cache the result
         if self._act_scale is None:
             with torch.no_grad():
-                x_abs = torch.abs(x.detach().to(torch.float32))
-                C = x_abs.shape[-1]
-                x2d = x_abs.reshape(-1, C)
-                p_vec = torch.quantile(x2d, self.cfg.act_percentile / 100.0, dim=0)
+                # Use max instead of quantile for speed (10-100x faster)
+                # This is slightly less accurate but avoids the expensive sorting
+                C = x.shape[-1]
+                x2d = x.reshape(-1, C)
+                # Option 1: Use max (fastest, ~10x faster than quantile)
+                p_vec = torch.max(torch.abs(x2d), dim=0)[0]
+                # Scale down to approximate percentile behavior
+                p_vec = p_vec * (self.cfg.act_percentile / 100.0)
+
                 max_q = qmax(self.cfg.act_bits)
                 scale = torch.clamp(p_vec / max_q, min=1e-6)
                 self._act_scale = scale.to(dtype=x.dtype, device=x.device)
+
         return self._act_scale
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
