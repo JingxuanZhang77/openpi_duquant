@@ -18,7 +18,9 @@ from .duquant_preprocess import (
     qmax,
     save_pack,
     transform_weight_for_forward,
+    compute_mse_scales,
 )
+from .quant_backends.bitblas_backend import BitBlasLinearBackend
 
 
 @dataclass
@@ -128,6 +130,17 @@ class DuQuantLinear(nn.Module):
         self._bias_rot: Optional[torch.Tensor] = None
         self._debug_enabled = os.environ.get("OPENPI_DUQUANT_DEBUG", "0") not in ("0", "false", "False")
         self._debug_forward_logged = False
+        # Optional BitBLAS backend (true INT4xINT8)
+        backend_flag = os.environ.get("OPENPI_DUQUANT_BACKEND", "").lower()
+        use_bitblas = backend_flag in ("bitblas", "w4a8", "int4_int8")
+        self._bitblas_backend: Optional[BitBlasLinearBackend] = None
+        if use_bitblas and torch.cuda.is_available():
+            try:
+                self._bitblas_backend = BitBlasLinearBackend(self.in_features, self.out_features, device=self._weight.device)
+                if not self._bitblas_backend.available:
+                    self._bitblas_backend = None
+            except Exception:
+                self._bitblas_backend = None
 
     def _get_R_in_cache(self) -> Dict[int, torch.Tensor]:
         """Get R_in rotation matrices on the correct device."""
@@ -247,16 +260,36 @@ class DuQuantLinear(nn.Module):
             x, self.pack, self._perm_cache, self._get_R_in_cache(), self._block_size
         )
 
-        # Fake-quantize activations if enabled
+        # Prepare activation scaling
+        s_a = None
         if self.cfg.act_bits > 0:
             s_a = self._get_act_scale(x_t)
-            x_t = fake_quantize_sym(x_t, s_a, self.cfg.act_bits, label="activation_forward")
+            # If not using BitBLAS, do fake-quantize on activations as before
+            if self._bitblas_backend is None:
+                x_t = fake_quantize_sym(x_t, s_a, self.cfg.act_bits, label="activation_forward")
 
         # Transform and fake-quantize weights (only once, cached)
         self._maybe_update_weight_cache()
 
-        # OPTIMIZATION: Use pre-quantized weights instead of quantizing every forward pass
-        if self._weight_quantized_cached:
+        # Fast path 1: BitBLAS true INT4xINT8
+        if (
+            self._bitblas_backend is not None
+            and self.weight_bits == 4
+            and self.cfg.act_bits == 8
+            and x_t.is_cuda
+        ):
+            # Ensure weight cache is ready to get transformed W_t
+            self._maybe_update_weight_cache()
+            # Build or reuse bitblas packed weights with folded activation scales
+            assert s_a is not None
+            self._bitblas_backend.maybe_rebuild(self._W_t, s_a, compute_mse_scales)
+            if self._debug_enabled and not getattr(self, '_bitblas_logged', False):
+                import logging
+                logging.info(f"[DUQUANT][BITBLAS] {self.name} using INT4xINT8 backend")
+                self._bitblas_logged = True
+            y_lin = self._bitblas_backend.run(x_t, s_a)
+        # Fast path 2: Use pre-quantized weights (fake quant) instead of quantizing every pass
+        elif self._weight_quantized_cached:
             # Use pre-quantized weights (major speedup)
             y_lin = torch.nn.functional.linear(x_t, self._W_t_quantized, None)
         elif self.weight_bits > 0:

@@ -54,7 +54,7 @@ export OPENPI_DUQUANT_ROW_ROT=restore     # ← Now FAST with QR optimization! (
 export OPENPI_DUQUANT_ACT_PCT=99.9
 export OPENPI_DUQUANT_CALIB_STEPS=32      # Restored to default for better accuracy
 export OPENPI_DUQUANT_LS=0.15             # Lambda smooth (only used when PERMUTE=1)
-
+export OPENPI_DUQUANT_BACKEND=bitblas
 # Disable torch.compile for faster startup (can be enabled for better throughput)
 export OPENPI_DISABLE_TORCH_COMPILE=1
 export TORCH_COMPILE_DISABLE=1
