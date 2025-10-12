@@ -115,7 +115,9 @@ class DuQuantLinear(nn.Module):
         self.calibrator = PercentileCalibrator(
             percentile=cfg.act_percentile, max_batches=cfg.calib_batches
         ) if self.cfg.act_bits > 0 else None
-        self._act_scale: Optional[torch.Tensor] = None
+        # Use register_buffer for torch.compile compatibility
+        self.register_buffer("_act_scale", None)
+        self._act_scale_initialized = False
 
         # Cache transformed weight per device/dtype
         self._cached_weight_key: Optional[Tuple[str, torch.dtype]] = None
@@ -217,25 +219,47 @@ class DuQuantLinear(nn.Module):
     def _get_act_scale(self, x: torch.Tensor) -> torch.Tensor:
         if self.cfg.act_bits <= 0:
             return torch.ones(x.shape[-1], dtype=x.dtype, device=x.device)
-        if self._act_scale is not None:
+
+        # If already initialized, return cached scale
+        if self._act_scale_initialized:
             return self._act_scale
-        if self.calibrator is not None and not self.calibrator.is_full():
-            self.calibrator.observe(x)
-            if self.calibrator.is_full():
-                p_vec = self.calibrator.finalize()
-                max_q = qmax(self.cfg.act_bits)
-                scale = torch.clamp(p_vec / max_q, min=1e-6)
-                self._act_scale = scale.to(dtype=x.dtype, device=x.device)
-        # Fallback single-batch observation
-        if self._act_scale is None:
-            with torch.no_grad():
+
+        # Initialize scale (use no_grad to avoid tracking in torch.compile)
+        with torch.no_grad():
+            if self.calibrator is not None and not self.calibrator.is_full():
+                self.calibrator.observe(x)
+                if self.calibrator.is_full():
+                    p_vec = self.calibrator.finalize()
+                    max_q = qmax(self.cfg.act_bits)
+                    scale = torch.clamp(p_vec / max_q, min=1e-6)
+                    # CRITICAL: Clone tensor to avoid CUDA Graphs overwrite issue
+                    scale = scale.to(dtype=x.dtype, device=x.device).clone()
+                    # Use in-place copy for torch.compile compatibility
+                    if self._act_scale is None:
+                        # First initialization: create buffer
+                        self._act_scale = scale
+                    else:
+                        # Update existing buffer in-place
+                        self._act_scale.copy_(scale)
+                    self._act_scale_initialized = True
+
+            # Fallback single-batch observation
+            if not self._act_scale_initialized:
                 x_abs = torch.abs(x.detach().to(torch.float32))
                 C = x_abs.shape[-1]
                 x2d = x_abs.reshape(-1, C)
                 p_vec = torch.quantile(x2d, self.cfg.act_percentile / 100.0, dim=0)
                 max_q = qmax(self.cfg.act_bits)
                 scale = torch.clamp(p_vec / max_q, min=1e-6)
-                self._act_scale = scale.to(dtype=x.dtype, device=x.device)
+                # CRITICAL: Clone tensor to avoid CUDA Graphs overwrite issue
+                scale = scale.to(dtype=x.dtype, device=x.device).clone()
+                # Use in-place copy for torch.compile compatibility
+                if self._act_scale is None:
+                    self._act_scale = scale
+                else:
+                    self._act_scale.copy_(scale)
+                self._act_scale_initialized = True
+
         return self._act_scale
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

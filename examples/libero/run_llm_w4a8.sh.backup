@@ -56,9 +56,9 @@ export OPENPI_DUQUANT_CALIB_STEPS=32      # Restored to default for better accur
 export OPENPI_DUQUANT_LS=0.15             # Lambda smooth (only used when PERMUTE=1)
 
 # Disable torch.compile for faster startup (can be enabled for better throughput)
-# export OPENPI_DISABLE_TORCH_COMPILE=1  # COMMENTED FOR SPEEDUP
-# export TORCH_COMPILE_DISABLE=1  # COMMENTED FOR SPEEDUP
-# export TORCHDYNAMO_DISABLE=1  # COMMENTED FOR SPEEDUP
+export OPENPI_DISABLE_TORCH_COMPILE=1
+export TORCH_COMPILE_DISABLE=1
+export TORCHDYNAMO_DISABLE=1
 unset CUBLAS_WORKSPACE_CONFIG
 
 # Pack directory for LLM quantization
