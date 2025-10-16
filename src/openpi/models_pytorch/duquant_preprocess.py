@@ -578,16 +578,30 @@ def apply_input_transform_optimized(
     if R_in_cache:
         original_shape = x.shape
         x_view = x.reshape(-1, in_features)
-        # Need to clone to avoid in-place modification issues
-        x_t = x_view.clone()
         n_blocks = (in_features + block_size - 1) // block_size
+
+        # Fast path: vectorized batched block matmul (no block-diagonal allocation)
+        if len(R_in_cache) == n_blocks and all(b in R_in_cache for b in range(n_blocks)):
+            all_full = all(
+                (R_in_cache[b].shape[0] == block_size and R_in_cache[b].shape[1] == block_size)
+                for b in range(n_blocks)
+            )
+            if all_full and in_features == n_blocks * block_size:
+                x_blocks = x_view.reshape(-1, n_blocks, block_size)
+                R_stack = torch.stack([R_in_cache[b] for b in range(n_blocks)], dim=0).to(
+                    dtype=x_blocks.dtype, device=x_blocks.device
+                )
+                x_out_blocks = torch.einsum("rnb,nbc->rnc", x_blocks, R_stack)
+                return x_out_blocks.reshape(*original_shape)
+
+        # Fallback: loop over blocks (original implementation)
+        x_t = x_view.clone()
         for b in range(n_blocks):
             if b not in R_in_cache:
                 continue
             start = b * block_size
             end = min((b + 1) * block_size, in_features)
             R = R_in_cache[b][: (end - start), : (end - start)]
-            # Update the cloned tensor
             x_t[:, start:end] = x_view[:, start:end] @ R
         x = x_t.reshape(*original_shape)
     return x
@@ -608,16 +622,28 @@ def apply_output_restore_optimized(
     n_row_blocks = (out_features + block_out_size - 1) // block_out_size
     y_view = y.reshape(-1, out_features)
 
-    # Need to clone to avoid in-place modification issues
-    y_out = y_view.clone()
+    # Fast path: vectorized batched block matmul (no block-diagonal allocation)
+    if len(R_out_cache) == n_row_blocks and all(b in R_out_cache for b in range(n_row_blocks)):
+        all_full = all(
+            (R_out_cache[b].shape[0] == block_out_size and R_out_cache[b].shape[1] == block_out_size)
+            for b in range(n_row_blocks)
+        )
+        if all_full and out_features == n_row_blocks * block_out_size:
+            y_blocks = y_view.reshape(-1, n_row_blocks, block_out_size)
+            R_stack = torch.stack([R_out_cache[b] for b in range(n_row_blocks)], dim=0).to(
+                dtype=y_blocks.dtype, device=y_blocks.device
+            )
+            y_out_blocks = torch.einsum("rnb,nbc->rnc", y_blocks, R_stack)
+            return y_out_blocks.reshape(*original_shape)
 
+    # Fallback: loop over blocks (original implementation)
+    y_out = y_view.clone()
     for b in range(n_row_blocks):
         if b not in R_out_cache:
             continue
         rs = b * block_out_size
         re = min((b + 1) * block_out_size, out_features)
         Rb = R_out_cache[b][: (re - rs), : (re - rs)]
-        # Update the cloned tensor
         y_out[:, rs:re] = y_view[:, rs:re] @ Rb
 
     return y_out.reshape(*original_shape)

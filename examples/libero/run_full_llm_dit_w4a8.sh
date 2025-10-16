@@ -40,6 +40,7 @@ fi
 
 # Set environment
 export PYTHONPATH=$PWD/src:$PWD/third_party/libero
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 # ============================================
 # Full LLM+DiT W4A8 DuQuant Configuration
@@ -68,9 +69,9 @@ export OPENPI_DUQUANT_INCLUDE='.*(q_proj|k_proj|v_proj|o_proj|out_proj|gate_proj
 export OPENPI_DUQUANT_EXCLUDE='(?:^|\.)(norm|ln|layernorm|emb|embed|vision_tower|vision|multi_modal_projector|lm_head)(?:\.|$)'
 
 # Disable torch.compile for faster startup (recommended for full quantization)
-# export OPENPI_DISABLE_TORCH_COMPILE=1  # COMMENTED FOR SPEEDUP
-# export TORCH_COMPILE_DISABLE=1  # COMMENTED FOR SPEEDUP
-# export TORCHDYNAMO_DISABLE=1  # COMMENTED FOR SPEEDUP
+export OPENPI_DISABLE_TORCH_COMPILE=1  # COMMENTED FOR SPEEDUP
+export TORCH_COMPILE_DISABLE=1  # COMMENTED FOR SPEEDUP
+export TORCHDYNAMO_DISABLE=1  # COMMENTED FOR SPEEDUP
 unset CUBLAS_WORKSPACE_CONFIG
 
 # Pack directory for full LLM+DiT quantization

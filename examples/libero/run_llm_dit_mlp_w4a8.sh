@@ -1,24 +1,23 @@
 #!/bin/bash
-# DuQuant W4A8 for DiT QKVO layers only (90 layers)
-# Quantizes only attention layers (q_proj, k_proj, v_proj, o_proj) in the DiT
-# Excludes MLP layers (gate_proj, up_proj, down_proj) for comparison
+# Quantize LLM (all linear layers) + DiT MLP layers (gate_proj, up_proj, down_proj)
+# This applies W4A8 quantization to both language model and DiT MLP components
 #
 # Model Structure:
 # ┌────────────────────────────────────────────────────────────┐
 # │ OpenPI Model (PI0Pytorch)                                  │
 # │                                                            │
 # │ ├── paligemma_with_expert.paligemma                        │
-# │ │   ├── vision_tower (SigLIP - NOT quantized)             │
-# │ │   └── language_model (Gemma LLM - NOT quantized)        │
+# │ │   ├── vision_tower (SigLIP - 27 layers)                  │
+# │ │   └── language_model (Gemma LLM - 18 layers) ← QUANTIZE │
 # │ │                                                          │
 # │ └── paligemma_with_expert.gemma_expert (DiT - 18 layers)  │
-# │     └── model                                              │
-# │         └── layers[0..17].self_attn.{q,k,v,o}_proj ← QUANTIZE (18×4 = 72)
-# │                                                            │
+# │     └── model.layers[*].mlp (MLP layers) ← QUANTIZE       │
 # └────────────────────────────────────────────────────────────┘
 #
-# Expected layer count:
-#   - DiT attention layers: 18 layers × 4 projections (QKVO) = 72 layers
+# Quantization targets:
+# 1. LLM: ALL linear layers in language_model (126 layers)
+# 2. DiT MLP: gate_proj, up_proj, down_proj in each DiT layer (54 layers)
+# Total: 180 layers quantized
 
 set -e
 
@@ -38,38 +37,47 @@ export PYTHONPATH=$PWD/src:$PWD/third_party/libero
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 # ============================================
-# DiT QKVO W4A8 DuQuant Configuration
-# ============================================
-# Target: Only attention layers (q_proj, k_proj, v_proj, o_proj)
-# Exclude: MLP layers (gate_proj, up_proj, down_proj)
+# LLM + DiT MLP W4A8 DuQuant Configuration
 # ============================================
 export OPENPI_DUQUANT_DEBUG=1
-export OPENPI_DUQUANT_SCOPE="paligemma_with_expert.gemma_expert.model."
+
+# CRITICAL: Use custom layer selection to quantize:
+# 1. All LLM layers: paligemma_with_expert.paligemma.model.language_model.*
+# 2. DiT MLP layers: paligemma_with_expert.gemma_expert.model.layers.*.mlp.*
+# We'll set SCOPE to empty and use INCLUDE/EXCLUDE regex for fine control
+export OPENPI_DUQUANT_SCOPE=""  # Empty scope = search entire model
+
+# INCLUDE: Match both LLM layers AND DiT MLP layers
+# - LLM: language_model.*.(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)
+# - DiT MLP: gemma_expert.model.layers.*.mlp.(gate_proj|up_proj|down_proj)
+export OPENPI_DUQUANT_INCLUDE='.*(language_model\.(.*\.)?(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)|gemma_expert\.model\.layers\.\d+\.mlp\.(gate_proj|up_proj|down_proj)).*'
+
+# EXCLUDE: Exclude vision tower, embeddings, norms
+# CRITICAL: Use negative lookahead to exclude self_attn ONLY for DiT, not for LLM
+# This allows language_model.*.self_attn.* but blocks gemma_expert.*.self_attn.*
+export OPENPI_DUQUANT_EXCLUDE='(?:^|\.)(vision_tower|vision|multi_modal_projector|norm|ln|layernorm|embed_tokens|lm_head)(?:\.|$)|gemma_expert\..*\.self_attn\.'
+
 export OPENPI_DUQUANT_WBITS_DEFAULT=4
 export OPENPI_DUQUANT_ABITS=8
 export OPENPI_DUQUANT_BLOCK=16
 export OPENPI_DUQUANT_PERMUTE=1           # Enable input permutation
-export OPENPI_DUQUANT_ROW_ROT=restore     # Enable rotation with output restoration
+export OPENPI_DUQUANT_ROW_ROT=restore     # Output rotation with restore
 export OPENPI_DUQUANT_ACT_PCT=99.9
 export OPENPI_DUQUANT_CALIB_STEPS=32      # Calibration steps for activation quantization
 export OPENPI_DUQUANT_LS=0.15             # Lambda smooth (only used when PERMUTE=1)
 
-# CRITICAL: Filter to only QKVO layers
-# Regex matches: q_proj, k_proj, v_proj, o_proj (NOT gate_proj, up_proj, down_proj)
-export OPENPI_DUQUANT_INCLUDE='.*(q_proj|k_proj|v_proj|o_proj).*'
-export OPENPI_DUQUANT_EXCLUDE='(?:^|\.)(down_proj|up_proj|gate_proj|emb|embed|vision_tower|vision|multi_modal_projector|lm_head)(?:\.|$)'
-
+# Disable torch.compile for faster startup
 export OPENPI_DISABLE_TORCH_COMPILE=1
 export TORCH_COMPILE_DISABLE=1
 export TORCHDYNAMO_DISABLE=1
 unset CUBLAS_WORKSPACE_CONFIG
-# unset CUBLAS_WORKSPACE_CONFIG
 
-# Pack directory for DiT QKVO quantization (using fresh directory name)
-export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_dit_m_w4a8_v2"
+# CRITICAL: Disable CUDA graphs to avoid memory overwrite issues with DuQuant
+export TORCH_CUDA_GRAPH_DISABLE=1
+export TORCHINDUCTOR_DISABLE_CUDAGRAPHS=1
 
-# Enable profiling to measure fake quantization overhead
-export OPENPI_DUQUANT_PROFILE=1
+# Pack directory for LLM + DiT MLP quantization
+export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_llm_dit_mlp_w4a8"
 
 # Default parameters
 TASK_SUITE="${TASK_SUITE:-libero_spatial}"
@@ -78,15 +86,14 @@ SEED="${SEED:-42}"
 
 echo "========================================"
 echo "LIBERO Headless Evaluation"
-echo "DuQuant: DiT QKVO Only (W4A8)"
+echo "DuQuant W4A8: LLM (ALL) + DiT MLP"
 echo "========================================"
 echo "Checkpoint: $CKPT"
 echo "Task suite: $TASK_SUITE"
 echo "Num trials: $NUM_TRIALS"
 echo "Seed: $SEED"
 echo ""
-echo "DuQuant Config (DiT QKVO W4A8):"
-echo "  TARGET: DiT Attention layers ONLY (q/k/v/o_proj)"
+echo "DuQuant Config (LLM + DiT MLP W4A8):"
 echo "  SCOPE: $OPENPI_DUQUANT_SCOPE"
 echo "  INCLUDE: $OPENPI_DUQUANT_INCLUDE"
 echo "  EXCLUDE: $OPENPI_DUQUANT_EXCLUDE"
@@ -101,38 +108,27 @@ echo "  LS=$OPENPI_DUQUANT_LS"
 echo "  PACKDIR=$OPENPI_DUQUANT_PACKDIR"
 echo ""
 echo "⚡ QUANTIZATION TARGET:"
-echo "  ✅ DiT Attention (QKVO) - Expected: 72 layers"
-echo "  ❌ DiT MLP (gate/up/down) - NOT quantized"
-echo "  ❌ LLM (Gemma) - NOT quantized"
+echo "  ✅ LLM (Gemma) ALL layers - Expected: ~126 layers"
+echo "     └─ 18 layers × (4 attn + 3 mlp) = 126"
+echo "  ✅ DiT MLP ONLY - Expected: ~54 layers"
+echo "     └─ 18 layers × 3 mlp = 54"
+echo "  ❌ DiT Attention (QKVO) - NOT quantized"
 echo "  ❌ Vision Tower (SigLIP) - NOT quantized"
+echo "  ❌ Embeddings - NOT quantized"
+echo ""
+echo "  📊 TOTAL EXPECTED: ~180 linear layers quantized"
 echo ""
 echo "⚡ FEATURES:"
 echo "  ✅ W4A8 fake quantization"
-echo "  ✅ Input permutation enabled (better accuracy)"
-echo "  ✅ Row rotation with output restoration (better accuracy)"
-echo "  ✅ Pre-cached rotation matrices (optimized)"
-echo "  ✅ Pre-quantized weights (optimized)"
-echo "  ✅ Profiling enabled (measure overhead)"
-echo ""
-echo "Expected layers (check [DUQUANT] Total layers replaced):"
-echo "  - DiT attention: 72 layers (18 blocks × 4 QKVO projections)"
+echo "  ✅ Input permutation enabled"
+echo "  ✅ Row rotation with output restoration"
 echo ""
 if [ "$OPENPI_DISABLE_TORCH_COMPILE" = "1" ]; then
     echo "  ❌ torch.compile DISABLED (faster startup, slower per-episode)"
-    echo ""
-    echo "Expected speed:"
-    echo "  All episodes: ~2-3 min each"
 else
     echo "  ✅ torch.compile ENABLED (CUDA kernel fusion)"
-    echo ""
-    echo "Expected speed:"
-    echo "  Episode 1: ~15-20 min (torch.compile compilation)"
-    echo "  Episode 2+: ~30-60s each (using cached compilation)"
 fi
-
 echo ""
-echo "NOTE: Compare with run_optimized_duquant.sh to measure"
-echo "      the contribution of MLP layers to accuracy."
 echo "========================================"
 echo ""
 
@@ -149,5 +145,4 @@ echo ""
 echo "========================================"
 echo "Evaluation complete!"
 echo "Check results in: results/libero/"
-echo "Check profiling in stdout for [DUQUANT][PROFILE]"
 echo "========================================"

@@ -109,6 +109,13 @@ class DuQuantLinear(nn.Module):
         # Store metadata needed for fast paths
         self._block_size = int(pack.meta.get("block_size", 16))
         self._block_out_size = int(pack.meta.get("block_out_size", self._block_size))
+
+        # ========================================
+        # NOTE: Avoid building huge block-diagonal matrices to prevent OOM.
+        # We will leverage vectorized per-block matmuls in duquant_preprocess
+        # (apply_input_transform_optimized/apply_output_restore_optimized)
+        # which batch the small block matmuls without constructing a single
+        # giant dense matrix.
         # ========================================
 
         # Calibrator for activation
@@ -123,8 +130,16 @@ class DuQuantLinear(nn.Module):
         self._cached_weight_key: Optional[Tuple[str, torch.dtype]] = None
         self.register_buffer("_W_t", torch.zeros_like(self._weight))
         self.register_buffer("_w_scales", torch.ones(self.out_features, dtype=self._weight.dtype))
-        # OPTIMIZATION: Pre-cache quantized weights
-        self.register_buffer("_W_t_quantized", torch.zeros_like(self._weight))
+        # Optional: pre-cache quantized weights (faster, higher memory)
+        self._precache_weight = os.environ.get("OPENPI_DUQUANT_PRECACHE_WEIGHTS", "1") not in (
+            "0",
+            "false",
+            "False",
+        )
+        if self._precache_weight:
+            self.register_buffer("_W_t_quantized", torch.zeros_like(self._weight))
+        else:
+            self._W_t_quantized = None  # type: ignore[assignment]
         self._weight_quantized_cached = False
 
         self._bias_rot: Optional[torch.Tensor] = None
@@ -184,8 +199,8 @@ class DuQuantLinear(nn.Module):
         self._W_t.copy_(W_t)
         self._w_scales.copy_(scales)
 
-        # OPTIMIZATION: Pre-quantize weights if weight_bits > 0
-        if self.weight_bits > 0:
+        # OPTIMIZATION: Pre-quantize weights if enabled and weight_bits > 0
+        if self._precache_weight and self.weight_bits > 0:
             with torch.no_grad():
                 self._W_t_quantized.copy_(
                     fake_quantize_sym(W_t, scales[:, None], self.weight_bits, label="weight_prequant")
@@ -263,10 +278,8 @@ class DuQuantLinear(nn.Module):
         return self._act_scale
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # Import optimized functions
-        from .duquant_preprocess import apply_input_transform_optimized, apply_output_restore_optimized
-
-        # Apply inverse transforms to inputs using optimized version
+        # Apply optimized per-block input transform (batched matmul, no block-diagonal allocation)
+        from .duquant_preprocess import apply_input_transform_optimized
         x_t = apply_input_transform_optimized(
             x, self.pack, self._perm_cache, self._get_R_in_cache(), self._block_size
         )
@@ -298,8 +311,10 @@ class DuQuantLinear(nn.Module):
         else:
             y_lin = torch.nn.functional.linear(x_t, self._W_t, None)
 
-        # Apply row restore if requested using optimized version
+        # Apply row restore if requested
         if self.cfg.row_rot_mode == "restore" and self.pack.R_out_blocks is not None:
+            # Use optimized per-block version (batched matmul; no block-diagonal allocation)
+            from .duquant_preprocess import apply_output_restore_optimized
             y_lin = apply_output_restore_optimized(
                 y_lin, self.pack, self._get_R_out_cache(), self._block_out_size
             )

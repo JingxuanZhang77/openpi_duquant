@@ -39,7 +39,7 @@ fi
 
 # Set environment
 export PYTHONPATH=$PWD/src:$PWD/third_party/libero
-
+# export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 # ============================================
 # LLM W4A8 DuQuant Configuration
 # ============================================
@@ -56,9 +56,9 @@ export OPENPI_DUQUANT_CALIB_STEPS=32      # Restored to default for better accur
 export OPENPI_DUQUANT_LS=0.15             # Lambda smooth (only used when PERMUTE=1)
 
 # Disable torch.compile for faster startup (can be enabled for better throughput)
-# export OPENPI_DISABLE_TORCH_COMPILE=1  # COMMENTED FOR SPEEDUP
-# export TORCH_COMPILE_DISABLE=1  # COMMENTED FOR SPEEDUP
-# export TORCHDYNAMO_DISABLE=1  # COMMENTED FOR SPEEDUP
+export OPENPI_DISABLE_TORCH_COMPILE=1  # COMMENTED FOR SPEEDUP
+export TORCH_COMPILE_DISABLE=1  # COMMENTED FOR SPEEDUP
+export TORCHDYNAMO_DISABLE=1  # COMMENTED FOR SPEEDUP
 unset CUBLAS_WORKSPACE_CONFIG
 
 # Pack directory for LLM quantization
@@ -66,11 +66,13 @@ unset CUBLAS_WORKSPACE_CONFIG
 export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_llm_w4a8"
 
 
-export OPENPI_DUQUANT_PROFILE=1
+
+
+# export OPENPI_DUQUANT_PROFILE=1
 echo "check check check"
 echo $OPENPI_DUQUANT_PROFILE
 # Default parameters
-TASK_SUITE="${TASK_SUITE:-libero_spatial}"
+TASK_SUITE="${TASK_SUITE:-libero_10}"
 NUM_TRIALS="${NUM_TRIALS:-20}"
 SEED="${SEED:-42}"
 

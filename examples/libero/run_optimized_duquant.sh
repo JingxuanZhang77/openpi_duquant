@@ -16,6 +16,7 @@ fi
 
 # Set environment
 export PYTHONPATH=$PWD/src:$PWD/third_party/libero
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 # ============================================
 # Full DuQuant Configuration (W4A8 + Permutation + Rotation)
