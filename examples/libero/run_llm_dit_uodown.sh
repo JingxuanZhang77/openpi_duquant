@@ -50,7 +50,7 @@ export OPENPI_DUQUANT_SCOPE=""  # Empty scope = search entire model
 # INCLUDE: Match both LLM layers AND DiT MLP layers
 # - LLM: language_model.*.(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)
 # - DiT MLP: gemma_expert.model.layers.*.mlp.(gate_proj|up_proj|down_proj)
-export OPENPI_DUQUANT_INCLUDE='.*(language_model\.(.*\.)?(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)|gemma_expert\.model\.layers\.\d+\.mlp\.(gate_proj|up_proj|down_proj)).*'
+export OPENPI_DUQUANT_INCLUDE='.*(language_model\.(.*\.)?(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj)|gemma_expert\.model\.layers\.\d+\.mlp\.(up_proj)).*'
 
 # EXCLUDE: Exclude vision tower, embeddings, norms
 # CRITICAL: Use negative lookahead to exclude self_attn ONLY for DiT, not for LLM
@@ -77,7 +77,7 @@ export TORCH_CUDA_GRAPH_DISABLE=1
 export TORCHINDUCTOR_DISABLE_CUDAGRAPHS=1
 
 # Pack directory for LLM + DiT MLP quantization
-export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_llm_dit_mlp_w4a8"
+export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_llm_dit_up_w4a8"
 
 # Default parameters
 TASK_SUITE="${TASK_SUITE:-libero_10}"
