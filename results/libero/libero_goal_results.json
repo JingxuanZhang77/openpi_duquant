@@ -1,8 +1,8 @@
 {
   "task_suite": "libero_goal",
   "total_episodes": 200,
-  "total_successes": 190,
-  "success_rate": 0.95,
+  "total_successes": 189,
+  "success_rate": 0.945,
   "seed": 42,
   "headless": true,
   "results": [
@@ -11,7 +11,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 0,
       "success": true,
-      "steps": 124,
+      "steps": 130,
       "max_steps": 310
     },
     {
@@ -19,7 +19,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 1,
       "success": true,
-      "steps": 129,
+      "steps": 122,
       "max_steps": 310
     },
     {
@@ -27,7 +27,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 2,
       "success": true,
-      "steps": 113,
+      "steps": 127,
       "max_steps": 310
     },
     {
@@ -35,7 +35,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 3,
       "success": true,
-      "steps": 144,
+      "steps": 116,
       "max_steps": 310
     },
     {
@@ -43,7 +43,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 4,
       "success": true,
-      "steps": 126,
+      "steps": 114,
       "max_steps": 310
     },
     {
@@ -51,7 +51,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 5,
       "success": true,
-      "steps": 117,
+      "steps": 125,
       "max_steps": 310
     },
     {
@@ -66,8 +66,8 @@
       "task_id": 0,
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 7,
-      "success": false,
-      "steps": 310,
+      "success": true,
+      "steps": 123,
       "max_steps": 310
     },
     {
@@ -75,7 +75,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 8,
       "success": true,
-      "steps": 144,
+      "steps": 121,
       "max_steps": 310
     },
     {
@@ -83,7 +83,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 9,
       "success": true,
-      "steps": 117,
+      "steps": 116,
       "max_steps": 310
     },
     {
@@ -91,7 +91,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 10,
       "success": true,
-      "steps": 119,
+      "steps": 130,
       "max_steps": 310
     },
     {
@@ -99,7 +99,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 11,
       "success": true,
-      "steps": 194,
+      "steps": 237,
       "max_steps": 310
     },
     {
@@ -107,13 +107,45 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 12,
       "success": true,
-      "steps": 120,
+      "steps": 131,
       "max_steps": 310
     },
     {
       "task_id": 0,
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 13,
+      "success": true,
+      "steps": 112,
+      "max_steps": 310
+    },
+    {
+      "task_id": 0,
+      "task_name": "open the middle drawer of the cabinet",
+      "episode_idx": 14,
+      "success": true,
+      "steps": 119,
+      "max_steps": 310
+    },
+    {
+      "task_id": 0,
+      "task_name": "open the middle drawer of the cabinet",
+      "episode_idx": 15,
+      "success": true,
+      "steps": 126,
+      "max_steps": 310
+    },
+    {
+      "task_id": 0,
+      "task_name": "open the middle drawer of the cabinet",
+      "episode_idx": 16,
+      "success": true,
+      "steps": 110,
+      "max_steps": 310
+    },
+    {
+      "task_id": 0,
+      "task_name": "open the middle drawer of the cabinet",
+      "episode_idx": 17,
       "success": true,
       "steps": 137,
       "max_steps": 310
@@ -121,38 +153,6 @@
     {
       "task_id": 0,
       "task_name": "open the middle drawer of the cabinet",
-      "episode_idx": 14,
-      "success": true,
-      "steps": 144,
-      "max_steps": 310
-    },
-    {
-      "task_id": 0,
-      "task_name": "open the middle drawer of the cabinet",
-      "episode_idx": 15,
-      "success": false,
-      "steps": 310,
-      "max_steps": 310
-    },
-    {
-      "task_id": 0,
-      "task_name": "open the middle drawer of the cabinet",
-      "episode_idx": 16,
-      "success": true,
-      "steps": 125,
-      "max_steps": 310
-    },
-    {
-      "task_id": 0,
-      "task_name": "open the middle drawer of the cabinet",
-      "episode_idx": 17,
-      "success": true,
-      "steps": 159,
-      "max_steps": 310
-    },
-    {
-      "task_id": 0,
-      "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 18,
       "success": true,
       "steps": 127,
@@ -163,7 +163,7 @@
       "task_name": "open the middle drawer of the cabinet",
       "episode_idx": 19,
       "success": true,
-      "steps": 133,
+      "steps": 122,
       "max_steps": 310
     },
     {
@@ -171,7 +171,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 0,
       "success": true,
-      "steps": 89,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -179,7 +179,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 1,
       "success": true,
-      "steps": 102,
+      "steps": 97,
       "max_steps": 310
     },
     {
@@ -187,7 +187,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 2,
       "success": true,
-      "steps": 92,
+      "steps": 90,
       "max_steps": 310
     },
     {
@@ -195,7 +195,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 3,
       "success": true,
-      "steps": 98,
+      "steps": 93,
       "max_steps": 310
     },
     {
@@ -203,7 +203,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 4,
       "success": true,
-      "steps": 97,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -211,7 +211,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 5,
       "success": true,
-      "steps": 94,
+      "steps": 95,
       "max_steps": 310
     },
     {
@@ -219,7 +219,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 6,
       "success": true,
-      "steps": 104,
+      "steps": 96,
       "max_steps": 310
     },
     {
@@ -235,7 +235,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 8,
       "success": true,
-      "steps": 93,
+      "steps": 95,
       "max_steps": 310
     },
     {
@@ -243,7 +243,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 9,
       "success": true,
-      "steps": 95,
+      "steps": 96,
       "max_steps": 310
     },
     {
@@ -251,7 +251,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 10,
       "success": true,
-      "steps": 98,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -259,7 +259,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 11,
       "success": true,
-      "steps": 96,
+      "steps": 95,
       "max_steps": 310
     },
     {
@@ -267,7 +267,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 12,
       "success": true,
-      "steps": 96,
+      "steps": 94,
       "max_steps": 310
     },
     {
@@ -275,7 +275,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 13,
       "success": true,
-      "steps": 92,
+      "steps": 96,
       "max_steps": 310
     },
     {
@@ -283,7 +283,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 14,
       "success": true,
-      "steps": 90,
+      "steps": 92,
       "max_steps": 310
     },
     {
@@ -291,7 +291,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 15,
       "success": true,
-      "steps": 98,
+      "steps": 94,
       "max_steps": 310
     },
     {
@@ -299,7 +299,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 16,
       "success": true,
-      "steps": 90,
+      "steps": 88,
       "max_steps": 310
     },
     {
@@ -307,7 +307,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 17,
       "success": true,
-      "steps": 92,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -315,7 +315,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 18,
       "success": true,
-      "steps": 98,
+      "steps": 93,
       "max_steps": 310
     },
     {
@@ -323,7 +323,7 @@
       "task_name": "put the bowl on the stove",
       "episode_idx": 19,
       "success": true,
-      "steps": 90,
+      "steps": 92,
       "max_steps": 310
     },
     {
@@ -331,7 +331,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 0,
       "success": true,
-      "steps": 84,
+      "steps": 85,
       "max_steps": 310
     },
     {
@@ -339,7 +339,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 1,
       "success": true,
-      "steps": 92,
+      "steps": 90,
       "max_steps": 310
     },
     {
@@ -347,7 +347,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 2,
       "success": true,
-      "steps": 96,
+      "steps": 87,
       "max_steps": 310
     },
     {
@@ -355,7 +355,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 3,
       "success": true,
-      "steps": 99,
+      "steps": 168,
       "max_steps": 310
     },
     {
@@ -363,7 +363,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 4,
       "success": true,
-      "steps": 91,
+      "steps": 95,
       "max_steps": 310
     },
     {
@@ -379,13 +379,53 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 6,
       "success": true,
-      "steps": 102,
+      "steps": 104,
       "max_steps": 310
     },
     {
       "task_id": 2,
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 7,
+      "success": true,
+      "steps": 89,
+      "max_steps": 310
+    },
+    {
+      "task_id": 2,
+      "task_name": "put the wine bottle on top of the cabinet",
+      "episode_idx": 8,
+      "success": true,
+      "steps": 103,
+      "max_steps": 310
+    },
+    {
+      "task_id": 2,
+      "task_name": "put the wine bottle on top of the cabinet",
+      "episode_idx": 9,
+      "success": true,
+      "steps": 101,
+      "max_steps": 310
+    },
+    {
+      "task_id": 2,
+      "task_name": "put the wine bottle on top of the cabinet",
+      "episode_idx": 10,
+      "success": true,
+      "steps": 94,
+      "max_steps": 310
+    },
+    {
+      "task_id": 2,
+      "task_name": "put the wine bottle on top of the cabinet",
+      "episode_idx": 11,
+      "success": true,
+      "steps": 97,
+      "max_steps": 310
+    },
+    {
+      "task_id": 2,
+      "task_name": "put the wine bottle on top of the cabinet",
+      "episode_idx": 12,
       "success": true,
       "steps": 100,
       "max_steps": 310
@@ -393,49 +433,9 @@
     {
       "task_id": 2,
       "task_name": "put the wine bottle on top of the cabinet",
-      "episode_idx": 8,
-      "success": true,
-      "steps": 105,
-      "max_steps": 310
-    },
-    {
-      "task_id": 2,
-      "task_name": "put the wine bottle on top of the cabinet",
-      "episode_idx": 9,
-      "success": true,
-      "steps": 88,
-      "max_steps": 310
-    },
-    {
-      "task_id": 2,
-      "task_name": "put the wine bottle on top of the cabinet",
-      "episode_idx": 10,
-      "success": true,
-      "steps": 92,
-      "max_steps": 310
-    },
-    {
-      "task_id": 2,
-      "task_name": "put the wine bottle on top of the cabinet",
-      "episode_idx": 11,
-      "success": true,
-      "steps": 89,
-      "max_steps": 310
-    },
-    {
-      "task_id": 2,
-      "task_name": "put the wine bottle on top of the cabinet",
-      "episode_idx": 12,
-      "success": true,
-      "steps": 89,
-      "max_steps": 310
-    },
-    {
-      "task_id": 2,
-      "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 13,
-      "success": true,
-      "steps": 95,
+      "success": false,
+      "steps": 310,
       "max_steps": 310
     },
     {
@@ -443,7 +443,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 14,
       "success": true,
-      "steps": 90,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -459,7 +459,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 16,
       "success": true,
-      "steps": 97,
+      "steps": 103,
       "max_steps": 310
     },
     {
@@ -467,7 +467,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 17,
       "success": true,
-      "steps": 99,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -475,7 +475,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 18,
       "success": true,
-      "steps": 93,
+      "steps": 94,
       "max_steps": 310
     },
     {
@@ -483,7 +483,7 @@
       "task_name": "put the wine bottle on top of the cabinet",
       "episode_idx": 19,
       "success": true,
-      "steps": 96,
+      "steps": 102,
       "max_steps": 310
     },
     {
@@ -491,7 +491,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 0,
       "success": true,
-      "steps": 199,
+      "steps": 248,
       "max_steps": 310
     },
     {
@@ -499,7 +499,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 1,
       "success": true,
-      "steps": 178,
+      "steps": 191,
       "max_steps": 310
     },
     {
@@ -507,7 +507,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 2,
       "success": true,
-      "steps": 183,
+      "steps": 184,
       "max_steps": 310
     },
     {
@@ -515,7 +515,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 3,
       "success": true,
-      "steps": 180,
+      "steps": 183,
       "max_steps": 310
     },
     {
@@ -530,14 +530,6 @@
       "task_id": 3,
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 5,
-      "success": true,
-      "steps": 192,
-      "max_steps": 310
-    },
-    {
-      "task_id": 3,
-      "task_name": "open the top drawer and put the bowl inside",
-      "episode_idx": 6,
       "success": false,
       "steps": 310,
       "max_steps": 310
@@ -545,7 +537,47 @@
     {
       "task_id": 3,
       "task_name": "open the top drawer and put the bowl inside",
+      "episode_idx": 6,
+      "success": true,
+      "steps": 170,
+      "max_steps": 310
+    },
+    {
+      "task_id": 3,
+      "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 7,
+      "success": true,
+      "steps": 192,
+      "max_steps": 310
+    },
+    {
+      "task_id": 3,
+      "task_name": "open the top drawer and put the bowl inside",
+      "episode_idx": 8,
+      "success": true,
+      "steps": 191,
+      "max_steps": 310
+    },
+    {
+      "task_id": 3,
+      "task_name": "open the top drawer and put the bowl inside",
+      "episode_idx": 9,
+      "success": true,
+      "steps": 179,
+      "max_steps": 310
+    },
+    {
+      "task_id": 3,
+      "task_name": "open the top drawer and put the bowl inside",
+      "episode_idx": 10,
+      "success": true,
+      "steps": 190,
+      "max_steps": 310
+    },
+    {
+      "task_id": 3,
+      "task_name": "open the top drawer and put the bowl inside",
+      "episode_idx": 11,
       "success": true,
       "steps": 185,
       "max_steps": 310
@@ -553,49 +585,17 @@
     {
       "task_id": 3,
       "task_name": "open the top drawer and put the bowl inside",
-      "episode_idx": 8,
-      "success": true,
-      "steps": 207,
-      "max_steps": 310
-    },
-    {
-      "task_id": 3,
-      "task_name": "open the top drawer and put the bowl inside",
-      "episode_idx": 9,
-      "success": true,
-      "steps": 186,
-      "max_steps": 310
-    },
-    {
-      "task_id": 3,
-      "task_name": "open the top drawer and put the bowl inside",
-      "episode_idx": 10,
-      "success": true,
-      "steps": 216,
-      "max_steps": 310
-    },
-    {
-      "task_id": 3,
-      "task_name": "open the top drawer and put the bowl inside",
-      "episode_idx": 11,
-      "success": true,
-      "steps": 194,
-      "max_steps": 310
-    },
-    {
-      "task_id": 3,
-      "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 12,
       "success": true,
-      "steps": 172,
+      "steps": 281,
       "max_steps": 310
     },
     {
       "task_id": 3,
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 13,
-      "success": true,
-      "steps": 181,
+      "success": false,
+      "steps": 310,
       "max_steps": 310
     },
     {
@@ -603,7 +603,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 14,
       "success": true,
-      "steps": 187,
+      "steps": 189,
       "max_steps": 310
     },
     {
@@ -611,7 +611,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 15,
       "success": true,
-      "steps": 178,
+      "steps": 255,
       "max_steps": 310
     },
     {
@@ -619,7 +619,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 16,
       "success": true,
-      "steps": 192,
+      "steps": 193,
       "max_steps": 310
     },
     {
@@ -627,15 +627,15 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 17,
       "success": true,
-      "steps": 245,
+      "steps": 184,
       "max_steps": 310
     },
     {
       "task_id": 3,
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 18,
-      "success": true,
-      "steps": 183,
+      "success": false,
+      "steps": 310,
       "max_steps": 310
     },
     {
@@ -643,7 +643,7 @@
       "task_name": "open the top drawer and put the bowl inside",
       "episode_idx": 19,
       "success": true,
-      "steps": 195,
+      "steps": 179,
       "max_steps": 310
     },
     {
@@ -651,7 +651,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 0,
       "success": true,
-      "steps": 95,
+      "steps": 94,
       "max_steps": 310
     },
     {
@@ -659,7 +659,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 1,
       "success": true,
-      "steps": 91,
+      "steps": 89,
       "max_steps": 310
     },
     {
@@ -667,7 +667,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 2,
       "success": true,
-      "steps": 88,
+      "steps": 90,
       "max_steps": 310
     },
     {
@@ -675,7 +675,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 3,
       "success": true,
-      "steps": 93,
+      "steps": 95,
       "max_steps": 310
     },
     {
@@ -683,7 +683,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 4,
       "success": true,
-      "steps": 89,
+      "steps": 87,
       "max_steps": 310
     },
     {
@@ -691,7 +691,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 5,
       "success": true,
-      "steps": 83,
+      "steps": 84,
       "max_steps": 310
     },
     {
@@ -699,7 +699,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 6,
       "success": true,
-      "steps": 90,
+      "steps": 86,
       "max_steps": 310
     },
     {
@@ -707,7 +707,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 7,
       "success": true,
-      "steps": 91,
+      "steps": 89,
       "max_steps": 310
     },
     {
@@ -715,15 +715,15 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 8,
       "success": true,
-      "steps": 88,
+      "steps": 91,
       "max_steps": 310
     },
     {
       "task_id": 4,
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 9,
-      "success": false,
-      "steps": 310,
+      "success": true,
+      "steps": 96,
       "max_steps": 310
     },
     {
@@ -731,7 +731,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 10,
       "success": true,
-      "steps": 91,
+      "steps": 90,
       "max_steps": 310
     },
     {
@@ -739,7 +739,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 11,
       "success": true,
-      "steps": 88,
+      "steps": 92,
       "max_steps": 310
     },
     {
@@ -747,7 +747,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 12,
       "success": true,
-      "steps": 90,
+      "steps": 89,
       "max_steps": 310
     },
     {
@@ -763,7 +763,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 14,
       "success": true,
-      "steps": 98,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -771,7 +771,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 15,
       "success": true,
-      "steps": 91,
+      "steps": 87,
       "max_steps": 310
     },
     {
@@ -779,7 +779,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 16,
       "success": true,
-      "steps": 89,
+      "steps": 131,
       "max_steps": 310
     },
     {
@@ -787,7 +787,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 17,
       "success": true,
-      "steps": 92,
+      "steps": 94,
       "max_steps": 310
     },
     {
@@ -795,7 +795,7 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 18,
       "success": true,
-      "steps": 96,
+      "steps": 104,
       "max_steps": 310
     },
     {
@@ -803,77 +803,13 @@
       "task_name": "put the bowl on top of the cabinet",
       "episode_idx": 19,
       "success": true,
-      "steps": 93,
+      "steps": 90,
       "max_steps": 310
     },
     {
       "task_id": 5,
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 0,
-      "success": true,
-      "steps": 176,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 1,
-      "success": true,
-      "steps": 159,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 2,
-      "success": true,
-      "steps": 156,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 3,
-      "success": false,
-      "steps": 310,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 4,
-      "success": true,
-      "steps": 168,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 5,
-      "success": true,
-      "steps": 162,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 6,
-      "success": true,
-      "steps": 144,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 7,
-      "success": true,
-      "steps": 144,
-      "max_steps": 310
-    },
-    {
-      "task_id": 5,
-      "task_name": "push the plate to the front of the stove",
-      "episode_idx": 8,
       "success": true,
       "steps": 147,
       "max_steps": 310
@@ -881,6 +817,70 @@
     {
       "task_id": 5,
       "task_name": "push the plate to the front of the stove",
+      "episode_idx": 1,
+      "success": true,
+      "steps": 147,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
+      "episode_idx": 2,
+      "success": true,
+      "steps": 144,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
+      "episode_idx": 3,
+      "success": true,
+      "steps": 136,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
+      "episode_idx": 4,
+      "success": true,
+      "steps": 144,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
+      "episode_idx": 5,
+      "success": true,
+      "steps": 122,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
+      "episode_idx": 6,
+      "success": true,
+      "steps": 138,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
+      "episode_idx": 7,
+      "success": true,
+      "steps": 142,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
+      "episode_idx": 8,
+      "success": true,
+      "steps": 134,
+      "max_steps": 310
+    },
+    {
+      "task_id": 5,
+      "task_name": "push the plate to the front of the stove",
       "episode_idx": 9,
       "success": false,
       "steps": 310,
@@ -891,7 +891,7 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 10,
       "success": true,
-      "steps": 148,
+      "steps": 138,
       "max_steps": 310
     },
     {
@@ -899,7 +899,7 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 11,
       "success": true,
-      "steps": 145,
+      "steps": 121,
       "max_steps": 310
     },
     {
@@ -907,15 +907,15 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 12,
       "success": true,
-      "steps": 167,
+      "steps": 142,
       "max_steps": 310
     },
     {
       "task_id": 5,
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 13,
-      "success": false,
-      "steps": 310,
+      "success": true,
+      "steps": 139,
       "max_steps": 310
     },
     {
@@ -923,15 +923,15 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 14,
       "success": true,
-      "steps": 145,
+      "steps": 150,
       "max_steps": 310
     },
     {
       "task_id": 5,
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 15,
-      "success": true,
-      "steps": 155,
+      "success": false,
+      "steps": 310,
       "max_steps": 310
     },
     {
@@ -939,7 +939,7 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 16,
       "success": true,
-      "steps": 158,
+      "steps": 134,
       "max_steps": 310
     },
     {
@@ -947,7 +947,7 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 17,
       "success": true,
-      "steps": 158,
+      "steps": 141,
       "max_steps": 310
     },
     {
@@ -955,7 +955,7 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 18,
       "success": true,
-      "steps": 129,
+      "steps": 147,
       "max_steps": 310
     },
     {
@@ -963,7 +963,7 @@
       "task_name": "push the plate to the front of the stove",
       "episode_idx": 19,
       "success": true,
-      "steps": 266,
+      "steps": 130,
       "max_steps": 310
     },
     {
@@ -971,7 +971,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 0,
       "success": true,
-      "steps": 97,
+      "steps": 99,
       "max_steps": 310
     },
     {
@@ -979,7 +979,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 1,
       "success": true,
-      "steps": 101,
+      "steps": 99,
       "max_steps": 310
     },
     {
@@ -987,7 +987,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 2,
       "success": true,
-      "steps": 97,
+      "steps": 90,
       "max_steps": 310
     },
     {
@@ -995,7 +995,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 3,
       "success": true,
-      "steps": 94,
+      "steps": 103,
       "max_steps": 310
     },
     {
@@ -1003,7 +1003,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 4,
       "success": true,
-      "steps": 92,
+      "steps": 95,
       "max_steps": 310
     },
     {
@@ -1019,7 +1019,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 6,
       "success": true,
-      "steps": 92,
+      "steps": 93,
       "max_steps": 310
     },
     {
@@ -1027,7 +1027,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 7,
       "success": true,
-      "steps": 93,
+      "steps": 99,
       "max_steps": 310
     },
     {
@@ -1035,7 +1035,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 8,
       "success": true,
-      "steps": 99,
+      "steps": 97,
       "max_steps": 310
     },
     {
@@ -1043,7 +1043,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 9,
       "success": true,
-      "steps": 98,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -1051,7 +1051,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 10,
       "success": true,
-      "steps": 96,
+      "steps": 91,
       "max_steps": 310
     },
     {
@@ -1059,7 +1059,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 11,
       "success": true,
-      "steps": 103,
+      "steps": 87,
       "max_steps": 310
     },
     {
@@ -1083,7 +1083,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 14,
       "success": true,
-      "steps": 92,
+      "steps": 90,
       "max_steps": 310
     },
     {
@@ -1091,7 +1091,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 15,
       "success": true,
-      "steps": 94,
+      "steps": 97,
       "max_steps": 310
     },
     {
@@ -1107,7 +1107,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 17,
       "success": true,
-      "steps": 95,
+      "steps": 101,
       "max_steps": 310
     },
     {
@@ -1115,7 +1115,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 18,
       "success": true,
-      "steps": 97,
+      "steps": 98,
       "max_steps": 310
     },
     {
@@ -1123,7 +1123,7 @@
       "task_name": "put the cream cheese in the bowl",
       "episode_idx": 19,
       "success": true,
-      "steps": 89,
+      "steps": 90,
       "max_steps": 310
     },
     {
@@ -1131,7 +1131,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 0,
       "success": true,
-      "steps": 89,
+      "steps": 86,
       "max_steps": 310
     },
     {
@@ -1139,7 +1139,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 1,
       "success": true,
-      "steps": 79,
+      "steps": 83,
       "max_steps": 310
     },
     {
@@ -1147,7 +1147,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 2,
       "success": true,
-      "steps": 81,
+      "steps": 83,
       "max_steps": 310
     },
     {
@@ -1155,7 +1155,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 3,
       "success": true,
-      "steps": 80,
+      "steps": 82,
       "max_steps": 310
     },
     {
@@ -1163,7 +1163,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 4,
       "success": true,
-      "steps": 84,
+      "steps": 79,
       "max_steps": 310
     },
     {
@@ -1171,7 +1171,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 5,
       "success": true,
-      "steps": 112,
+      "steps": 86,
       "max_steps": 310
     },
     {
@@ -1179,7 +1179,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 6,
       "success": true,
-      "steps": 87,
+      "steps": 83,
       "max_steps": 310
     },
     {
@@ -1187,7 +1187,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 7,
       "success": true,
-      "steps": 77,
+      "steps": 78,
       "max_steps": 310
     },
     {
@@ -1195,13 +1195,37 @@
       "task_name": "turn on the stove",
       "episode_idx": 8,
       "success": true,
-      "steps": 80,
+      "steps": 83,
       "max_steps": 310
     },
     {
       "task_id": 7,
       "task_name": "turn on the stove",
       "episode_idx": 9,
+      "success": true,
+      "steps": 76,
+      "max_steps": 310
+    },
+    {
+      "task_id": 7,
+      "task_name": "turn on the stove",
+      "episode_idx": 10,
+      "success": true,
+      "steps": 79,
+      "max_steps": 310
+    },
+    {
+      "task_id": 7,
+      "task_name": "turn on the stove",
+      "episode_idx": 11,
+      "success": true,
+      "steps": 95,
+      "max_steps": 310
+    },
+    {
+      "task_id": 7,
+      "task_name": "turn on the stove",
+      "episode_idx": 12,
       "success": true,
       "steps": 75,
       "max_steps": 310
@@ -1209,33 +1233,9 @@
     {
       "task_id": 7,
       "task_name": "turn on the stove",
-      "episode_idx": 10,
-      "success": true,
-      "steps": 80,
-      "max_steps": 310
-    },
-    {
-      "task_id": 7,
-      "task_name": "turn on the stove",
-      "episode_idx": 11,
-      "success": true,
-      "steps": 82,
-      "max_steps": 310
-    },
-    {
-      "task_id": 7,
-      "task_name": "turn on the stove",
-      "episode_idx": 12,
-      "success": true,
-      "steps": 79,
-      "max_steps": 310
-    },
-    {
-      "task_id": 7,
-      "task_name": "turn on the stove",
       "episode_idx": 13,
       "success": true,
-      "steps": 84,
+      "steps": 78,
       "max_steps": 310
     },
     {
@@ -1243,7 +1243,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 14,
       "success": true,
-      "steps": 90,
+      "steps": 82,
       "max_steps": 310
     },
     {
@@ -1251,7 +1251,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 15,
       "success": true,
-      "steps": 80,
+      "steps": 74,
       "max_steps": 310
     },
     {
@@ -1259,7 +1259,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 16,
       "success": true,
-      "steps": 87,
+      "steps": 86,
       "max_steps": 310
     },
     {
@@ -1267,7 +1267,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 17,
       "success": true,
-      "steps": 80,
+      "steps": 77,
       "max_steps": 310
     },
     {
@@ -1275,7 +1275,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 18,
       "success": true,
-      "steps": 90,
+      "steps": 88,
       "max_steps": 310
     },
     {
@@ -1283,7 +1283,7 @@
       "task_name": "turn on the stove",
       "episode_idx": 19,
       "success": true,
-      "steps": 86,
+      "steps": 74,
       "max_steps": 310
     },
     {
@@ -1291,109 +1291,13 @@
       "task_name": "put the bowl on the plate",
       "episode_idx": 0,
       "success": true,
-      "steps": 90,
+      "steps": 85,
       "max_steps": 310
     },
     {
       "task_id": 8,
       "task_name": "put the bowl on the plate",
       "episode_idx": 1,
-      "success": true,
-      "steps": 80,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 2,
-      "success": true,
-      "steps": 87,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 3,
-      "success": true,
-      "steps": 76,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 4,
-      "success": true,
-      "steps": 85,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 5,
-      "success": true,
-      "steps": 84,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 6,
-      "success": true,
-      "steps": 81,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 7,
-      "success": true,
-      "steps": 85,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 8,
-      "success": true,
-      "steps": 82,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 9,
-      "success": true,
-      "steps": 119,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 10,
-      "success": true,
-      "steps": 87,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 11,
-      "success": true,
-      "steps": 79,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 12,
-      "success": true,
-      "steps": 82,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 13,
       "success": true,
       "steps": 83,
       "max_steps": 310
@@ -1401,39 +1305,7 @@
     {
       "task_id": 8,
       "task_name": "put the bowl on the plate",
-      "episode_idx": 14,
-      "success": true,
-      "steps": 79,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 15,
-      "success": true,
-      "steps": 81,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 16,
-      "success": true,
-      "steps": 91,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 17,
-      "success": true,
-      "steps": 86,
-      "max_steps": 310
-    },
-    {
-      "task_id": 8,
-      "task_name": "put the bowl on the plate",
-      "episode_idx": 18,
+      "episode_idx": 2,
       "success": true,
       "steps": 84,
       "max_steps": 310
@@ -1441,9 +1313,137 @@
     {
       "task_id": 8,
       "task_name": "put the bowl on the plate",
-      "episode_idx": 19,
+      "episode_idx": 3,
+      "success": true,
+      "steps": 85,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 4,
+      "success": true,
+      "steps": 87,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 5,
       "success": true,
       "steps": 86,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 6,
+      "success": true,
+      "steps": 79,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 7,
+      "success": true,
+      "steps": 85,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 8,
+      "success": true,
+      "steps": 82,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 9,
+      "success": true,
+      "steps": 78,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 10,
+      "success": true,
+      "steps": 91,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 11,
+      "success": true,
+      "steps": 81,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 12,
+      "success": true,
+      "steps": 86,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 13,
+      "success": true,
+      "steps": 84,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 14,
+      "success": true,
+      "steps": 78,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 15,
+      "success": true,
+      "steps": 85,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 16,
+      "success": true,
+      "steps": 89,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 17,
+      "success": true,
+      "steps": 119,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 18,
+      "success": true,
+      "steps": 85,
+      "max_steps": 310
+    },
+    {
+      "task_id": 8,
+      "task_name": "put the bowl on the plate",
+      "episode_idx": 19,
+      "success": true,
+      "steps": 85,
       "max_steps": 310
     },
     {
@@ -1451,7 +1451,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 0,
       "success": true,
-      "steps": 123,
+      "steps": 127,
       "max_steps": 310
     },
     {
@@ -1459,7 +1459,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 1,
       "success": true,
-      "steps": 120,
+      "steps": 116,
       "max_steps": 310
     },
     {
@@ -1467,7 +1467,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 2,
       "success": true,
-      "steps": 148,
+      "steps": 134,
       "max_steps": 310
     },
     {
@@ -1475,7 +1475,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 3,
       "success": true,
-      "steps": 116,
+      "steps": 119,
       "max_steps": 310
     },
     {
@@ -1483,7 +1483,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 4,
       "success": true,
-      "steps": 164,
+      "steps": 119,
       "max_steps": 310
     },
     {
@@ -1491,7 +1491,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 5,
       "success": true,
-      "steps": 125,
+      "steps": 126,
       "max_steps": 310
     },
     {
@@ -1499,7 +1499,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 6,
       "success": true,
-      "steps": 128,
+      "steps": 154,
       "max_steps": 310
     },
     {
@@ -1507,7 +1507,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 7,
       "success": true,
-      "steps": 131,
+      "steps": 136,
       "max_steps": 310
     },
     {
@@ -1515,7 +1515,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 8,
       "success": true,
-      "steps": 138,
+      "steps": 128,
       "max_steps": 310
     },
     {
@@ -1523,7 +1523,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 9,
       "success": true,
-      "steps": 131,
+      "steps": 164,
       "max_steps": 310
     },
     {
@@ -1531,7 +1531,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 10,
       "success": true,
-      "steps": 119,
+      "steps": 121,
       "max_steps": 310
     },
     {
@@ -1539,7 +1539,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 11,
       "success": true,
-      "steps": 120,
+      "steps": 133,
       "max_steps": 310
     },
     {
@@ -1547,7 +1547,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 12,
       "success": true,
-      "steps": 127,
+      "steps": 122,
       "max_steps": 310
     },
     {
@@ -1555,7 +1555,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 13,
       "success": true,
-      "steps": 128,
+      "steps": 125,
       "max_steps": 310
     },
     {
@@ -1563,15 +1563,15 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 14,
       "success": true,
-      "steps": 124,
+      "steps": 126,
       "max_steps": 310
     },
     {
       "task_id": 9,
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 15,
-      "success": true,
-      "steps": 126,
+      "success": false,
+      "steps": 310,
       "max_steps": 310
     },
     {
@@ -1579,7 +1579,7 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 16,
       "success": true,
-      "steps": 141,
+      "steps": 155,
       "max_steps": 310
     },
     {
@@ -1587,15 +1587,15 @@
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 17,
       "success": true,
-      "steps": 120,
+      "steps": 123,
       "max_steps": 310
     },
     {
       "task_id": 9,
       "task_name": "put the wine bottle on the rack",
       "episode_idx": 18,
-      "success": true,
-      "steps": 124,
+      "success": false,
+      "steps": 310,
       "max_steps": 310
     },
     {
