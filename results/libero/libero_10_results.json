@@ -1,8 +1,8 @@
 {
   "task_suite": "libero_10",
   "total_episodes": 200,
-  "total_successes": 175,
-  "success_rate": 0.875,
+  "total_successes": 0,
+  "success_rate": 0.0,
   "seed": 42,
   "headless": true,
   "results": [
@@ -10,112 +10,112 @@
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 0,
-      "success": true,
-      "steps": 247,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 1,
-      "success": true,
-      "steps": 264,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 2,
-      "success": true,
-      "steps": 243,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 3,
-      "success": true,
-      "steps": 273,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 4,
-      "success": true,
-      "steps": 428,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 5,
-      "success": true,
-      "steps": 286,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 6,
-      "success": true,
-      "steps": 275,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 7,
-      "success": true,
-      "steps": 268,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 8,
-      "success": true,
-      "steps": 237,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 9,
-      "success": true,
-      "steps": 240,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 10,
-      "success": true,
-      "steps": 324,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 11,
-      "success": true,
-      "steps": 262,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 12,
-      "success": true,
-      "steps": 279,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 13,
-      "success": true,
-      "steps": 259,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -130,24 +130,24 @@
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 15,
-      "success": true,
-      "steps": 310,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 16,
-      "success": true,
-      "steps": 257,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 17,
-      "success": true,
-      "steps": 305,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -162,480 +162,480 @@
       "task_id": 0,
       "task_name": "put both the alphabet soup and the tomato sauce in the basket",
       "episode_idx": 19,
-      "success": true,
-      "steps": 290,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 0,
-      "success": true,
-      "steps": 247,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 1,
-      "success": true,
-      "steps": 254,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 2,
-      "success": true,
-      "steps": 244,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 3,
-      "success": true,
-      "steps": 241,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 4,
-      "success": true,
-      "steps": 327,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 5,
-      "success": true,
-      "steps": 243,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 6,
-      "success": true,
-      "steps": 259,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 7,
-      "success": true,
-      "steps": 233,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 8,
-      "success": true,
-      "steps": 244,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 9,
-      "success": true,
-      "steps": 260,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 10,
-      "success": true,
-      "steps": 237,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 11,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 12,
-      "success": true,
-      "steps": 234,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 13,
-      "success": true,
-      "steps": 219,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 14,
-      "success": true,
-      "steps": 240,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 15,
-      "success": true,
-      "steps": 252,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 16,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 17,
-      "success": true,
-      "steps": 258,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 18,
-      "success": true,
-      "steps": 240,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 1,
       "task_name": "put both the cream cheese box and the butter in the basket",
       "episode_idx": 19,
-      "success": true,
-      "steps": 299,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 0,
-      "success": true,
-      "steps": 228,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 1,
-      "success": true,
-      "steps": 249,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 2,
-      "success": true,
-      "steps": 241,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 3,
-      "success": true,
-      "steps": 255,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 4,
-      "success": true,
-      "steps": 242,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 5,
-      "success": true,
-      "steps": 241,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 6,
-      "success": true,
-      "steps": 255,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 7,
-      "success": true,
-      "steps": 259,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 8,
-      "success": true,
-      "steps": 234,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 9,
-      "success": true,
-      "steps": 248,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 10,
-      "success": true,
-      "steps": 242,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 11,
-      "success": true,
-      "steps": 240,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 12,
-      "success": true,
-      "steps": 231,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 13,
-      "success": true,
-      "steps": 249,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 14,
-      "success": true,
-      "steps": 241,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 15,
-      "success": true,
-      "steps": 233,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 16,
-      "success": true,
-      "steps": 237,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 17,
-      "success": true,
-      "steps": 242,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 18,
-      "success": true,
-      "steps": 271,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 2,
       "task_name": "turn on the stove and put the moka pot on it",
       "episode_idx": 19,
-      "success": true,
-      "steps": 225,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 0,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 1,
-      "success": true,
-      "steps": 214,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 2,
-      "success": true,
-      "steps": 286,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 3,
-      "success": true,
-      "steps": 213,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 4,
-      "success": true,
-      "steps": 222,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 5,
-      "success": true,
-      "steps": 218,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 6,
-      "success": true,
-      "steps": 237,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 7,
-      "success": true,
-      "steps": 227,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 8,
-      "success": true,
-      "steps": 236,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 9,
-      "success": true,
-      "steps": 209,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 10,
-      "success": true,
-      "steps": 260,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 11,
-      "success": true,
-      "steps": 236,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 12,
-      "success": true,
-      "steps": 247,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 13,
-      "success": true,
-      "steps": 223,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 14,
-      "success": true,
-      "steps": 237,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 15,
-      "success": true,
-      "steps": 209,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 16,
-      "success": true,
-      "steps": 217,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 17,
-      "success": true,
-      "steps": 222,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 3,
       "task_name": "put the black bowl in the bottom drawer of the cabinet and close it",
       "episode_idx": 18,
-      "success": true,
-      "steps": 230,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -650,304 +650,304 @@
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 0,
-      "success": true,
-      "steps": 229,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 1,
-      "success": true,
-      "steps": 223,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 2,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 3,
-      "success": true,
-      "steps": 225,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 4,
-      "success": true,
-      "steps": 242,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 5,
-      "success": true,
-      "steps": 236,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 6,
-      "success": true,
-      "steps": 233,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 7,
-      "success": true,
-      "steps": 233,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 8,
-      "success": true,
-      "steps": 230,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 9,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 10,
-      "success": true,
-      "steps": 228,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 11,
-      "success": true,
-      "steps": 253,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 12,
-      "success": true,
-      "steps": 242,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 13,
-      "success": true,
-      "steps": 232,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 14,
-      "success": true,
-      "steps": 229,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 15,
-      "success": true,
-      "steps": 238,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 16,
-      "success": true,
-      "steps": 237,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 17,
-      "success": true,
-      "steps": 225,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 18,
-      "success": true,
-      "steps": 232,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 4,
       "task_name": "put the white mug on the left plate and put the yellow and white mug on the right plate",
       "episode_idx": 19,
-      "success": true,
-      "steps": 250,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 0,
-      "success": true,
-      "steps": 163,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 1,
-      "success": true,
-      "steps": 168,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 2,
-      "success": true,
-      "steps": 159,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 3,
-      "success": true,
-      "steps": 154,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 4,
-      "success": true,
-      "steps": 161,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 5,
-      "success": true,
-      "steps": 158,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 6,
-      "success": true,
-      "steps": 170,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 7,
-      "success": true,
-      "steps": 168,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 8,
-      "success": true,
-      "steps": 147,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 9,
-      "success": true,
-      "steps": 168,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 10,
-      "success": true,
-      "steps": 157,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 11,
-      "success": true,
-      "steps": 156,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 12,
-      "success": true,
-      "steps": 167,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 13,
-      "success": true,
-      "steps": 178,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 14,
-      "success": true,
-      "steps": 172,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 15,
-      "success": true,
-      "steps": 158,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 16,
-      "success": true,
-      "steps": 193,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 17,
-      "success": true,
-      "steps": 171,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -962,344 +962,344 @@
       "task_id": 5,
       "task_name": "pick up the book and place it in the back compartment of the caddy",
       "episode_idx": 19,
-      "success": true,
-      "steps": 195,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 0,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 1,
-      "success": true,
-      "steps": 230,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 2,
-      "success": true,
-      "steps": 227,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 3,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 4,
-      "success": true,
-      "steps": 223,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 5,
-      "success": true,
-      "steps": 236,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 6,
-      "success": true,
-      "steps": 226,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 7,
-      "success": true,
-      "steps": 222,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 8,
-      "success": true,
-      "steps": 228,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 9,
-      "success": true,
-      "steps": 269,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 10,
-      "success": true,
-      "steps": 292,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 11,
-      "success": true,
-      "steps": 222,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 12,
-      "success": true,
-      "steps": 223,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 13,
-      "success": true,
-      "steps": 321,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 14,
-      "success": true,
-      "steps": 224,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 15,
-      "success": true,
-      "steps": 221,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 16,
-      "success": true,
-      "steps": 248,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 17,
-      "success": true,
-      "steps": 227,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 18,
-      "success": true,
-      "steps": 234,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 6,
       "task_name": "put the white mug on the plate and put the chocolate pudding to the right of the plate",
       "episode_idx": 19,
-      "success": true,
-      "steps": 222,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 0,
-      "success": true,
-      "steps": 273,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 1,
-      "success": true,
-      "steps": 232,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 2,
-      "success": true,
-      "steps": 273,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 3,
-      "success": true,
-      "steps": 286,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 4,
-      "success": true,
-      "steps": 250,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 5,
-      "success": true,
-      "steps": 250,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 6,
-      "success": true,
-      "steps": 249,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 7,
-      "success": true,
-      "steps": 262,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 8,
-      "success": true,
-      "steps": 342,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 9,
-      "success": true,
-      "steps": 262,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 10,
-      "success": true,
-      "steps": 272,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 11,
-      "success": true,
-      "steps": 273,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 12,
-      "success": true,
-      "steps": 230,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 13,
-      "success": true,
-      "steps": 211,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 14,
-      "success": true,
-      "steps": 256,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 15,
-      "success": true,
-      "steps": 273,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 16,
-      "success": true,
-      "steps": 260,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 17,
-      "success": true,
-      "steps": 249,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 18,
-      "success": true,
-      "steps": 242,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 7,
       "task_name": "put both the alphabet soup and the cream cheese box in the basket",
       "episode_idx": 19,
-      "success": true,
-      "steps": 239,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 0,
-      "success": true,
-      "steps": 372,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 1,
-      "success": true,
-      "steps": 366,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1314,16 +1314,16 @@
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 3,
-      "success": true,
-      "steps": 386,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 4,
-      "success": true,
-      "steps": 408,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1338,8 +1338,8 @@
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 6,
-      "success": true,
-      "steps": 393,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1354,16 +1354,16 @@
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 8,
-      "success": true,
-      "steps": 497,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 9,
-      "success": true,
-      "steps": 371,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1378,8 +1378,8 @@
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 11,
-      "success": true,
-      "steps": 404,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1410,16 +1410,16 @@
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 15,
-      "success": true,
-      "steps": 384,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 16,
-      "success": true,
-      "steps": 361,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1434,16 +1434,16 @@
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 18,
-      "success": true,
-      "steps": 411,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 8,
       "task_name": "put both moka pots on the stove",
       "episode_idx": 19,
-      "success": true,
-      "steps": 396,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1458,8 +1458,8 @@
       "task_id": 9,
       "task_name": "put the yellow and white mug in the microwave and close it",
       "episode_idx": 1,
-      "success": true,
-      "steps": 286,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1490,8 +1490,8 @@
       "task_id": 9,
       "task_name": "put the yellow and white mug in the microwave and close it",
       "episode_idx": 5,
-      "success": true,
-      "steps": 258,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1506,8 +1506,8 @@
       "task_id": 9,
       "task_name": "put the yellow and white mug in the microwave and close it",
       "episode_idx": 7,
-      "success": true,
-      "steps": 255,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1538,8 +1538,8 @@
       "task_id": 9,
       "task_name": "put the yellow and white mug in the microwave and close it",
       "episode_idx": 11,
-      "success": true,
-      "steps": 306,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1554,16 +1554,16 @@
       "task_id": 9,
       "task_name": "put the yellow and white mug in the microwave and close it",
       "episode_idx": 13,
-      "success": true,
-      "steps": 340,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
       "task_id": 9,
       "task_name": "put the yellow and white mug in the microwave and close it",
       "episode_idx": 14,
-      "success": true,
-      "steps": 307,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {
@@ -1586,8 +1586,8 @@
       "task_id": 9,
       "task_name": "put the yellow and white mug in the microwave and close it",
       "episode_idx": 17,
-      "success": true,
-      "steps": 278,
+      "success": false,
+      "steps": 530,
       "max_steps": 530
     },
     {

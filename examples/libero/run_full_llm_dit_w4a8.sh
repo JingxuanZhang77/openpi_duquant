@@ -1,7 +1,9 @@
 #!/bin/bash
-# DuQuant W4A8 for ALL linear layers in LLM + DiT (full quantization)
-# Quantizes ALL linear layers in both Gemma LLM and DiT
-# Maximum quantization for testing accuracy degradation
+# DuQuant W4A8 for LLM (all layers) + DiT (MLP + QK only)
+# Quantizes:
+#   - LLM: ALL linear layers (q,k,v,o_proj + gate,up,down_proj)
+#   - DiT: MLP (gate,up,down_proj) + Attention QK (q_proj,k_proj)
+#   - DiT: NOT quantizing v_proj and o_proj
 #
 # Model Structure:
 # ┌────────────────────────────────────────────────────────────┐
@@ -9,21 +11,24 @@
 # │                                                            │
 # │ ├── paligemma_with_expert.paligemma                        │
 # │ │   ├── vision_tower (SigLIP - NOT quantized)             │
-# │ │   └── language_model (Gemma LLM - 18 layers) ← QUANTIZE │
-# │ │       ├── self_attn.{q,k,v,o}_proj (18×4 = 72)         │
-# │ │       └── mlp.{gate,up,down}_proj (18×3 = 54)          │
+# │ │   └── language_model (Gemma LLM - 18 layers) ← QUANTIZE ALL
+# │ │       ├── self_attn.{q,k,v,o}_proj (18×4 = 72) ✅      │
+# │ │       └── mlp.{gate,up,down}_proj (18×3 = 54)  ✅      │
 # │ │                                                          │
-# │ └── paligemma_with_expert.gemma_expert (DiT - 18 layers) ← QUANTIZE
+# │ └── paligemma_with_expert.gemma_expert (DiT - 18 layers) ← PARTIAL
 # │     └── model                                              │
-# │         ├── self_attn.{q,k,v,o}_proj (18×4 = 72)         │
-# │         └── mlp.{gate,up,down}_proj (18×3 = 54)          │
+# │         ├── self_attn.q_proj (18×1 = 18)           ✅     │
+# │         ├── self_attn.k_proj (18×1 = 18)           ✅     │
+# │         ├── self_attn.v_proj (18×1 = 18)           ❌     │
+# │         ├── self_attn.o_proj (18×1 = 18)           ❌     │
+# │         └── mlp.{gate,up,down}_proj (18×3 = 54)    ✅     │
 # │                                                            │
 # └────────────────────────────────────────────────────────────┘
 #
 # Expected layer count:
-#   LLM: 18 layers × 7 linears (4 attn + 3 mlp) = 126 layers
-#   DiT: 18 layers × 7 linears (4 attn + 3 mlp) = 126 layers
-#   TOTAL: 252 layers (excluding vision tower and embeddings)
+#   LLM: 18 layers × 7 linears = 126 layers
+#   DiT: 18 layers × 5 linears (q,k + 3 mlp) = 90 layers
+#   TOTAL: 216 layers (excluding vision tower and embeddings)
 
 set -e
 
@@ -49,22 +54,36 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 # Includes: q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj
 # Excludes: Vision tower, embeddings, normalization layers
 # ============================================
-export OPENPI_DUQUANT_DEBUG=1
+# export OPENPI_DUQUANT_DEBUG=1
 # CRITICAL: Use BOTH scopes - will match BOTH LLM and DiT
 # We use a prefix that captures both branches
-export OPENPI_DUQUANT_SCOPE="paligemma_with_expert."
+# export OPENPI_DUQUANT_SCOPE=""
+# export OPENPI_DUQUANT_WBITS_DEFAULT=4
+# export OPENPI_DUQUANT_ABITS=8
+# export OPENPI_DUQUANT_BLOCK=64
+# export OPENPI_DUQUANT_PERMUTE=1           # Enable input permutation
+# export OPENPI_DUQUANT_ROW_ROT=restore     # Enable rotation with output restoration
+# export OPENPI_DUQUANT_ACT_PCT=99.9
+# export OPENPI_DUQUANT_CALIB_STEPS=32      # Calibration steps for activation quantization
+# export OPENPI_DUQUANT_LS=0.15             # Lambda smooth (only used when PERMUTE=1)
+
+
+export OPENPI_DUQUANT_SCOPE=""
 export OPENPI_DUQUANT_WBITS_DEFAULT=4
 export OPENPI_DUQUANT_ABITS=8
-export OPENPI_DUQUANT_BLOCK=16
-export OPENPI_DUQUANT_PERMUTE=1           # Enable input permutation
-export OPENPI_DUQUANT_ROW_ROT=restore     # Enable rotation with output restoration
-export OPENPI_DUQUANT_ACT_PCT=99.9
-export OPENPI_DUQUANT_CALIB_STEPS=32      # Calibration steps for activation quantization
-export OPENPI_DUQUANT_LS=0.15             # Lambda smooth (only used when PERMUTE=1)
+export OPENPI_DUQUANT_BLOCK=64
+export OPENPI_DUQUANT_PERMUTE=0
+export OPENPI_DUQUANT_ROW_ROT=none
+export OPENPI_DUQUANT_ACT_PCT=100
+export OPENPI_DUQUANT_CALIB_STEPS=32
+export OPENPI_DUQUANT_LS=0.15
 
-# Include ALL attention and MLP layers
-export OPENPI_DUQUANT_INCLUDE='.*(q_proj|k_proj|v_proj|o_proj|out_proj|gate_proj|up_proj|down_proj).*'
-# Exclude: embeddings, normalization, vision tower, and multi_modal_projector
+# Complex INCLUDE pattern:
+
+# - LLM (language_model): ALL linear layers (q,k,v,o + mlp)
+# - DiT (gemma_expert): Only q,k + mlp (NOT v,o)
+# export OPENPI_DUQUANT_INCLUDE='(.*language_model.*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj).*|.*gemma_expert.*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj).*)'
+export OPENPI_DUQUANT_INCLUDE='.*paligemma_with_expert\.(paligemma\.model\.language_model|gemma_expert\.model)\.(?:.*\.)?(self_attn\.(q_proj|k_proj|v_proj|o_proj)|mlp\.(gate_proj|up_proj|down_proj)).*'
 # CRITICAL: Exclude vision_tower to prevent quantizing SigLIP vision encoder
 export OPENPI_DUQUANT_EXCLUDE='(?:^|\.)(norm|ln|layernorm|emb|embed|vision_tower|vision|multi_modal_projector|lm_head)(?:\.|$)'
 
@@ -74,14 +93,24 @@ export TORCH_COMPILE_DISABLE=1  # COMMENTED FOR SPEEDUP
 export TORCHDYNAMO_DISABLE=1  # COMMENTED FOR SPEEDUP
 unset CUBLAS_WORKSPACE_CONFIG
 
-# Pack directory for full LLM+DiT quantization
-export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_full_llm_dit_w4a8"
+# Pack directory for LLM (all) + DiT (MLP+QK) quantization
+export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/smoothquant_packed_full_llm_dit_w4a8"
 
 # Enable profiling to measure fake quantization overhead
-export OPENPI_DUQUANT_PROFILE=1
+# export OPENPI_DUQUANT_PROFILE=1
+
+
+# ============================================
+# ATM configuration (DiT only)
+# ============================================
+# export ATM_ENABLE=${ATM_ENABLE:-1}
+# export ATM_SCOPE=${ATM_SCOPE:-dit}
+# if [ -z "${ATM_ALPHA_PATH:-}" ]; then
+#     export ATM_ALPHA_PATH="/home/jz97/VLM_REPO/openpi/atm_alpha_llm_full.json"
+# fi
 
 # Default parameters
-TASK_SUITE="${TASK_SUITE:-libero_spatial}"
+TASK_SUITE="${TASK_SUITE:-libero_10}"
 NUM_TRIALS="${NUM_TRIALS:-20}"
 SEED="${SEED:-42}"
 

@@ -7,6 +7,7 @@ import math
 import os
 import pathlib
 import time
+from pathlib import Path
 
 import imageio
 from libero.libero import benchmark
@@ -17,6 +18,31 @@ from openpi_client import image_tools
 from openpi_client import websocket_client_policy as _websocket_client_policy
 import tqdm
 import tyro
+
+try:
+    from torch.serialization import add_safe_globals
+
+    import numpy as _np
+
+    add_safe_globals([_np.core.multiarray._reconstruct, _np.ndarray])  # type: ignore[attr-defined]
+except Exception:  # pragma: no cover - compatibility shim
+    pass
+
+import torch
+
+_libero_original_torch_load = torch.load
+
+
+def _libero_torch_load_wrapper(args, kwargs):
+    kwargs = dict(kwargs)
+    kwargs.setdefault("weights_only", False)
+    return _libero_original_torch_load(*args, **kwargs)
+
+
+torch.load = lambda *a, **k: _libero_torch_load_wrapper(a, k)  # noqa: E731
+
+_DATASETS_ROOT = Path(__file__).resolve().parent / "dataset" / "datasets"
+_DATASETS_ROOT.mkdir(parents=True, exist_ok=True)
 
 try:  # Optional: only present when DuQuant is active
     from openpi.models_pytorch.duquant_preprocess import _DUQUANT_PROFILER
@@ -177,6 +203,31 @@ def eval_libero(args: Args) -> None:
     task_suite = benchmark_dict[args.task_suite_name]()
     num_tasks_in_suite = task_suite.n_tasks
     logging.info(f"Task suite: {args.task_suite_name}")
+
+    custom_order = os.environ.get("LIBERO_TASK_ORDER", "").strip()
+    if custom_order:
+        try:
+            raw_indices = [int(token.strip()) for token in custom_order.split(",") if token.strip() != ""]
+        except ValueError:
+            logging.warning("Invalid LIBERO_TASK_ORDER value '%s'; expected comma-separated integers.", custom_order)
+        else:
+            seen: set[int] = set()
+            ordered_indices: list[int] = []
+            for idx in raw_indices:
+                if 0 <= idx < num_tasks_in_suite and idx not in seen:
+                    ordered_indices.append(idx)
+                    seen.add(idx)
+            for idx in range(num_tasks_in_suite):
+                if idx not in seen:
+                    ordered_indices.append(idx)
+            if len(ordered_indices) == num_tasks_in_suite:
+                task_suite.tasks = [task_suite.tasks[i] for i in ordered_indices]
+                logging.info("Applied custom LIBERO task order: %s", ordered_indices)
+            else:
+                logging.warning(
+                    "LIBERO_TASK_ORDER did not cover all tasks (got %s); using default ordering.",
+                    custom_order,
+                )
 
     pathlib.Path(args.video_out_path).mkdir(parents=True, exist_ok=True)
     pathlib.Path(args.results_out_path).mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,470 @@
+{
+  "paligemma_with_expert.gemma_expert": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.0.self_attn": {
+    "all": [
+      1.0,
+      1.0628875494003296,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.0.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.1.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0903832912445068
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.1.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.2.self_attn": {
+    "all": [
+      1.0,
+      1.051255702972412,
+      1.0680586099624634,
+      1.0,
+      1.1785292625427246,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.2.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.3.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.3.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.4.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.4.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.5.self_attn": {
+    "all": [
+      1.0,
+      1.0750281810760498,
+      0.938450813293457,
+      1.0,
+      0.9419823288917542,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.5.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.6.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.6.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.7.self_attn": {
+    "all": [
+      1.0757709741592407,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.7.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.8.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0551263093948364,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.8.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.9.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.9.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.10.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.9093664884567261,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.10.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.11.self_attn": {
+    "all": [
+      1.1355804204940796,
+      1.0,
+      1.0,
+      1.0,
+      1.0622546672821045,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.11.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.12.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.12.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.13.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.13.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.14.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.14.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.15.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.15.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.16.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.16.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.17.self_attn": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.layers.17.mlp": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "paligemma_with_expert.gemma_expert.model.rotary_emb": {
+    "all": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  }
+}

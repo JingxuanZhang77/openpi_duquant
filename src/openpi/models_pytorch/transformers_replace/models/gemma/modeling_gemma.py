@@ -278,6 +278,8 @@ class GemmaAttention(nn.Module):
         self.o_proj = nn.Linear(
             config.num_attention_heads * self.head_dim, config.hidden_size, bias=config.attention_bias
         )
+        self._atm_alpha_all: Optional[torch.Tensor] = None
+        self._atm_capture_callback = None
 
     def forward(
         self,
@@ -298,6 +300,33 @@ class GemmaAttention(nn.Module):
 
         cos, sin = position_embeddings
         query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
+
+        capture_cb = getattr(self, "_atm_capture_callback", None)
+        if capture_cb is not None:
+            with torch.no_grad():
+                logits = torch.matmul(query_states, key_states.transpose(2, 3)) * self.scaling
+                if attention_mask is not None:
+                    causal_mask = attention_mask[:, :, :, : key_states.shape[-2]]
+                    logits = logits + causal_mask
+                    valid_mask = causal_mask == 0
+                else:
+                    valid_mask = torch.ones_like(logits, dtype=torch.bool)
+
+                masked_logits = torch.where(valid_mask, logits, torch.zeros_like(logits))
+                valid_counts = valid_mask.float().sum(dim=(-1, -2))
+                safe_counts = valid_counts.clamp_min(1.0)
+                mean = masked_logits.float().sum(dim=(-1, -2)) / safe_counts
+                mean = mean.view(*mean.shape, 1, 1)
+                variance = ((masked_logits.float() - mean) ** 2 * valid_mask.float()).sum(dim=(-1, -2)) / safe_counts
+                per_head_std = torch.sqrt(variance)
+                per_head_std = torch.where(valid_counts > 0, per_head_std, torch.ones_like(per_head_std))
+                capture_cb(per_head_std.detach().cpu())
+
+        alpha = getattr(self, "_atm_alpha_all", None)
+        if alpha is not None:
+            if alpha.shape[0] == query_states.shape[1]:
+                alpha_t = alpha.to(device=query_states.device, dtype=query_states.dtype)
+                query_states = query_states * alpha_t.view(1, -1, 1, 1)
 
         # Use cache if provided
         if past_key_value is not None:

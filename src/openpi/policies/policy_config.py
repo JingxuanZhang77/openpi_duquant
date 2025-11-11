@@ -3,9 +3,6 @@ import os
 import pathlib
 from typing import Any
 
-import jax.numpy as jnp
-
-import openpi.models.model as _model
 import openpi.policies.policy as _policy
 import openpi.shared.download as download
 from openpi.training import checkpoints as _checkpoints
@@ -51,6 +48,12 @@ def create_trained_policy(
 
     logging.info("Loading model...")
     if is_pytorch:
+        try:
+            from openpi.models_pytorch.atm_dit import ensure_dit_attention_patch
+
+            ensure_dit_attention_patch()
+        except Exception:  # noqa: BLE001
+            pass
         model = train_config.model.load_pytorch(train_config, weight_path)
         model.paligemma_with_expert.to_bfloat16_for_selected_params("bfloat16")
         # Optional: enable DuQuant fake-quant for selected Linear layers via env vars
@@ -58,12 +61,23 @@ def create_trained_policy(
             from openpi.models_pytorch.duquant_layers import enable_duquant_if_configured
 
             enable_duquant_if_configured(model)
+            try:
+                from openpi.models_pytorch.atm_dit import enable_dit_atm_if_configured
+
+                enable_dit_atm_if_configured(model)
+            except Exception as atm_exc:  # noqa: BLE001
+                import logging as _logging
+
+                _logging.warning(f"ATM(DiT) init failed or skipped: {atm_exc}")
         except Exception as e:  # noqa: BLE001
             # Do not fail server startup; just log and continue in FP
             import logging as _logging
 
             _logging.warning(f"DUQUANT init failed or skipped: {e}")
     else:
+        import jax.numpy as jnp
+        import openpi.models.model as _model
+
         model = train_config.model.load(_model.restore_params(checkpoint_dir / "params", dtype=jnp.bfloat16))
     data_config = train_config.data.create(train_config.assets_dirs, train_config.model)
     if norm_stats is None:
