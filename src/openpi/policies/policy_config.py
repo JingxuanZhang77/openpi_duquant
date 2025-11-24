@@ -74,6 +74,14 @@ def create_trained_policy(
             import logging as _logging
 
             _logging.warning(f"DUQUANT init failed or skipped: {e}")
+        try:
+            from openpi.models_pytorch.smoothquant import enable_llm_smoothquant_if_configured
+
+            enable_llm_smoothquant_if_configured(model)
+        except Exception as sq_exc:  # noqa: BLE001
+            import logging as _logging
+
+            _logging.warning(f"SmoothQuant init failed or skipped: {sq_exc}")
     else:
         import jax.numpy as jnp
         import openpi.models.model as _model

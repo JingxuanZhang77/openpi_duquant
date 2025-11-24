@@ -1,8 +1,8 @@
 {
   "task_suite": "libero_object",
   "total_episodes": 200,
-  "total_successes": 0,
-  "success_rate": 0.0,
+  "total_successes": 195,
+  "success_rate": 0.975,
   "seed": 42,
   "headless": true,
   "results": [
@@ -10,72 +10,72 @@
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 176,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 212,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 209,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 191,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 201,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 194,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 173,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 168,
       "max_steps": 290
     },
     {
@@ -90,736 +90,736 @@
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 221,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 235,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 209,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 191,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 210,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 173,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 187,
       "max_steps": 290
     },
     {
       "task_id": 0,
       "task_name": "pick up the alphabet soup and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 176,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 204,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 174,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 163,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 191,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 175,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 185,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 180,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 169,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 169,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 174,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 171,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 172,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 165,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 167,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 186,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 200,
       "max_steps": 290
     },
     {
       "task_id": 1,
       "task_name": "pick up the cream cheese and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 166,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 154,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 154,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 134,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 152,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 143,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 138,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 152,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 156,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 154,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 163,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 152,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 140,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 161,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 158,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 151,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 222,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 157,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 146,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 162,
       "max_steps": 290
     },
     {
       "task_id": 2,
       "task_name": "pick up the salad dressing and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 162,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 167,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 210,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 167,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 186,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 166,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 172,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 165,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 207,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 162,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 172,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 163,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 168,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 170,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 210,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 207,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 159,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 208,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 168,
       "max_steps": 290
     },
     {
       "task_id": 3,
       "task_name": "pick up the bbq sauce and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 169,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 180,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 194,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 198,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 202,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 173,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 172,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 195,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 192,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 204,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 185,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 201,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 206,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 195,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 205,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 174,
       "max_steps": 290
     },
     {
       "task_id": 4,
       "task_name": "pick up the ketchup and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 180,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 163,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 168,
       "max_steps": 290
     },
     {
@@ -834,104 +834,104 @@
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 166,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 176,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 208,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 163,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 209,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 178,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 167,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 161,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 161,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 175,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 168,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 162,
       "max_steps": 290
     },
     {
@@ -946,264 +946,264 @@
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 165,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 162,
       "max_steps": 290
     },
     {
       "task_id": 5,
       "task_name": "pick up the tomato sauce and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 168,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 193,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 185,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 208,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 189,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 185,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 185,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 190,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 189,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 194,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 202,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 194,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 195,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 189,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 189,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 181,
       "max_steps": 290
     },
     {
       "task_id": 6,
       "task_name": "pick up the butter and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 193,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 163,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 180,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 185,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 165,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 175,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 226,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 225,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 179,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 173,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 216,
       "max_steps": 290
     },
     {
@@ -1218,8 +1218,8 @@
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 162,
       "max_steps": 290
     },
     {
@@ -1234,376 +1234,376 @@
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 178,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 179,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 183,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 215,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 189,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 174,
       "max_steps": 290
     },
     {
       "task_id": 7,
       "task_name": "pick up the milk and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 213,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 181,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 219,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 215,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 177,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 195,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 180,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 181,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 189,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 193,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 200,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 172,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 182,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 192,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 218,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 184,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 188,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 191,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 177,
       "max_steps": 290
     },
     {
       "task_id": 8,
       "task_name": "pick up the chocolate pudding and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 186,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 0,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 167,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 1,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 163,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 2,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 165,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 3,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 160,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 4,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 174,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 5,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 164,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 6,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 169,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 7,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 159,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 8,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 148,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 9,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 169,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 10,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 166,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 11,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 165,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 12,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 174,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 13,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 169,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 14,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 172,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 15,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 196,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 16,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 175,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 17,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 154,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 18,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 167,
       "max_steps": 290
     },
     {
       "task_id": 9,
       "task_name": "pick up the orange juice and place it in the basket",
       "episode_idx": 19,
-      "success": false,
-      "steps": 290,
+      "success": true,
+      "steps": 187,
       "max_steps": 290
     }
   ]

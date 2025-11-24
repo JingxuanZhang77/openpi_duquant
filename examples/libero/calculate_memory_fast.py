@@ -126,9 +126,16 @@ def main():
 
     print(f"✓ Found {len(layer_shapes)} Linear layers in checkpoint")
     print()
+    total_params_all = sum(info["weight_params"] + info["bias_params"] for info in layer_shapes.values())
+    total_original_bytes_all = total_params_all * 2
 
     # Define quantization scenarios
     scenarios = {
+        "Full Model (all linears)": {
+            "scope": "",
+            "include": r".*",
+            "exclude": r"$^",  # match nothing
+        },
         "Full LLM + DiT": {
             "scope": "paligemma_with_expert.",
             "include": r".*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj).*",
@@ -204,9 +211,9 @@ def main():
             continue
 
         # Calculate original memory (BF16: 2 bytes per param)
-        original_memory = total_params * 2
-        print(f"  Original Memory (BF16):")
-        print(f"    Total: {format_bytes(original_memory)} ({original_memory:,} bytes)")
+        subset_original_bytes = total_params * 2
+        print(f"  Original Memory (subset BF16):")
+        print(f"    Total: {format_bytes(subset_original_bytes)} ({subset_original_bytes:,} bytes)")
         print()
 
         # Calculate DuQuant memory
@@ -229,9 +236,9 @@ def main():
             for key in duquant_total:
                 duquant_total[key] += layer_memory[key]
 
-        duquant_total["total"] = sum(duquant_total.values())
+        subset_quant_bytes = sum(duquant_total.values())
 
-        print(f"  DuQuant Memory (W{duquant_config['weight_bits']}):")
+        print(f"  DuQuant Memory (subset W{duquant_config['weight_bits']}):")
         print(f"    Quantized weights: {format_bytes(duquant_total['quantized_weights'])}")
         print(f"    Weight scales:     {format_bytes(duquant_total['weight_scales'])}")
         print(f"    R_in blocks:       {format_bytes(duquant_total['R_in_blocks'])}")
@@ -239,18 +246,28 @@ def main():
         print(f"    Permutation:       {format_bytes(duquant_total['permutation'])}")
         print(f"    Bias:              {format_bytes(duquant_total['bias'])}")
         print(f"    {'─' * 40}")
-        print(f"    Total:             {format_bytes(duquant_total['total'])} ({duquant_total['total']:,} bytes)")
+        print(f"    Total:             {format_bytes(subset_quant_bytes)} ({subset_quant_bytes:,} bytes)")
         print()
 
-        # Calculate savings
-        savings_bytes = original_memory - duquant_total['total']
-        savings_ratio = (savings_bytes / original_memory) * 100 if original_memory > 0 else 0
-        compression_ratio = original_memory / duquant_total['total'] if duquant_total['total'] > 0 else 0
+        subset_compression = subset_original_bytes / subset_quant_bytes if subset_quant_bytes > 0 else 0
+        remaining_bytes = total_original_bytes_all - subset_original_bytes
+        total_quant_bytes = remaining_bytes + subset_quant_bytes
+
+        # Calculate savings relative to full model
+        savings_bytes = total_original_bytes_all - total_quant_bytes
+        savings_ratio = (savings_bytes / total_original_bytes_all) * 100 if total_original_bytes_all > 0 else 0
+        compression_ratio = total_original_bytes_all / total_quant_bytes if total_quant_bytes > 0 else 0
 
         print(f"  💾 Memory Savings:")
-        print(f"    Absolute: {format_bytes(savings_bytes)}")
-        print(f"    Relative: {savings_ratio:.2f}%")
-        print(f"    Compression ratio: {compression_ratio:.2f}x")
+        print(f"    Absolute (subset): {format_bytes(subset_original_bytes - subset_quant_bytes)}")
+        print(f"    Relative (subset): {((subset_original_bytes - subset_quant_bytes) / subset_original_bytes * 100) if subset_original_bytes else 0:.2f}%")
+        print(f"    Compression ratio (subset): {subset_compression:.2f}x ({format_bytes(subset_original_bytes)} -> {format_bytes(subset_quant_bytes)})")
+        print()
+        print(f"    Total model (BF16):       {format_bytes(total_original_bytes_all)}")
+        print(f"    After quantizing subset:  {format_bytes(total_quant_bytes)}")
+        print(f"    Absolute savings:         {format_bytes(savings_bytes)}")
+        print(f"    Relative savings:         {savings_ratio:.2f}%")
+        print(f"    Overall compression:      {compression_ratio:.2f}x")
         print()
 
         # Show some example layers

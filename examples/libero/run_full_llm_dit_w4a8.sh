@@ -72,9 +72,9 @@ export OPENPI_DUQUANT_SCOPE=""
 export OPENPI_DUQUANT_WBITS_DEFAULT=4
 export OPENPI_DUQUANT_ABITS=8
 export OPENPI_DUQUANT_BLOCK=64
-export OPENPI_DUQUANT_PERMUTE=0
-export OPENPI_DUQUANT_ROW_ROT=none
-export OPENPI_DUQUANT_ACT_PCT=100
+export OPENPI_DUQUANT_PERMUTE=1
+export OPENPI_DUQUANT_ROW_ROT=restore
+export OPENPI_DUQUANT_ACT_PCT=99.9
 export OPENPI_DUQUANT_CALIB_STEPS=32
 export OPENPI_DUQUANT_LS=0.15
 
@@ -83,7 +83,8 @@ export OPENPI_DUQUANT_LS=0.15
 # - LLM (language_model): ALL linear layers (q,k,v,o + mlp)
 # - DiT (gemma_expert): Only q,k + mlp (NOT v,o)
 # export OPENPI_DUQUANT_INCLUDE='(.*language_model.*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj).*|.*gemma_expert.*(q_proj|k_proj|v_proj|o_proj|gate_proj|up_proj|down_proj).*)'
-export OPENPI_DUQUANT_INCLUDE='.*paligemma_with_expert\.(paligemma\.model\.language_model|gemma_expert\.model)\.(?:.*\.)?(self_attn\.(q_proj|k_proj|v_proj|o_proj)|mlp\.(gate_proj|up_proj|down_proj)).*'
+# export OPENPI_DUQUANT_INCLUDE='.*paligemma_with_expert\.(paligemma\.model\.language_model|gemma_expert\.model)\.(?:.*\.)?(self_attn\.(q_proj|k_proj|v_proj|o_proj)|mlp\.(gate_proj|up_proj|down_proj)).*'
+export OPENPI_DUQUANT_INCLUDE='.*paligemma_with_expert\.paligemma\.model\.language_model\.(?:.*\.)?(self_attn\.(q_proj|k_proj|v_proj|o_proj)|mlp\.(gate_proj|up_proj|down_proj)).*'
 # CRITICAL: Exclude vision_tower to prevent quantizing SigLIP vision encoder
 export OPENPI_DUQUANT_EXCLUDE='(?:^|\.)(norm|ln|layernorm|emb|embed|vision_tower|vision|multi_modal_projector|lm_head)(?:\.|$)'
 
@@ -94,7 +95,7 @@ export TORCHDYNAMO_DISABLE=1  # COMMENTED FOR SPEEDUP
 unset CUBLAS_WORKSPACE_CONFIG
 
 # Pack directory for LLM (all) + DiT (MLP+QK) quantization
-export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/smoothquant_packed_full_llm_dit_w4a8"
+export OPENPI_DUQUANT_PACKDIR="/home/jz97/VLM_REPO/openpi/duquant_packed_onlyllm_w4a8withoutatm"
 
 # Enable profiling to measure fake quantization overhead
 # export OPENPI_DUQUANT_PROFILE=1
