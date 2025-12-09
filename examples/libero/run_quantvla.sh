@@ -33,9 +33,13 @@
 set -e
 
 cd ~/VLM_REPO/openpi
-# source examples/libero/.venv/bin/activate
+source examples/libero/.venv/bin/activate
 # source .venv_test/bin/activate
 # source .venv_test/bin/activate
+
+# Fix CUDA library version mismatch (PyTorch 2.7.1 CUDA 12.6 vs System CUDA 12.8)
+export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
+
 export CKPT=~/VLM_REPO/openpi/ckpts/pi05_libero_torch
 
 # Check CKPT
