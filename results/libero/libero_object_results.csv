@@ -1,201 +1,201 @@
 task_id,task_name,episode_idx,success,steps,max_steps
-0,pick up the alphabet soup and place it in the basket,0,True,176,290
-0,pick up the alphabet soup and place it in the basket,1,True,212,290
-0,pick up the alphabet soup and place it in the basket,2,True,209,290
-0,pick up the alphabet soup and place it in the basket,3,True,184,290
-0,pick up the alphabet soup and place it in the basket,4,True,191,290
-0,pick up the alphabet soup and place it in the basket,5,True,201,290
-0,pick up the alphabet soup and place it in the basket,6,True,194,290
-0,pick up the alphabet soup and place it in the basket,7,True,173,290
-0,pick up the alphabet soup and place it in the basket,8,True,168,290
-0,pick up the alphabet soup and place it in the basket,9,False,290,290
-0,pick up the alphabet soup and place it in the basket,10,True,221,290
-0,pick up the alphabet soup and place it in the basket,11,True,183,290
-0,pick up the alphabet soup and place it in the basket,12,True,235,290
-0,pick up the alphabet soup and place it in the basket,13,True,209,290
-0,pick up the alphabet soup and place it in the basket,14,True,191,290
-0,pick up the alphabet soup and place it in the basket,15,True,183,290
-0,pick up the alphabet soup and place it in the basket,16,True,210,290
-0,pick up the alphabet soup and place it in the basket,17,True,173,290
-0,pick up the alphabet soup and place it in the basket,18,True,187,290
-0,pick up the alphabet soup and place it in the basket,19,True,176,290
-1,pick up the cream cheese and place it in the basket,0,True,204,290
-1,pick up the cream cheese and place it in the basket,1,True,174,290
-1,pick up the cream cheese and place it in the basket,2,True,163,290
-1,pick up the cream cheese and place it in the basket,3,True,191,290
-1,pick up the cream cheese and place it in the basket,4,True,184,290
-1,pick up the cream cheese and place it in the basket,5,True,184,290
-1,pick up the cream cheese and place it in the basket,6,True,175,290
-1,pick up the cream cheese and place it in the basket,7,True,185,290
-1,pick up the cream cheese and place it in the basket,8,True,180,290
-1,pick up the cream cheese and place it in the basket,9,True,169,290
-1,pick up the cream cheese and place it in the basket,10,True,169,290
-1,pick up the cream cheese and place it in the basket,11,True,174,290
-1,pick up the cream cheese and place it in the basket,12,True,171,290
-1,pick up the cream cheese and place it in the basket,13,True,172,290
-1,pick up the cream cheese and place it in the basket,14,True,165,290
-1,pick up the cream cheese and place it in the basket,15,True,167,290
-1,pick up the cream cheese and place it in the basket,16,True,186,290
-1,pick up the cream cheese and place it in the basket,17,True,183,290
-1,pick up the cream cheese and place it in the basket,18,True,200,290
-1,pick up the cream cheese and place it in the basket,19,True,166,290
-2,pick up the salad dressing and place it in the basket,0,True,154,290
-2,pick up the salad dressing and place it in the basket,1,True,154,290
-2,pick up the salad dressing and place it in the basket,2,True,134,290
-2,pick up the salad dressing and place it in the basket,3,True,152,290
-2,pick up the salad dressing and place it in the basket,4,True,143,290
-2,pick up the salad dressing and place it in the basket,5,True,138,290
-2,pick up the salad dressing and place it in the basket,6,True,152,290
-2,pick up the salad dressing and place it in the basket,7,True,156,290
-2,pick up the salad dressing and place it in the basket,8,True,154,290
-2,pick up the salad dressing and place it in the basket,9,True,163,290
-2,pick up the salad dressing and place it in the basket,10,True,152,290
-2,pick up the salad dressing and place it in the basket,11,True,140,290
-2,pick up the salad dressing and place it in the basket,12,True,161,290
-2,pick up the salad dressing and place it in the basket,13,True,158,290
-2,pick up the salad dressing and place it in the basket,14,True,151,290
-2,pick up the salad dressing and place it in the basket,15,True,222,290
-2,pick up the salad dressing and place it in the basket,16,True,157,290
-2,pick up the salad dressing and place it in the basket,17,True,146,290
-2,pick up the salad dressing and place it in the basket,18,True,162,290
-2,pick up the salad dressing and place it in the basket,19,True,162,290
-3,pick up the bbq sauce and place it in the basket,0,True,167,290
-3,pick up the bbq sauce and place it in the basket,1,True,210,290
-3,pick up the bbq sauce and place it in the basket,2,True,167,290
-3,pick up the bbq sauce and place it in the basket,3,True,186,290
-3,pick up the bbq sauce and place it in the basket,4,True,184,290
-3,pick up the bbq sauce and place it in the basket,5,True,166,290
-3,pick up the bbq sauce and place it in the basket,6,True,172,290
-3,pick up the bbq sauce and place it in the basket,7,True,165,290
-3,pick up the bbq sauce and place it in the basket,8,True,207,290
-3,pick up the bbq sauce and place it in the basket,9,True,162,290
-3,pick up the bbq sauce and place it in the basket,10,True,172,290
-3,pick up the bbq sauce and place it in the basket,11,True,163,290
-3,pick up the bbq sauce and place it in the basket,12,True,168,290
-3,pick up the bbq sauce and place it in the basket,13,True,170,290
-3,pick up the bbq sauce and place it in the basket,14,True,210,290
-3,pick up the bbq sauce and place it in the basket,15,True,207,290
-3,pick up the bbq sauce and place it in the basket,16,True,159,290
-3,pick up the bbq sauce and place it in the basket,17,True,208,290
-3,pick up the bbq sauce and place it in the basket,18,True,168,290
-3,pick up the bbq sauce and place it in the basket,19,True,169,290
-4,pick up the ketchup and place it in the basket,0,True,183,290
-4,pick up the ketchup and place it in the basket,1,True,180,290
-4,pick up the ketchup and place it in the basket,2,True,194,290
-4,pick up the ketchup and place it in the basket,3,True,198,290
-4,pick up the ketchup and place it in the basket,4,True,184,290
-4,pick up the ketchup and place it in the basket,5,True,202,290
-4,pick up the ketchup and place it in the basket,6,True,173,290
-4,pick up the ketchup and place it in the basket,7,True,172,290
-4,pick up the ketchup and place it in the basket,8,True,195,290
-4,pick up the ketchup and place it in the basket,9,True,192,290
-4,pick up the ketchup and place it in the basket,10,True,204,290
-4,pick up the ketchup and place it in the basket,11,True,185,290
-4,pick up the ketchup and place it in the basket,12,True,184,290
-4,pick up the ketchup and place it in the basket,13,True,201,290
-4,pick up the ketchup and place it in the basket,14,True,184,290
-4,pick up the ketchup and place it in the basket,15,True,206,290
-4,pick up the ketchup and place it in the basket,16,True,195,290
-4,pick up the ketchup and place it in the basket,17,True,205,290
-4,pick up the ketchup and place it in the basket,18,True,174,290
-4,pick up the ketchup and place it in the basket,19,True,180,290
-5,pick up the tomato sauce and place it in the basket,0,True,163,290
-5,pick up the tomato sauce and place it in the basket,1,True,168,290
-5,pick up the tomato sauce and place it in the basket,2,False,290,290
-5,pick up the tomato sauce and place it in the basket,3,True,166,290
-5,pick up the tomato sauce and place it in the basket,4,True,176,290
-5,pick up the tomato sauce and place it in the basket,5,True,208,290
-5,pick up the tomato sauce and place it in the basket,6,True,163,290
-5,pick up the tomato sauce and place it in the basket,7,True,209,290
-5,pick up the tomato sauce and place it in the basket,8,True,178,290
-5,pick up the tomato sauce and place it in the basket,9,True,167,290
-5,pick up the tomato sauce and place it in the basket,10,True,161,290
-5,pick up the tomato sauce and place it in the basket,11,True,161,290
-5,pick up the tomato sauce and place it in the basket,12,True,175,290
-5,pick up the tomato sauce and place it in the basket,13,True,168,290
-5,pick up the tomato sauce and place it in the basket,14,True,183,290
-5,pick up the tomato sauce and place it in the basket,15,True,162,290
-5,pick up the tomato sauce and place it in the basket,16,False,290,290
-5,pick up the tomato sauce and place it in the basket,17,True,165,290
-5,pick up the tomato sauce and place it in the basket,18,True,162,290
-5,pick up the tomato sauce and place it in the basket,19,True,168,290
-6,pick up the butter and place it in the basket,0,True,193,290
-6,pick up the butter and place it in the basket,1,True,185,290
-6,pick up the butter and place it in the basket,2,True,208,290
-6,pick up the butter and place it in the basket,3,True,189,290
-6,pick up the butter and place it in the basket,4,True,185,290
-6,pick up the butter and place it in the basket,5,True,185,290
-6,pick up the butter and place it in the basket,6,True,183,290
-6,pick up the butter and place it in the basket,7,True,190,290
-6,pick up the butter and place it in the basket,8,True,189,290
-6,pick up the butter and place it in the basket,9,True,183,290
-6,pick up the butter and place it in the basket,10,True,194,290
-6,pick up the butter and place it in the basket,11,True,183,290
-6,pick up the butter and place it in the basket,12,True,202,290
-6,pick up the butter and place it in the basket,13,True,194,290
-6,pick up the butter and place it in the basket,14,True,195,290
-6,pick up the butter and place it in the basket,15,True,184,290
-6,pick up the butter and place it in the basket,16,True,189,290
-6,pick up the butter and place it in the basket,17,True,189,290
-6,pick up the butter and place it in the basket,18,True,181,290
-6,pick up the butter and place it in the basket,19,True,193,290
-7,pick up the milk and place it in the basket,0,True,163,290
-7,pick up the milk and place it in the basket,1,True,180,290
-7,pick up the milk and place it in the basket,2,True,185,290
-7,pick up the milk and place it in the basket,3,True,165,290
-7,pick up the milk and place it in the basket,4,True,175,290
-7,pick up the milk and place it in the basket,5,True,226,290
-7,pick up the milk and place it in the basket,6,True,225,290
-7,pick up the milk and place it in the basket,7,True,179,290
-7,pick up the milk and place it in the basket,8,True,173,290
-7,pick up the milk and place it in the basket,9,True,216,290
-7,pick up the milk and place it in the basket,10,False,290,290
-7,pick up the milk and place it in the basket,11,True,162,290
-7,pick up the milk and place it in the basket,12,False,290,290
-7,pick up the milk and place it in the basket,13,True,178,290
-7,pick up the milk and place it in the basket,14,True,179,290
-7,pick up the milk and place it in the basket,15,True,183,290
-7,pick up the milk and place it in the basket,16,True,215,290
-7,pick up the milk and place it in the basket,17,True,189,290
-7,pick up the milk and place it in the basket,18,True,174,290
-7,pick up the milk and place it in the basket,19,True,213,290
-8,pick up the chocolate pudding and place it in the basket,0,True,181,290
-8,pick up the chocolate pudding and place it in the basket,1,True,219,290
-8,pick up the chocolate pudding and place it in the basket,2,True,215,290
-8,pick up the chocolate pudding and place it in the basket,3,True,184,290
-8,pick up the chocolate pudding and place it in the basket,4,True,177,290
-8,pick up the chocolate pudding and place it in the basket,5,True,195,290
-8,pick up the chocolate pudding and place it in the basket,6,True,180,290
-8,pick up the chocolate pudding and place it in the basket,7,True,181,290
-8,pick up the chocolate pudding and place it in the basket,8,True,189,290
-8,pick up the chocolate pudding and place it in the basket,9,True,193,290
-8,pick up the chocolate pudding and place it in the basket,10,True,200,290
-8,pick up the chocolate pudding and place it in the basket,11,True,172,290
-8,pick up the chocolate pudding and place it in the basket,12,True,182,290
-8,pick up the chocolate pudding and place it in the basket,13,True,192,290
-8,pick up the chocolate pudding and place it in the basket,14,True,218,290
-8,pick up the chocolate pudding and place it in the basket,15,True,184,290
-8,pick up the chocolate pudding and place it in the basket,16,True,188,290
-8,pick up the chocolate pudding and place it in the basket,17,True,191,290
-8,pick up the chocolate pudding and place it in the basket,18,True,177,290
-8,pick up the chocolate pudding and place it in the basket,19,True,186,290
-9,pick up the orange juice and place it in the basket,0,True,167,290
-9,pick up the orange juice and place it in the basket,1,True,163,290
-9,pick up the orange juice and place it in the basket,2,True,165,290
-9,pick up the orange juice and place it in the basket,3,True,160,290
-9,pick up the orange juice and place it in the basket,4,True,174,290
-9,pick up the orange juice and place it in the basket,5,True,164,290
-9,pick up the orange juice and place it in the basket,6,True,169,290
-9,pick up the orange juice and place it in the basket,7,True,159,290
-9,pick up the orange juice and place it in the basket,8,True,148,290
-9,pick up the orange juice and place it in the basket,9,True,169,290
-9,pick up the orange juice and place it in the basket,10,True,166,290
-9,pick up the orange juice and place it in the basket,11,True,165,290
-9,pick up the orange juice and place it in the basket,12,True,174,290
-9,pick up the orange juice and place it in the basket,13,True,169,290
-9,pick up the orange juice and place it in the basket,14,True,172,290
-9,pick up the orange juice and place it in the basket,15,True,196,290
-9,pick up the orange juice and place it in the basket,16,True,175,290
-9,pick up the orange juice and place it in the basket,17,True,154,290
-9,pick up the orange juice and place it in the basket,18,True,167,290
-9,pick up the orange juice and place it in the basket,19,True,187,290
+0,pick up the alphabet soup and place it in the basket,0,True,147,290
+0,pick up the alphabet soup and place it in the basket,1,True,201,290
+0,pick up the alphabet soup and place it in the basket,2,True,162,290
+0,pick up the alphabet soup and place it in the basket,3,True,150,290
+0,pick up the alphabet soup and place it in the basket,4,True,153,290
+0,pick up the alphabet soup and place it in the basket,5,True,151,290
+0,pick up the alphabet soup and place it in the basket,6,True,165,290
+0,pick up the alphabet soup and place it in the basket,7,True,153,290
+0,pick up the alphabet soup and place it in the basket,8,True,208,290
+0,pick up the alphabet soup and place it in the basket,9,True,147,290
+0,pick up the alphabet soup and place it in the basket,10,True,160,290
+0,pick up the alphabet soup and place it in the basket,11,True,148,290
+0,pick up the alphabet soup and place it in the basket,12,False,290,290
+0,pick up the alphabet soup and place it in the basket,13,True,157,290
+0,pick up the alphabet soup and place it in the basket,14,True,142,290
+0,pick up the alphabet soup and place it in the basket,15,True,147,290
+0,pick up the alphabet soup and place it in the basket,16,True,153,290
+0,pick up the alphabet soup and place it in the basket,17,True,155,290
+0,pick up the alphabet soup and place it in the basket,18,True,165,290
+0,pick up the alphabet soup and place it in the basket,19,True,155,290
+1,pick up the cream cheese and place it in the basket,0,True,140,290
+1,pick up the cream cheese and place it in the basket,1,True,138,290
+1,pick up the cream cheese and place it in the basket,2,True,133,290
+1,pick up the cream cheese and place it in the basket,3,True,148,290
+1,pick up the cream cheese and place it in the basket,4,True,132,290
+1,pick up the cream cheese and place it in the basket,5,True,180,290
+1,pick up the cream cheese and place it in the basket,6,True,194,290
+1,pick up the cream cheese and place it in the basket,7,True,134,290
+1,pick up the cream cheese and place it in the basket,8,True,136,290
+1,pick up the cream cheese and place it in the basket,9,True,144,290
+1,pick up the cream cheese and place it in the basket,10,True,144,290
+1,pick up the cream cheese and place it in the basket,11,True,134,290
+1,pick up the cream cheese and place it in the basket,12,True,141,290
+1,pick up the cream cheese and place it in the basket,13,True,133,290
+1,pick up the cream cheese and place it in the basket,14,True,134,290
+1,pick up the cream cheese and place it in the basket,15,True,134,290
+1,pick up the cream cheese and place it in the basket,16,True,173,290
+1,pick up the cream cheese and place it in the basket,17,True,149,290
+1,pick up the cream cheese and place it in the basket,18,True,130,290
+1,pick up the cream cheese and place it in the basket,19,True,134,290
+2,pick up the salad dressing and place it in the basket,0,True,130,290
+2,pick up the salad dressing and place it in the basket,1,True,127,290
+2,pick up the salad dressing and place it in the basket,2,True,120,290
+2,pick up the salad dressing and place it in the basket,3,True,132,290
+2,pick up the salad dressing and place it in the basket,4,True,130,290
+2,pick up the salad dressing and place it in the basket,5,True,130,290
+2,pick up the salad dressing and place it in the basket,6,True,133,290
+2,pick up the salad dressing and place it in the basket,7,True,128,290
+2,pick up the salad dressing and place it in the basket,8,True,125,290
+2,pick up the salad dressing and place it in the basket,9,True,136,290
+2,pick up the salad dressing and place it in the basket,10,True,131,290
+2,pick up the salad dressing and place it in the basket,11,True,129,290
+2,pick up the salad dressing and place it in the basket,12,True,128,290
+2,pick up the salad dressing and place it in the basket,13,True,130,290
+2,pick up the salad dressing and place it in the basket,14,True,135,290
+2,pick up the salad dressing and place it in the basket,15,True,129,290
+2,pick up the salad dressing and place it in the basket,16,True,127,290
+2,pick up the salad dressing and place it in the basket,17,True,135,290
+2,pick up the salad dressing and place it in the basket,18,True,130,290
+2,pick up the salad dressing and place it in the basket,19,True,130,290
+3,pick up the bbq sauce and place it in the basket,0,True,125,290
+3,pick up the bbq sauce and place it in the basket,1,True,138,290
+3,pick up the bbq sauce and place it in the basket,2,True,127,290
+3,pick up the bbq sauce and place it in the basket,3,True,149,290
+3,pick up the bbq sauce and place it in the basket,4,True,138,290
+3,pick up the bbq sauce and place it in the basket,5,True,129,290
+3,pick up the bbq sauce and place it in the basket,6,True,197,290
+3,pick up the bbq sauce and place it in the basket,7,True,133,290
+3,pick up the bbq sauce and place it in the basket,8,True,141,290
+3,pick up the bbq sauce and place it in the basket,9,True,140,290
+3,pick up the bbq sauce and place it in the basket,10,True,143,290
+3,pick up the bbq sauce and place it in the basket,11,True,140,290
+3,pick up the bbq sauce and place it in the basket,12,True,187,290
+3,pick up the bbq sauce and place it in the basket,13,True,130,290
+3,pick up the bbq sauce and place it in the basket,14,False,290,290
+3,pick up the bbq sauce and place it in the basket,15,True,128,290
+3,pick up the bbq sauce and place it in the basket,16,True,174,290
+3,pick up the bbq sauce and place it in the basket,17,True,182,290
+3,pick up the bbq sauce and place it in the basket,18,True,140,290
+3,pick up the bbq sauce and place it in the basket,19,True,147,290
+4,pick up the ketchup and place it in the basket,0,True,150,290
+4,pick up the ketchup and place it in the basket,1,True,186,290
+4,pick up the ketchup and place it in the basket,2,True,146,290
+4,pick up the ketchup and place it in the basket,3,True,153,290
+4,pick up the ketchup and place it in the basket,4,True,177,290
+4,pick up the ketchup and place it in the basket,5,True,143,290
+4,pick up the ketchup and place it in the basket,6,True,147,290
+4,pick up the ketchup and place it in the basket,7,True,168,290
+4,pick up the ketchup and place it in the basket,8,True,149,290
+4,pick up the ketchup and place it in the basket,9,True,155,290
+4,pick up the ketchup and place it in the basket,10,True,151,290
+4,pick up the ketchup and place it in the basket,11,True,151,290
+4,pick up the ketchup and place it in the basket,12,True,145,290
+4,pick up the ketchup and place it in the basket,13,True,146,290
+4,pick up the ketchup and place it in the basket,14,True,157,290
+4,pick up the ketchup and place it in the basket,15,True,152,290
+4,pick up the ketchup and place it in the basket,16,True,149,290
+4,pick up the ketchup and place it in the basket,17,True,148,290
+4,pick up the ketchup and place it in the basket,18,True,159,290
+4,pick up the ketchup and place it in the basket,19,True,161,290
+5,pick up the tomato sauce and place it in the basket,0,True,128,290
+5,pick up the tomato sauce and place it in the basket,1,True,129,290
+5,pick up the tomato sauce and place it in the basket,2,True,136,290
+5,pick up the tomato sauce and place it in the basket,3,True,183,290
+5,pick up the tomato sauce and place it in the basket,4,True,130,290
+5,pick up the tomato sauce and place it in the basket,5,True,130,290
+5,pick up the tomato sauce and place it in the basket,6,True,183,290
+5,pick up the tomato sauce and place it in the basket,7,True,138,290
+5,pick up the tomato sauce and place it in the basket,8,True,137,290
+5,pick up the tomato sauce and place it in the basket,9,True,168,290
+5,pick up the tomato sauce and place it in the basket,10,False,290,290
+5,pick up the tomato sauce and place it in the basket,11,True,129,290
+5,pick up the tomato sauce and place it in the basket,12,True,138,290
+5,pick up the tomato sauce and place it in the basket,13,True,143,290
+5,pick up the tomato sauce and place it in the basket,14,True,179,290
+5,pick up the tomato sauce and place it in the basket,15,True,127,290
+5,pick up the tomato sauce and place it in the basket,16,True,138,290
+5,pick up the tomato sauce and place it in the basket,17,True,168,290
+5,pick up the tomato sauce and place it in the basket,18,True,140,290
+5,pick up the tomato sauce and place it in the basket,19,True,128,290
+6,pick up the butter and place it in the basket,0,True,168,290
+6,pick up the butter and place it in the basket,1,True,158,290
+6,pick up the butter and place it in the basket,2,True,168,290
+6,pick up the butter and place it in the basket,3,True,180,290
+6,pick up the butter and place it in the basket,4,True,158,290
+6,pick up the butter and place it in the basket,5,True,163,290
+6,pick up the butter and place it in the basket,6,True,158,290
+6,pick up the butter and place it in the basket,7,True,154,290
+6,pick up the butter and place it in the basket,8,True,172,290
+6,pick up the butter and place it in the basket,9,True,157,290
+6,pick up the butter and place it in the basket,10,True,151,290
+6,pick up the butter and place it in the basket,11,True,159,290
+6,pick up the butter and place it in the basket,12,True,157,290
+6,pick up the butter and place it in the basket,13,True,154,290
+6,pick up the butter and place it in the basket,14,True,149,290
+6,pick up the butter and place it in the basket,15,True,150,290
+6,pick up the butter and place it in the basket,16,True,162,290
+6,pick up the butter and place it in the basket,17,True,158,290
+6,pick up the butter and place it in the basket,18,True,158,290
+6,pick up the butter and place it in the basket,19,True,161,290
+7,pick up the milk and place it in the basket,0,True,136,290
+7,pick up the milk and place it in the basket,1,True,155,290
+7,pick up the milk and place it in the basket,2,True,155,290
+7,pick up the milk and place it in the basket,3,True,141,290
+7,pick up the milk and place it in the basket,4,True,144,290
+7,pick up the milk and place it in the basket,5,True,142,290
+7,pick up the milk and place it in the basket,6,True,158,290
+7,pick up the milk and place it in the basket,7,True,138,290
+7,pick up the milk and place it in the basket,8,True,146,290
+7,pick up the milk and place it in the basket,9,True,186,290
+7,pick up the milk and place it in the basket,10,True,135,290
+7,pick up the milk and place it in the basket,11,True,136,290
+7,pick up the milk and place it in the basket,12,True,130,290
+7,pick up the milk and place it in the basket,13,True,153,290
+7,pick up the milk and place it in the basket,14,True,144,290
+7,pick up the milk and place it in the basket,15,True,133,290
+7,pick up the milk and place it in the basket,16,True,146,290
+7,pick up the milk and place it in the basket,17,True,143,290
+7,pick up the milk and place it in the basket,18,True,137,290
+7,pick up the milk and place it in the basket,19,True,139,290
+8,pick up the chocolate pudding and place it in the basket,0,True,154,290
+8,pick up the chocolate pudding and place it in the basket,1,True,165,290
+8,pick up the chocolate pudding and place it in the basket,2,True,158,290
+8,pick up the chocolate pudding and place it in the basket,3,True,165,290
+8,pick up the chocolate pudding and place it in the basket,4,True,152,290
+8,pick up the chocolate pudding and place it in the basket,5,True,165,290
+8,pick up the chocolate pudding and place it in the basket,6,True,159,290
+8,pick up the chocolate pudding and place it in the basket,7,True,163,290
+8,pick up the chocolate pudding and place it in the basket,8,True,168,290
+8,pick up the chocolate pudding and place it in the basket,9,True,184,290
+8,pick up the chocolate pudding and place it in the basket,10,True,154,290
+8,pick up the chocolate pudding and place it in the basket,11,True,177,290
+8,pick up the chocolate pudding and place it in the basket,12,True,162,290
+8,pick up the chocolate pudding and place it in the basket,13,True,165,290
+8,pick up the chocolate pudding and place it in the basket,14,True,154,290
+8,pick up the chocolate pudding and place it in the basket,15,True,169,290
+8,pick up the chocolate pudding and place it in the basket,16,True,157,290
+8,pick up the chocolate pudding and place it in the basket,17,True,161,290
+8,pick up the chocolate pudding and place it in the basket,18,True,174,290
+8,pick up the chocolate pudding and place it in the basket,19,True,164,290
+9,pick up the orange juice and place it in the basket,0,True,135,290
+9,pick up the orange juice and place it in the basket,1,True,129,290
+9,pick up the orange juice and place it in the basket,2,True,136,290
+9,pick up the orange juice and place it in the basket,3,True,130,290
+9,pick up the orange juice and place it in the basket,4,True,137,290
+9,pick up the orange juice and place it in the basket,5,True,125,290
+9,pick up the orange juice and place it in the basket,6,True,133,290
+9,pick up the orange juice and place it in the basket,7,True,138,290
+9,pick up the orange juice and place it in the basket,8,True,128,290
+9,pick up the orange juice and place it in the basket,9,True,130,290
+9,pick up the orange juice and place it in the basket,10,True,135,290
+9,pick up the orange juice and place it in the basket,11,True,134,290
+9,pick up the orange juice and place it in the basket,12,True,141,290
+9,pick up the orange juice and place it in the basket,13,True,138,290
+9,pick up the orange juice and place it in the basket,14,True,141,290
+9,pick up the orange juice and place it in the basket,15,True,129,290
+9,pick up the orange juice and place it in the basket,16,True,133,290
+9,pick up the orange juice and place it in the basket,17,True,125,290
+9,pick up the orange juice and place it in the basket,18,True,138,290
+9,pick up the orange juice and place it in the basket,19,True,140,290

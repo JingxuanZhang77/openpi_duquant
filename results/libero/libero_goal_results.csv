@@ -1,201 +1,201 @@
 task_id,task_name,episode_idx,success,steps,max_steps
-0,open the middle drawer of the cabinet,0,False,310,310
-0,open the middle drawer of the cabinet,1,False,310,310
-0,open the middle drawer of the cabinet,2,False,310,310
-0,open the middle drawer of the cabinet,3,False,310,310
-0,open the middle drawer of the cabinet,4,False,310,310
-0,open the middle drawer of the cabinet,5,False,310,310
-0,open the middle drawer of the cabinet,6,False,310,310
-0,open the middle drawer of the cabinet,7,False,310,310
-0,open the middle drawer of the cabinet,8,False,310,310
-0,open the middle drawer of the cabinet,9,False,310,310
-0,open the middle drawer of the cabinet,10,False,310,310
-0,open the middle drawer of the cabinet,11,False,310,310
-0,open the middle drawer of the cabinet,12,False,310,310
-0,open the middle drawer of the cabinet,13,False,310,310
-0,open the middle drawer of the cabinet,14,False,310,310
-0,open the middle drawer of the cabinet,15,False,310,310
-0,open the middle drawer of the cabinet,16,False,310,310
-0,open the middle drawer of the cabinet,17,False,310,310
-0,open the middle drawer of the cabinet,18,False,310,310
-0,open the middle drawer of the cabinet,19,False,310,310
-1,put the bowl on the stove,0,False,310,310
-1,put the bowl on the stove,1,False,310,310
-1,put the bowl on the stove,2,False,310,310
-1,put the bowl on the stove,3,False,310,310
-1,put the bowl on the stove,4,False,310,310
-1,put the bowl on the stove,5,False,310,310
-1,put the bowl on the stove,6,False,310,310
-1,put the bowl on the stove,7,False,310,310
-1,put the bowl on the stove,8,False,310,310
-1,put the bowl on the stove,9,False,310,310
-1,put the bowl on the stove,10,False,310,310
-1,put the bowl on the stove,11,False,310,310
-1,put the bowl on the stove,12,False,310,310
-1,put the bowl on the stove,13,False,310,310
-1,put the bowl on the stove,14,False,310,310
-1,put the bowl on the stove,15,False,310,310
-1,put the bowl on the stove,16,False,310,310
-1,put the bowl on the stove,17,False,310,310
-1,put the bowl on the stove,18,False,310,310
-1,put the bowl on the stove,19,False,310,310
-2,put the wine bottle on top of the cabinet,0,False,310,310
-2,put the wine bottle on top of the cabinet,1,False,310,310
-2,put the wine bottle on top of the cabinet,2,False,310,310
-2,put the wine bottle on top of the cabinet,3,False,310,310
-2,put the wine bottle on top of the cabinet,4,False,310,310
-2,put the wine bottle on top of the cabinet,5,False,310,310
-2,put the wine bottle on top of the cabinet,6,False,310,310
-2,put the wine bottle on top of the cabinet,7,False,310,310
-2,put the wine bottle on top of the cabinet,8,False,310,310
-2,put the wine bottle on top of the cabinet,9,False,310,310
-2,put the wine bottle on top of the cabinet,10,False,310,310
-2,put the wine bottle on top of the cabinet,11,False,310,310
-2,put the wine bottle on top of the cabinet,12,False,310,310
-2,put the wine bottle on top of the cabinet,13,False,310,310
-2,put the wine bottle on top of the cabinet,14,False,310,310
-2,put the wine bottle on top of the cabinet,15,False,310,310
-2,put the wine bottle on top of the cabinet,16,False,310,310
-2,put the wine bottle on top of the cabinet,17,False,310,310
-2,put the wine bottle on top of the cabinet,18,False,310,310
-2,put the wine bottle on top of the cabinet,19,False,310,310
-3,open the top drawer and put the bowl inside,0,False,310,310
-3,open the top drawer and put the bowl inside,1,False,310,310
-3,open the top drawer and put the bowl inside,2,False,310,310
-3,open the top drawer and put the bowl inside,3,False,310,310
+0,open the middle drawer of the cabinet,0,True,140,310
+0,open the middle drawer of the cabinet,1,True,130,310
+0,open the middle drawer of the cabinet,2,True,131,310
+0,open the middle drawer of the cabinet,3,True,127,310
+0,open the middle drawer of the cabinet,4,True,132,310
+0,open the middle drawer of the cabinet,5,True,136,310
+0,open the middle drawer of the cabinet,6,True,128,310
+0,open the middle drawer of the cabinet,7,True,134,310
+0,open the middle drawer of the cabinet,8,True,143,310
+0,open the middle drawer of the cabinet,9,True,138,310
+0,open the middle drawer of the cabinet,10,True,132,310
+0,open the middle drawer of the cabinet,11,True,140,310
+0,open the middle drawer of the cabinet,12,True,135,310
+0,open the middle drawer of the cabinet,13,True,135,310
+0,open the middle drawer of the cabinet,14,True,140,310
+0,open the middle drawer of the cabinet,15,True,139,310
+0,open the middle drawer of the cabinet,16,True,131,310
+0,open the middle drawer of the cabinet,17,True,250,310
+0,open the middle drawer of the cabinet,18,True,125,310
+0,open the middle drawer of the cabinet,19,True,142,310
+1,put the bowl on the stove,0,True,96,310
+1,put the bowl on the stove,1,True,102,310
+1,put the bowl on the stove,2,True,96,310
+1,put the bowl on the stove,3,True,99,310
+1,put the bowl on the stove,4,True,97,310
+1,put the bowl on the stove,5,True,95,310
+1,put the bowl on the stove,6,True,101,310
+1,put the bowl on the stove,7,True,97,310
+1,put the bowl on the stove,8,True,102,310
+1,put the bowl on the stove,9,True,99,310
+1,put the bowl on the stove,10,True,94,310
+1,put the bowl on the stove,11,True,108,310
+1,put the bowl on the stove,12,True,98,310
+1,put the bowl on the stove,13,True,100,310
+1,put the bowl on the stove,14,True,92,310
+1,put the bowl on the stove,15,True,109,310
+1,put the bowl on the stove,16,True,97,310
+1,put the bowl on the stove,17,True,97,310
+1,put the bowl on the stove,18,True,100,310
+1,put the bowl on the stove,19,True,88,310
+2,put the wine bottle on top of the cabinet,0,True,95,310
+2,put the wine bottle on top of the cabinet,1,True,100,310
+2,put the wine bottle on top of the cabinet,2,True,99,310
+2,put the wine bottle on top of the cabinet,3,True,107,310
+2,put the wine bottle on top of the cabinet,4,True,95,310
+2,put the wine bottle on top of the cabinet,5,True,99,310
+2,put the wine bottle on top of the cabinet,6,True,106,310
+2,put the wine bottle on top of the cabinet,7,True,123,310
+2,put the wine bottle on top of the cabinet,8,True,117,310
+2,put the wine bottle on top of the cabinet,9,True,104,310
+2,put the wine bottle on top of the cabinet,10,True,95,310
+2,put the wine bottle on top of the cabinet,11,True,102,310
+2,put the wine bottle on top of the cabinet,12,True,92,310
+2,put the wine bottle on top of the cabinet,13,True,105,310
+2,put the wine bottle on top of the cabinet,14,True,102,310
+2,put the wine bottle on top of the cabinet,15,True,100,310
+2,put the wine bottle on top of the cabinet,16,True,109,310
+2,put the wine bottle on top of the cabinet,17,True,94,310
+2,put the wine bottle on top of the cabinet,18,True,100,310
+2,put the wine bottle on top of the cabinet,19,True,100,310
+3,open the top drawer and put the bowl inside,0,True,217,310
+3,open the top drawer and put the bowl inside,1,True,197,310
+3,open the top drawer and put the bowl inside,2,True,249,310
+3,open the top drawer and put the bowl inside,3,True,265,310
 3,open the top drawer and put the bowl inside,4,False,310,310
-3,open the top drawer and put the bowl inside,5,False,310,310
-3,open the top drawer and put the bowl inside,6,False,310,310
-3,open the top drawer and put the bowl inside,7,False,310,310
-3,open the top drawer and put the bowl inside,8,False,310,310
-3,open the top drawer and put the bowl inside,9,False,310,310
-3,open the top drawer and put the bowl inside,10,False,310,310
-3,open the top drawer and put the bowl inside,11,False,310,310
-3,open the top drawer and put the bowl inside,12,False,310,310
-3,open the top drawer and put the bowl inside,13,False,310,310
-3,open the top drawer and put the bowl inside,14,False,310,310
-3,open the top drawer and put the bowl inside,15,False,310,310
-3,open the top drawer and put the bowl inside,16,False,310,310
-3,open the top drawer and put the bowl inside,17,False,310,310
-3,open the top drawer and put the bowl inside,18,False,310,310
-3,open the top drawer and put the bowl inside,19,False,310,310
-4,put the bowl on top of the cabinet,0,False,310,310
-4,put the bowl on top of the cabinet,1,False,310,310
-4,put the bowl on top of the cabinet,2,False,310,310
-4,put the bowl on top of the cabinet,3,False,310,310
-4,put the bowl on top of the cabinet,4,False,310,310
-4,put the bowl on top of the cabinet,5,False,310,310
-4,put the bowl on top of the cabinet,6,False,310,310
-4,put the bowl on top of the cabinet,7,False,310,310
-4,put the bowl on top of the cabinet,8,False,310,310
-4,put the bowl on top of the cabinet,9,False,310,310
-4,put the bowl on top of the cabinet,10,False,310,310
-4,put the bowl on top of the cabinet,11,False,310,310
-4,put the bowl on top of the cabinet,12,False,310,310
-4,put the bowl on top of the cabinet,13,False,310,310
-4,put the bowl on top of the cabinet,14,False,310,310
-4,put the bowl on top of the cabinet,15,False,310,310
-4,put the bowl on top of the cabinet,16,False,310,310
-4,put the bowl on top of the cabinet,17,False,310,310
-4,put the bowl on top of the cabinet,18,False,310,310
-4,put the bowl on top of the cabinet,19,False,310,310
-5,push the plate to the front of the stove,0,False,310,310
-5,push the plate to the front of the stove,1,False,310,310
-5,push the plate to the front of the stove,2,False,310,310
-5,push the plate to the front of the stove,3,False,310,310
-5,push the plate to the front of the stove,4,False,310,310
-5,push the plate to the front of the stove,5,False,310,310
-5,push the plate to the front of the stove,6,False,310,310
-5,push the plate to the front of the stove,7,False,310,310
-5,push the plate to the front of the stove,8,False,310,310
-5,push the plate to the front of the stove,9,False,310,310
-5,push the plate to the front of the stove,10,False,310,310
-5,push the plate to the front of the stove,11,False,310,310
-5,push the plate to the front of the stove,12,False,310,310
-5,push the plate to the front of the stove,13,False,310,310
-5,push the plate to the front of the stove,14,False,310,310
-5,push the plate to the front of the stove,15,False,310,310
-5,push the plate to the front of the stove,16,False,310,310
-5,push the plate to the front of the stove,17,False,310,310
-5,push the plate to the front of the stove,18,False,310,310
-5,push the plate to the front of the stove,19,False,310,310
-6,put the cream cheese in the bowl,0,False,310,310
-6,put the cream cheese in the bowl,1,False,310,310
-6,put the cream cheese in the bowl,2,False,310,310
-6,put the cream cheese in the bowl,3,False,310,310
-6,put the cream cheese in the bowl,4,False,310,310
-6,put the cream cheese in the bowl,5,False,310,310
-6,put the cream cheese in the bowl,6,False,310,310
-6,put the cream cheese in the bowl,7,False,310,310
-6,put the cream cheese in the bowl,8,False,310,310
-6,put the cream cheese in the bowl,9,False,310,310
-6,put the cream cheese in the bowl,10,False,310,310
-6,put the cream cheese in the bowl,11,False,310,310
-6,put the cream cheese in the bowl,12,False,310,310
-6,put the cream cheese in the bowl,13,False,310,310
-6,put the cream cheese in the bowl,14,False,310,310
-6,put the cream cheese in the bowl,15,False,310,310
-6,put the cream cheese in the bowl,16,False,310,310
-6,put the cream cheese in the bowl,17,False,310,310
-6,put the cream cheese in the bowl,18,False,310,310
-6,put the cream cheese in the bowl,19,False,310,310
-7,turn on the stove,0,False,310,310
-7,turn on the stove,1,False,310,310
-7,turn on the stove,2,False,310,310
-7,turn on the stove,3,False,310,310
-7,turn on the stove,4,False,310,310
-7,turn on the stove,5,False,310,310
-7,turn on the stove,6,False,310,310
-7,turn on the stove,7,False,310,310
-7,turn on the stove,8,False,310,310
-7,turn on the stove,9,False,310,310
-7,turn on the stove,10,False,310,310
-7,turn on the stove,11,False,310,310
-7,turn on the stove,12,False,310,310
-7,turn on the stove,13,False,310,310
-7,turn on the stove,14,False,310,310
-7,turn on the stove,15,False,310,310
-7,turn on the stove,16,False,310,310
-7,turn on the stove,17,False,310,310
-7,turn on the stove,18,False,310,310
-7,turn on the stove,19,False,310,310
-8,put the bowl on the plate,0,False,310,310
-8,put the bowl on the plate,1,False,310,310
-8,put the bowl on the plate,2,False,310,310
-8,put the bowl on the plate,3,False,310,310
-8,put the bowl on the plate,4,False,310,310
-8,put the bowl on the plate,5,False,310,310
-8,put the bowl on the plate,6,False,310,310
-8,put the bowl on the plate,7,False,310,310
-8,put the bowl on the plate,8,False,310,310
-8,put the bowl on the plate,9,False,310,310
-8,put the bowl on the plate,10,False,310,310
-8,put the bowl on the plate,11,False,310,310
-8,put the bowl on the plate,12,False,310,310
-8,put the bowl on the plate,13,False,310,310
-8,put the bowl on the plate,14,False,310,310
-8,put the bowl on the plate,15,False,310,310
-8,put the bowl on the plate,16,False,310,310
-8,put the bowl on the plate,17,False,310,310
-8,put the bowl on the plate,18,False,310,310
-8,put the bowl on the plate,19,False,310,310
-9,put the wine bottle on the rack,0,False,310,310
-9,put the wine bottle on the rack,1,False,310,310
-9,put the wine bottle on the rack,2,False,310,310
-9,put the wine bottle on the rack,3,False,310,310
-9,put the wine bottle on the rack,4,False,310,310
+3,open the top drawer and put the bowl inside,5,True,194,310
+3,open the top drawer and put the bowl inside,6,True,198,310
+3,open the top drawer and put the bowl inside,7,True,205,310
+3,open the top drawer and put the bowl inside,8,True,209,310
+3,open the top drawer and put the bowl inside,9,True,208,310
+3,open the top drawer and put the bowl inside,10,True,187,310
+3,open the top drawer and put the bowl inside,11,True,200,310
+3,open the top drawer and put the bowl inside,12,True,188,310
+3,open the top drawer and put the bowl inside,13,True,212,310
+3,open the top drawer and put the bowl inside,14,True,206,310
+3,open the top drawer and put the bowl inside,15,True,195,310
+3,open the top drawer and put the bowl inside,16,True,211,310
+3,open the top drawer and put the bowl inside,17,True,219,310
+3,open the top drawer and put the bowl inside,18,True,201,310
+3,open the top drawer and put the bowl inside,19,True,195,310
+4,put the bowl on top of the cabinet,0,True,127,310
+4,put the bowl on top of the cabinet,1,True,104,310
+4,put the bowl on top of the cabinet,2,True,99,310
+4,put the bowl on top of the cabinet,3,True,99,310
+4,put the bowl on top of the cabinet,4,True,96,310
+4,put the bowl on top of the cabinet,5,True,95,310
+4,put the bowl on top of the cabinet,6,True,98,310
+4,put the bowl on top of the cabinet,7,True,95,310
+4,put the bowl on top of the cabinet,8,True,93,310
+4,put the bowl on top of the cabinet,9,True,98,310
+4,put the bowl on top of the cabinet,10,True,107,310
+4,put the bowl on top of the cabinet,11,True,101,310
+4,put the bowl on top of the cabinet,12,True,103,310
+4,put the bowl on top of the cabinet,13,True,92,310
+4,put the bowl on top of the cabinet,14,True,97,310
+4,put the bowl on top of the cabinet,15,True,91,310
+4,put the bowl on top of the cabinet,16,True,96,310
+4,put the bowl on top of the cabinet,17,True,97,310
+4,put the bowl on top of the cabinet,18,True,105,310
+4,put the bowl on top of the cabinet,19,True,92,310
+5,push the plate to the front of the stove,0,True,193,310
+5,push the plate to the front of the stove,1,True,212,310
+5,push the plate to the front of the stove,2,True,126,310
+5,push the plate to the front of the stove,3,True,146,310
+5,push the plate to the front of the stove,4,True,136,310
+5,push the plate to the front of the stove,5,True,148,310
+5,push the plate to the front of the stove,6,True,144,310
+5,push the plate to the front of the stove,7,True,210,310
+5,push the plate to the front of the stove,8,True,151,310
+5,push the plate to the front of the stove,9,True,162,310
+5,push the plate to the front of the stove,10,True,126,310
+5,push the plate to the front of the stove,11,True,130,310
+5,push the plate to the front of the stove,12,True,138,310
+5,push the plate to the front of the stove,13,True,140,310
+5,push the plate to the front of the stove,14,True,133,310
+5,push the plate to the front of the stove,15,True,140,310
+5,push the plate to the front of the stove,16,True,142,310
+5,push the plate to the front of the stove,17,True,135,310
+5,push the plate to the front of the stove,18,True,130,310
+5,push the plate to the front of the stove,19,True,145,310
+6,put the cream cheese in the bowl,0,True,100,310
+6,put the cream cheese in the bowl,1,True,107,310
+6,put the cream cheese in the bowl,2,True,104,310
+6,put the cream cheese in the bowl,3,True,102,310
+6,put the cream cheese in the bowl,4,True,97,310
+6,put the cream cheese in the bowl,5,True,96,310
+6,put the cream cheese in the bowl,6,True,97,310
+6,put the cream cheese in the bowl,7,True,93,310
+6,put the cream cheese in the bowl,8,True,101,310
+6,put the cream cheese in the bowl,9,True,105,310
+6,put the cream cheese in the bowl,10,True,98,310
+6,put the cream cheese in the bowl,11,True,103,310
+6,put the cream cheese in the bowl,12,True,101,310
+6,put the cream cheese in the bowl,13,True,95,310
+6,put the cream cheese in the bowl,14,True,101,310
+6,put the cream cheese in the bowl,15,True,103,310
+6,put the cream cheese in the bowl,16,True,101,310
+6,put the cream cheese in the bowl,17,True,108,310
+6,put the cream cheese in the bowl,18,True,100,310
+6,put the cream cheese in the bowl,19,True,98,310
+7,turn on the stove,0,True,87,310
+7,turn on the stove,1,True,82,310
+7,turn on the stove,2,True,92,310
+7,turn on the stove,3,True,86,310
+7,turn on the stove,4,True,94,310
+7,turn on the stove,5,True,85,310
+7,turn on the stove,6,True,86,310
+7,turn on the stove,7,True,81,310
+7,turn on the stove,8,True,84,310
+7,turn on the stove,9,True,84,310
+7,turn on the stove,10,True,81,310
+7,turn on the stove,11,True,89,310
+7,turn on the stove,12,True,81,310
+7,turn on the stove,13,True,87,310
+7,turn on the stove,14,True,88,310
+7,turn on the stove,15,True,85,310
+7,turn on the stove,16,True,85,310
+7,turn on the stove,17,True,85,310
+7,turn on the stove,18,True,94,310
+7,turn on the stove,19,True,87,310
+8,put the bowl on the plate,0,True,88,310
+8,put the bowl on the plate,1,True,92,310
+8,put the bowl on the plate,2,True,95,310
+8,put the bowl on the plate,3,True,83,310
+8,put the bowl on the plate,4,True,86,310
+8,put the bowl on the plate,5,True,91,310
+8,put the bowl on the plate,6,True,85,310
+8,put the bowl on the plate,7,True,88,310
+8,put the bowl on the plate,8,True,76,310
+8,put the bowl on the plate,9,True,81,310
+8,put the bowl on the plate,10,True,92,310
+8,put the bowl on the plate,11,True,88,310
+8,put the bowl on the plate,12,True,86,310
+8,put the bowl on the plate,13,True,90,310
+8,put the bowl on the plate,14,True,82,310
+8,put the bowl on the plate,15,True,88,310
+8,put the bowl on the plate,16,True,89,310
+8,put the bowl on the plate,17,True,92,310
+8,put the bowl on the plate,18,True,90,310
+8,put the bowl on the plate,19,True,82,310
+9,put the wine bottle on the rack,0,True,144,310
+9,put the wine bottle on the rack,1,True,131,310
+9,put the wine bottle on the rack,2,True,163,310
+9,put the wine bottle on the rack,3,True,133,310
+9,put the wine bottle on the rack,4,True,141,310
 9,put the wine bottle on the rack,5,False,310,310
-9,put the wine bottle on the rack,6,False,310,310
-9,put the wine bottle on the rack,7,False,310,310
-9,put the wine bottle on the rack,8,False,310,310
-9,put the wine bottle on the rack,9,False,310,310
-9,put the wine bottle on the rack,10,False,310,310
-9,put the wine bottle on the rack,11,False,310,310
-9,put the wine bottle on the rack,12,False,310,310
-9,put the wine bottle on the rack,13,False,310,310
-9,put the wine bottle on the rack,14,False,310,310
-9,put the wine bottle on the rack,15,False,310,310
-9,put the wine bottle on the rack,16,False,310,310
-9,put the wine bottle on the rack,17,False,310,310
-9,put the wine bottle on the rack,18,False,310,310
-9,put the wine bottle on the rack,19,False,310,310
+9,put the wine bottle on the rack,6,True,140,310
+9,put the wine bottle on the rack,7,True,191,310
+9,put the wine bottle on the rack,8,True,135,310
+9,put the wine bottle on the rack,9,True,147,310
+9,put the wine bottle on the rack,10,True,137,310
+9,put the wine bottle on the rack,11,True,138,310
+9,put the wine bottle on the rack,12,True,135,310
+9,put the wine bottle on the rack,13,True,151,310
+9,put the wine bottle on the rack,14,True,174,310
+9,put the wine bottle on the rack,15,True,128,310
+9,put the wine bottle on the rack,16,True,158,310
+9,put the wine bottle on the rack,17,True,136,310
+9,put the wine bottle on the rack,18,True,130,310
+9,put the wine bottle on the rack,19,True,150,310

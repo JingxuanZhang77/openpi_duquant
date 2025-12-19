@@ -50,6 +50,94 @@ except Exception:  # pragma: no cover - duquant disabled or JAX policy
     _DUQUANT_PROFILER = None
 
 
+def _format_bytes(b):
+    """Format bytes as human readable string."""
+    if b >= 1024 ** 3:
+        return f"{b / (1024 ** 3):.2f} GB"
+    elif b >= 1024 ** 2:
+        return f"{b / (1024 ** 2):.2f} MB"
+    elif b >= 1024:
+        return f"{b / 1024:.2f} KB"
+    else:
+        return f"{b} B"
+
+
+def _get_nvidia_smi_memory():
+    """Get GPU memory usage from nvidia-smi (actual process memory)."""
+    import subprocess
+    try:
+        # Get current process GPU memory
+        result = subprocess.run(
+            ["nvidia-smi", "--query-compute-apps=pid,used_memory", "--format=csv,noheader,nounits"],
+            capture_output=True, text=True, timeout=5
+        )
+        if result.returncode == 0:
+            current_pid = os.getpid()
+            for line in result.stdout.strip().split("\n"):
+                if line.strip():
+                    parts = line.split(",")
+                    if len(parts) >= 2:
+                        pid = int(parts[0].strip())
+                        if pid == current_pid:
+                            mem_mb = int(parts[1].strip())
+                            return mem_mb * 1024 * 1024  # Convert to bytes
+        return 0
+    except Exception:
+        return 0
+
+
+def _report_model_memory(model, context: str = ""):
+    """Report model size and GPU memory usage."""
+    import torch
+
+    # Get model size
+    total_bytes = 0
+    param_bytes = 0
+    buffer_bytes = 0
+
+    for name, param in model.named_parameters():
+        param_bytes += param.numel() * param.element_size()
+    for name, buf in model.named_buffers():
+        if buf is not None:
+            buffer_bytes += buf.numel() * buf.element_size()
+
+    total_bytes = param_bytes + buffer_bytes
+
+    # Count layer types
+    try:
+        from openpi.models_pytorch.bitblas_w8a8_layers import BitBLASW8A8Linear
+        w8a8_count = sum(1 for m in model.modules() if isinstance(m, BitBLASW8A8Linear))
+    except ImportError:
+        w8a8_count = 0
+
+    linear_count = sum(1 for m in model.modules() if isinstance(m, torch.nn.Linear))
+
+    # GPU memory - PyTorch tracking
+    gpu_allocated = torch.cuda.memory_allocated() if torch.cuda.is_available() else 0
+    gpu_reserved = torch.cuda.memory_reserved() if torch.cuda.is_available() else 0
+
+    # GPU memory - nvidia-smi (actual process memory)
+    nvidia_smi_mem = _get_nvidia_smi_memory()
+
+    # Print report
+    print("=" * 70)
+    print(f"MODEL MEMORY REPORT {context}")
+    print("=" * 70)
+    print(f"Model size (weights + buffers):")
+    print(f"  Parameters:       {_format_bytes(param_bytes)}")
+    print(f"  Buffers:          {_format_bytes(buffer_bytes)}")
+    print(f"  Total:            {_format_bytes(total_bytes)}")
+    print(f"\nLayer counts:")
+    print(f"  Linear (FP16):    {linear_count}")
+    print(f"  W8A8 quantized:   {w8a8_count}")
+    print(f"\nGPU memory (PyTorch):")
+    print(f"  Allocated:        {_format_bytes(gpu_allocated)}")
+    print(f"  Reserved:         {_format_bytes(gpu_reserved)}")
+    print(f"\nGPU memory (nvidia-smi, actual process memory):")
+    print(f"  Used:             {_format_bytes(nvidia_smi_mem)}")
+    print("=" * 70)
+
+
 class _PolicyCallProfiler:
     """Collect policy inference latency stats regardless of DuQuant usage."""
 
@@ -282,6 +370,10 @@ def eval_libero(args: Args) -> None:
         )
         if getattr(policy_obj, "_is_pytorch_model", False):
             _maybe_register_linear_shape_logging(policy_obj._model)
+            # Report model memory usage
+            w8a8_enabled = os.environ.get("OPENPI_W8A8_ENABLE", "0") == "1"
+            mode_str = "[W8A8]" if w8a8_enabled else "[FP16]"
+            _report_model_memory(policy_obj._model, context=mode_str)
 
         client = _local_policy.LocalPolicy(policy_obj)
     else:

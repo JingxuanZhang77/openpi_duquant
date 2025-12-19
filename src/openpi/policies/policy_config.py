@@ -82,6 +82,22 @@ def create_trained_policy(
             import logging as _logging
 
             _logging.warning(f"SmoothQuant init failed or skipped: {sq_exc}")
+        try:
+            from openpi.models_pytorch.bitblas_layers import enable_bitblas_if_configured
+
+            enable_bitblas_if_configured(model)
+        except Exception as bitblas_exc:  # noqa: BLE001
+            import logging as _logging
+
+            _logging.warning(f"BitBLAS init failed or skipped: {bitblas_exc}")
+        try:
+            from openpi.models_pytorch.bitblas_w8a8_layers import enable_w8a8_if_configured
+
+            enable_w8a8_if_configured(model)
+        except Exception as w8a8_exc:  # noqa: BLE001
+            import logging as _logging
+
+            _logging.warning(f"W8A8 init failed or skipped: {w8a8_exc}")
     else:
         import jax.numpy as jnp
         import openpi.models.model as _model
