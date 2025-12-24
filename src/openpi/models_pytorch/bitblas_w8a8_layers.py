@@ -585,3 +585,362 @@ def apply_w8a8_quantization(
         save_tuning_cache()
 
     return replaced_count
+
+
+# =============================================================================
+# HuggingFace Save/Load Functions
+# =============================================================================
+
+def save_w8a8_to_hf(
+    policy,
+    save_path: str,
+    checkpoint_dir: str,
+    repo_id: Optional[str] = None,
+    push_to_hub: bool = False,
+):
+    """Save complete W8A8 quantized model to HuggingFace format.
+
+    Saves the complete model including:
+    - INT8 weights (qweight) and scales (weight_scale) for W8A8 layers
+    - FP16 weights for non-quantized layers (vision encoder, embeddings, etc.)
+    - assets directory (norm_stats for inference)
+
+    This allows users to download a single model and run inference directly.
+
+    Args:
+        policy: The policy object containing the quantized model
+        save_path: Local path to save the model
+        checkpoint_dir: Path to original checkpoint (for copying assets)
+        repo_id: HuggingFace repo ID (e.g., "username/pi05-libero-w8a8")
+        push_to_hub: Whether to upload to HuggingFace Hub
+
+    Example:
+        >>> policy = create_trained_policy(config, checkpoint_dir)
+        >>> save_w8a8_to_hf(
+        ...     policy,
+        ...     "./pi05-libero-w8a8",
+        ...     checkpoint_dir="~/VLM_REPO/openpi/ckpts/pi05_libero_torch",
+        ...     repo_id="username/pi05-libero-w8a8",
+        ...     push_to_hub=True
+        ... )
+    """
+    import json
+    import shutil
+    from safetensors.torch import save_file
+
+    os.makedirs(save_path, exist_ok=True)
+    checkpoint_dir = os.path.expanduser(checkpoint_dir)
+
+    # Get the model from policy
+    model = policy._model if hasattr(policy, "_model") else policy
+
+    # Collect COMPLETE state dict - all parameters
+    state_dict = {}
+    w8a8_layer_names = []
+
+    # First, collect all non-module parameters (embeddings, norms, etc.)
+    for name, param in model.named_parameters():
+        # Skip if this belongs to a W8A8 layer (will be handled separately)
+        is_w8a8_param = False
+        for mod_name, mod in model.named_modules():
+            if isinstance(mod, BitBLASW8A8Linear) and name.startswith(mod_name + "."):
+                is_w8a8_param = True
+                break
+        if not is_w8a8_param:
+            state_dict[name] = param.data
+
+    # Collect buffers (like position embeddings, etc.)
+    for name, buffer in model.named_buffers():
+        # Skip W8A8 layer buffers
+        is_w8a8_buffer = False
+        for mod_name, mod in model.named_modules():
+            if isinstance(mod, BitBLASW8A8Linear) and name.startswith(mod_name + "."):
+                is_w8a8_buffer = True
+                break
+        if not is_w8a8_buffer:
+            state_dict[name] = buffer
+
+    # Now handle W8A8 layers specially
+    for name, module in model.named_modules():
+        if isinstance(module, BitBLASW8A8Linear):
+            if module.qweight is not None:
+                # Get dequantized weight and requantize to get clean INT8
+                W_fp16 = module.weight  # This returns dequantized weight
+                weight_absmax = W_fp16.float().abs().max(dim=1)[0]
+                weight_scale = (weight_absmax / 127.0).clamp(min=1e-8)
+                W_int8 = (W_fp16.float() / weight_scale[:, None]).round().clamp(-127, 127).to(torch.int8)
+
+                state_dict[f"{name}.qweight"] = W_int8
+                state_dict[f"{name}.weight_scale"] = weight_scale.half()
+
+                if module.bias is not None:
+                    state_dict[f"{name}.bias"] = module.bias
+
+                w8a8_layer_names.append(name)
+
+    # Save state dict as safetensors
+    save_file(state_dict, os.path.join(save_path, "model.safetensors"))
+    logger.info(f"[W8A8] Saved {len(state_dict)} tensors ({len(w8a8_layer_names)} W8A8 layers) to {save_path}/model.safetensors")
+
+    # Save W8A8 config
+    config = {
+        "quantization": "w8a8_bitblas",
+        "w8a8_layers": w8a8_layer_names,
+        "model_type": type(model).__name__,
+        "complete_model": True,  # Flag indicating this is a complete model
+    }
+
+    with open(os.path.join(save_path, "w8a8_config.json"), "w") as f:
+        json.dump(config, f, indent=2)
+
+    logger.info(f"[W8A8] Saved config to {save_path}/w8a8_config.json")
+
+    # Copy assets directory from original checkpoint
+    src_assets = os.path.join(checkpoint_dir, "assets")
+    dst_assets = os.path.join(save_path, "assets")
+    if os.path.exists(src_assets):
+        if os.path.exists(dst_assets):
+            shutil.rmtree(dst_assets)
+        shutil.copytree(src_assets, dst_assets)
+        logger.info(f"[W8A8] Copied assets from {src_assets} to {dst_assets}")
+    else:
+        logger.warning(f"[W8A8] Assets directory not found: {src_assets}")
+
+    # Push to HuggingFace Hub if requested
+    if push_to_hub and repo_id:
+        try:
+            from huggingface_hub import HfApi
+
+            api = HfApi()
+            api.upload_folder(
+                folder_path=save_path,
+                repo_id=repo_id,
+                repo_type="model",
+            )
+            logger.info(f"[W8A8] Uploaded to HuggingFace: {repo_id}")
+        except Exception as e:
+            logger.error(f"[W8A8] Failed to upload to HuggingFace: {e}")
+            raise
+
+    return save_path
+
+
+def load_w8a8_policy(
+    repo_id_or_path: str,
+    policy_config_name: str = "pi05_libero",
+    enable_tuning: bool = False,
+    opt_M: list = None,
+    device: str = "cuda",
+):
+    """Load complete W8A8 quantized model from HuggingFace or local path.
+
+    This function loads a complete W8A8 model that includes:
+    - INT8 quantized weights for LLM/DiT layers
+    - FP16 weights for vision encoder and other non-quantized layers
+    - assets directory with norm_stats
+
+    Users can download the model and run inference directly without needing
+    the original FP16 checkpoint.
+
+    Args:
+        repo_id_or_path: HuggingFace repo ID (e.g., "fatdove/pi05-libero-w8a8")
+                        or local path to saved model
+        policy_config_name: Name of the policy config (default: "pi05_libero")
+        enable_tuning: Whether to enable BitBLAS tuning
+        opt_M: Batch sizes to optimize for
+        device: Device to load model on
+
+    Returns:
+        Policy object ready for inference
+
+    Example:
+        >>> policy = load_w8a8_policy("fatdove/pi05-libero-w8a8")
+        >>> result = policy.infer(observation)
+    """
+    import json
+    import safetensors.torch
+    from safetensors.torch import load_file
+
+    if opt_M is None:
+        opt_M = [1, 16, 32, 64]
+
+    # Step 1: Download from HuggingFace or use local path
+    if os.path.exists(repo_id_or_path):
+        w8a8_model_path = repo_id_or_path
+        logger.info(f"[W8A8] Loading from local path: {w8a8_model_path}")
+    else:
+        try:
+            from huggingface_hub import snapshot_download
+
+            w8a8_model_path = snapshot_download(repo_id=repo_id_or_path)
+            logger.info(f"[W8A8] Downloaded from HuggingFace: {repo_id_or_path}")
+        except Exception as e:
+            raise ValueError(f"Failed to download from HuggingFace: {e}") from e
+
+    # Step 2: Load W8A8 config
+    config_path = os.path.join(w8a8_model_path, "w8a8_config.json")
+    if os.path.exists(config_path):
+        with open(config_path) as f:
+            w8a8_config = json.load(f)
+        w8a8_layer_names = w8a8_config.get("w8a8_layers", [])
+        is_complete_model = w8a8_config.get("complete_model", False)
+    else:
+        w8a8_layer_names = []
+        is_complete_model = False
+        logger.warning("[W8A8] No w8a8_config.json found")
+
+    if not is_complete_model:
+        raise ValueError(
+            "This model is not a complete W8A8 model. "
+            "Please use a model saved with save_w8a8_to_hf() which includes all weights."
+        )
+
+    # Step 3: Create model and load weights from W8A8 checkpoint
+    from openpi.training import config as _config
+    from openpi.models_pytorch import pi0_pytorch
+
+    train_config = _config.get_config(policy_config_name)
+
+    # Create empty model structure
+    model = pi0_pytorch.PI0Pytorch(config=train_config.model)
+
+    # Load the complete state dict
+    weight_path = os.path.join(w8a8_model_path, "model.safetensors")
+    state_dict = load_file(weight_path)
+    logger.info(f"[W8A8] Loaded state dict with {len(state_dict)} tensors")
+
+    # Auto-detect W8A8 layers from state dict if not in config
+    if not w8a8_layer_names:
+        w8a8_layer_names = [
+            key.rsplit(".qweight", 1)[0]
+            for key in state_dict.keys()
+            if key.endswith(".qweight")
+        ]
+
+    # Step 4: Load non-W8A8 weights first
+    non_w8a8_state_dict = {}
+    for key, value in state_dict.items():
+        # Skip W8A8 layer weights (qweight, weight_scale)
+        is_w8a8_key = any(
+            key.startswith(name + ".qweight") or key.startswith(name + ".weight_scale")
+            for name in w8a8_layer_names
+        )
+        if not is_w8a8_key:
+            non_w8a8_state_dict[key] = value
+
+    # Load non-W8A8 weights into model
+    missing, unexpected = model.load_state_dict(non_w8a8_state_dict, strict=False)
+    logger.info(f"[W8A8] Loaded {len(non_w8a8_state_dict)} non-W8A8 tensors")
+    if missing:
+        # Filter out expected missing keys (W8A8 layer weights)
+        truly_missing = [k for k in missing if not any(k.startswith(name) for name in w8a8_layer_names)]
+        if truly_missing:
+            logger.warning(f"[W8A8] Missing {len(truly_missing)} keys: {truly_missing[:5]}...")
+
+    model.paligemma_with_expert.to_bfloat16_for_selected_params("bfloat16")
+    model = model.to(device)
+
+    # Step 5: Replace Linear layers with BitBLASW8A8Linear
+    for layer_name in w8a8_layer_names:
+        # Get the Linear layer
+        parts = layer_name.split(".")
+        parent = model
+        for part in parts[:-1]:
+            parent = getattr(parent, part)
+        attr_name = parts[-1]
+        linear = getattr(parent, attr_name)
+
+        if not isinstance(linear, nn.Linear):
+            logger.warning(f"[W8A8] {layer_name}: Expected Linear, got {type(linear)}")
+            continue
+
+        # Create BitBLASW8A8Linear
+        w8a8_layer = BitBLASW8A8Linear(
+            in_features=linear.in_features,
+            out_features=linear.out_features,
+            bias=linear.bias is not None,
+            name=layer_name,
+            enable_tuning=enable_tuning,
+            opt_M=opt_M,
+        )
+
+        # Load INT8 weights
+        qweight_key = f"{layer_name}.qweight"
+        scale_key = f"{layer_name}.weight_scale"
+
+        if qweight_key in state_dict and scale_key in state_dict:
+            qweight = state_dict[qweight_key].to(device)
+            weight_scale = state_dict[scale_key].to(device)
+
+            # Transform weight for BitBLAS if available
+            if w8a8_layer.bitblas_matmul is not None:
+                try:
+                    transformed = w8a8_layer.bitblas_matmul.transform_weight(qweight)
+                    if isinstance(transformed, list):
+                        transformed = transformed[0]
+                    w8a8_layer.qweight = transformed
+                except Exception as e:
+                    logger.warning(f"[W8A8] {layer_name}: transform_weight failed: {e}")
+                    w8a8_layer.qweight = qweight
+            else:
+                w8a8_layer.qweight = qweight
+
+            w8a8_layer.weight_scale = weight_scale
+
+            # Load bias if present
+            bias_key = f"{layer_name}.bias"
+            if bias_key in state_dict:
+                w8a8_layer.bias = state_dict[bias_key].to(device)
+
+            # Replace in model
+            setattr(parent, attr_name, w8a8_layer)
+
+    logger.info(f"[W8A8] Replaced {len(w8a8_layer_names)} Linear layers with BitBLASW8A8Linear")
+
+    # Step 6: Create policy object
+    from openpi.training import checkpoints as _checkpoints
+    import openpi.policies.policy as _policy
+    import openpi.transforms as transforms
+
+    # Load norm stats from W8A8 model's assets directory
+    data_config = train_config.data.create(train_config.assets_dirs, train_config.model)
+    norm_stats = None
+
+    # Try loading from W8A8 model's assets directory
+    assets_path = os.path.join(w8a8_model_path, "assets")
+    if os.path.exists(assets_path) and data_config.asset_id:
+        try:
+            norm_stats = _checkpoints.load_norm_stats(assets_path, data_config.asset_id)
+            logger.info(f"[W8A8] Loaded norm_stats from {assets_path}")
+        except Exception as e:
+            logger.warning(f"[W8A8] Could not load norm_stats from {assets_path}: {e}")
+
+    if norm_stats is None:
+        logger.warning("[W8A8] norm_stats not found, using empty dict")
+        norm_stats = {}
+
+    policy = _policy.Policy(
+        model,
+        transforms=[
+            *data_config.data_transforms.inputs,
+            transforms.Normalize(norm_stats, use_quantiles=data_config.use_quantile_norm),
+            *data_config.model_transforms.inputs,
+        ],
+        output_transforms=[
+            *data_config.model_transforms.outputs,
+            transforms.Unnormalize(norm_stats, use_quantiles=data_config.use_quantile_norm),
+            *data_config.data_transforms.outputs,
+        ],
+        sample_kwargs=None,
+        metadata=train_config.policy_metadata,
+        is_pytorch=True,
+        pytorch_device=device,
+    )
+
+    # Mark as W8A8 loaded
+    policy._is_w8a8 = True
+    policy._w8a8_layer_count = len(w8a8_layer_names)
+
+    logger.info(f"[W8A8] Policy created with {len(w8a8_layer_names)} W8A8 layers")
+
+    return policy
