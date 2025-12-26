@@ -1,201 +1,201 @@
 task_id,task_name,episode_idx,success,steps,max_steps
-0,put both the alphabet soup and the tomato sauce in the basket,0,True,264,530
-0,put both the alphabet soup and the tomato sauce in the basket,1,True,260,530
-0,put both the alphabet soup and the tomato sauce in the basket,2,True,265,530
-0,put both the alphabet soup and the tomato sauce in the basket,3,True,288,530
-0,put both the alphabet soup and the tomato sauce in the basket,4,True,317,530
-0,put both the alphabet soup and the tomato sauce in the basket,5,True,259,530
-0,put both the alphabet soup and the tomato sauce in the basket,6,True,298,530
-0,put both the alphabet soup and the tomato sauce in the basket,7,True,266,530
-0,put both the alphabet soup and the tomato sauce in the basket,8,True,256,530
-0,put both the alphabet soup and the tomato sauce in the basket,9,True,262,530
-0,put both the alphabet soup and the tomato sauce in the basket,10,True,287,530
-0,put both the alphabet soup and the tomato sauce in the basket,11,True,268,530
-0,put both the alphabet soup and the tomato sauce in the basket,12,True,278,530
-0,put both the alphabet soup and the tomato sauce in the basket,13,True,269,530
-0,put both the alphabet soup and the tomato sauce in the basket,14,True,308,530
-0,put both the alphabet soup and the tomato sauce in the basket,15,True,275,530
-0,put both the alphabet soup and the tomato sauce in the basket,16,True,286,530
-0,put both the alphabet soup and the tomato sauce in the basket,17,True,279,530
-0,put both the alphabet soup and the tomato sauce in the basket,18,True,498,530
-0,put both the alphabet soup and the tomato sauce in the basket,19,True,278,530
-1,put both the cream cheese box and the butter in the basket,0,True,274,530
+0,put both the alphabet soup and the tomato sauce in the basket,0,True,261,530
+0,put both the alphabet soup and the tomato sauce in the basket,1,True,270,530
+0,put both the alphabet soup and the tomato sauce in the basket,2,True,260,530
+0,put both the alphabet soup and the tomato sauce in the basket,3,True,283,530
+0,put both the alphabet soup and the tomato sauce in the basket,4,True,295,530
+0,put both the alphabet soup and the tomato sauce in the basket,5,True,261,530
+0,put both the alphabet soup and the tomato sauce in the basket,6,True,292,530
+0,put both the alphabet soup and the tomato sauce in the basket,7,True,269,530
+0,put both the alphabet soup and the tomato sauce in the basket,8,True,273,530
+0,put both the alphabet soup and the tomato sauce in the basket,9,True,253,530
+0,put both the alphabet soup and the tomato sauce in the basket,10,True,279,530
+0,put both the alphabet soup and the tomato sauce in the basket,11,True,264,530
+0,put both the alphabet soup and the tomato sauce in the basket,12,True,279,530
+0,put both the alphabet soup and the tomato sauce in the basket,13,True,284,530
+0,put both the alphabet soup and the tomato sauce in the basket,14,True,318,530
+0,put both the alphabet soup and the tomato sauce in the basket,15,True,276,530
+0,put both the alphabet soup and the tomato sauce in the basket,16,True,269,530
+0,put both the alphabet soup and the tomato sauce in the basket,17,True,268,530
+0,put both the alphabet soup and the tomato sauce in the basket,18,False,530,530
+0,put both the alphabet soup and the tomato sauce in the basket,19,True,298,530
+1,put both the cream cheese box and the butter in the basket,0,True,264,530
 1,put both the cream cheese box and the butter in the basket,1,True,263,530
-1,put both the cream cheese box and the butter in the basket,2,True,261,530
-1,put both the cream cheese box and the butter in the basket,3,True,263,530
-1,put both the cream cheese box and the butter in the basket,4,True,278,530
-1,put both the cream cheese box and the butter in the basket,5,True,268,530
-1,put both the cream cheese box and the butter in the basket,6,True,268,530
-1,put both the cream cheese box and the butter in the basket,7,True,254,530
-1,put both the cream cheese box and the butter in the basket,8,True,257,530
-1,put both the cream cheese box and the butter in the basket,9,True,251,530
-1,put both the cream cheese box and the butter in the basket,10,True,252,530
-1,put both the cream cheese box and the butter in the basket,11,True,273,530
+1,put both the cream cheese box and the butter in the basket,2,True,254,530
+1,put both the cream cheese box and the butter in the basket,3,True,272,530
+1,put both the cream cheese box and the butter in the basket,4,True,263,530
+1,put both the cream cheese box and the butter in the basket,5,True,256,530
+1,put both the cream cheese box and the butter in the basket,6,True,254,530
+1,put both the cream cheese box and the butter in the basket,7,True,246,530
+1,put both the cream cheese box and the butter in the basket,8,True,258,530
+1,put both the cream cheese box and the butter in the basket,9,True,258,530
+1,put both the cream cheese box and the butter in the basket,10,True,258,530
+1,put both the cream cheese box and the butter in the basket,11,True,263,530
 1,put both the cream cheese box and the butter in the basket,12,True,246,530
-1,put both the cream cheese box and the butter in the basket,13,True,251,530
-1,put both the cream cheese box and the butter in the basket,14,True,263,530
-1,put both the cream cheese box and the butter in the basket,15,True,263,530
-1,put both the cream cheese box and the butter in the basket,16,True,250,530
-1,put both the cream cheese box and the butter in the basket,17,True,249,530
-1,put both the cream cheese box and the butter in the basket,18,True,253,530
-1,put both the cream cheese box and the butter in the basket,19,True,269,530
-2,turn on the stove and put the moka pot on it,0,True,251,530
-2,turn on the stove and put the moka pot on it,1,True,245,530
-2,turn on the stove and put the moka pot on it,2,True,277,530
-2,turn on the stove and put the moka pot on it,3,True,255,530
+1,put both the cream cheese box and the butter in the basket,13,True,245,530
+1,put both the cream cheese box and the butter in the basket,14,True,258,530
+1,put both the cream cheese box and the butter in the basket,15,True,274,530
+1,put both the cream cheese box and the butter in the basket,16,True,248,530
+1,put both the cream cheese box and the butter in the basket,17,True,240,530
+1,put both the cream cheese box and the butter in the basket,18,True,257,530
+1,put both the cream cheese box and the butter in the basket,19,True,273,530
+2,turn on the stove and put the moka pot on it,0,True,243,530
+2,turn on the stove and put the moka pot on it,1,True,243,530
+2,turn on the stove and put the moka pot on it,2,True,260,530
+2,turn on the stove and put the moka pot on it,3,True,277,530
 2,turn on the stove and put the moka pot on it,4,True,251,530
-2,turn on the stove and put the moka pot on it,5,True,305,530
-2,turn on the stove and put the moka pot on it,6,True,273,530
-2,turn on the stove and put the moka pot on it,7,True,400,530
-2,turn on the stove and put the moka pot on it,8,True,246,530
-2,turn on the stove and put the moka pot on it,9,True,257,530
-2,turn on the stove and put the moka pot on it,10,True,247,530
-2,turn on the stove and put the moka pot on it,11,True,323,530
+2,turn on the stove and put the moka pot on it,5,False,530,530
+2,turn on the stove and put the moka pot on it,6,True,264,530
+2,turn on the stove and put the moka pot on it,7,True,272,530
+2,turn on the stove and put the moka pot on it,8,True,249,530
+2,turn on the stove and put the moka pot on it,9,True,282,530
+2,turn on the stove and put the moka pot on it,10,True,233,530
+2,turn on the stove and put the moka pot on it,11,False,530,530
 2,turn on the stove and put the moka pot on it,12,False,530,530
-2,turn on the stove and put the moka pot on it,13,True,250,530
-2,turn on the stove and put the moka pot on it,14,True,270,530
-2,turn on the stove and put the moka pot on it,15,True,235,530
-2,turn on the stove and put the moka pot on it,16,True,244,530
-2,turn on the stove and put the moka pot on it,17,True,242,530
-2,turn on the stove and put the moka pot on it,18,True,259,530
-2,turn on the stove and put the moka pot on it,19,True,243,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,0,True,229,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,1,True,227,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,2,True,305,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,3,True,219,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,4,True,232,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,5,True,218,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,6,True,217,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,7,True,220,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,8,True,238,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,9,True,216,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,10,True,226,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,11,True,249,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,12,True,242,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,13,True,264,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,14,True,234,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,15,True,219,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,16,True,214,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,17,True,216,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,18,True,254,530
-3,put the black bowl in the bottom drawer of the cabinet and close it,19,False,530,530
+2,turn on the stove and put the moka pot on it,13,True,244,530
+2,turn on the stove and put the moka pot on it,14,True,251,530
+2,turn on the stove and put the moka pot on it,15,True,264,530
+2,turn on the stove and put the moka pot on it,16,True,241,530
+2,turn on the stove and put the moka pot on it,17,True,240,530
+2,turn on the stove and put the moka pot on it,18,True,250,530
+2,turn on the stove and put the moka pot on it,19,True,235,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,0,True,226,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,1,True,218,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,2,False,530,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,3,True,244,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,4,True,241,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,5,True,219,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,6,True,220,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,7,True,221,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,8,True,343,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,9,True,215,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,10,True,227,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,11,True,226,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,12,True,278,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,13,False,530,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,14,True,231,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,15,True,215,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,16,True,222,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,17,True,225,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,18,True,237,530
+3,put the black bowl in the bottom drawer of the cabinet and close it,19,True,239,530
 4,put the white mug on the left plate and put the yellow and white mug on the right plate,0,True,242,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,1,True,215,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,2,True,231,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,3,True,231,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,4,True,251,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,5,True,269,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,6,True,236,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,7,True,244,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,8,True,237,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,9,True,228,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,10,True,227,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,11,True,236,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,12,True,263,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,13,True,231,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,14,True,240,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,15,True,256,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,16,True,275,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,17,True,225,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,18,True,246,530
-4,put the white mug on the left plate and put the yellow and white mug on the right plate,19,True,251,530
-5,pick up the book and place it in the back compartment of the caddy,0,True,193,530
-5,pick up the book and place it in the back compartment of the caddy,1,True,204,530
-5,pick up the book and place it in the back compartment of the caddy,2,True,165,530
-5,pick up the book and place it in the back compartment of the caddy,3,True,171,530
-5,pick up the book and place it in the back compartment of the caddy,4,True,172,530
-5,pick up the book and place it in the back compartment of the caddy,5,True,201,530
-5,pick up the book and place it in the back compartment of the caddy,6,True,210,530
-5,pick up the book and place it in the back compartment of the caddy,7,True,182,530
-5,pick up the book and place it in the back compartment of the caddy,8,True,198,530
-5,pick up the book and place it in the back compartment of the caddy,9,True,172,530
-5,pick up the book and place it in the back compartment of the caddy,10,False,530,530
-5,pick up the book and place it in the back compartment of the caddy,11,True,174,530
-5,pick up the book and place it in the back compartment of the caddy,12,True,204,530
-5,pick up the book and place it in the back compartment of the caddy,13,True,171,530
-5,pick up the book and place it in the back compartment of the caddy,14,True,204,530
-5,pick up the book and place it in the back compartment of the caddy,15,True,173,530
-5,pick up the book and place it in the back compartment of the caddy,16,True,195,530
-5,pick up the book and place it in the back compartment of the caddy,17,True,186,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,1,True,227,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,2,True,220,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,3,True,240,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,4,True,231,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,5,True,273,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,6,True,285,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,7,True,276,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,8,True,235,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,9,True,231,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,10,True,239,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,11,True,241,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,12,True,249,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,13,True,234,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,14,True,248,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,15,True,282,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,16,True,247,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,17,True,226,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,18,True,245,530
+4,put the white mug on the left plate and put the yellow and white mug on the right plate,19,True,255,530
+5,pick up the book and place it in the back compartment of the caddy,0,True,184,530
+5,pick up the book and place it in the back compartment of the caddy,1,True,191,530
+5,pick up the book and place it in the back compartment of the caddy,2,True,170,530
+5,pick up the book and place it in the back compartment of the caddy,3,True,278,530
+5,pick up the book and place it in the back compartment of the caddy,4,True,168,530
+5,pick up the book and place it in the back compartment of the caddy,5,True,188,530
+5,pick up the book and place it in the back compartment of the caddy,6,True,238,530
+5,pick up the book and place it in the back compartment of the caddy,7,True,177,530
+5,pick up the book and place it in the back compartment of the caddy,8,True,207,530
+5,pick up the book and place it in the back compartment of the caddy,9,True,192,530
+5,pick up the book and place it in the back compartment of the caddy,10,True,184,530
+5,pick up the book and place it in the back compartment of the caddy,11,True,187,530
+5,pick up the book and place it in the back compartment of the caddy,12,True,210,530
+5,pick up the book and place it in the back compartment of the caddy,13,True,163,530
+5,pick up the book and place it in the back compartment of the caddy,14,True,183,530
+5,pick up the book and place it in the back compartment of the caddy,15,True,218,530
+5,pick up the book and place it in the back compartment of the caddy,16,True,166,530
+5,pick up the book and place it in the back compartment of the caddy,17,True,189,530
 5,pick up the book and place it in the back compartment of the caddy,18,False,530,530
-5,pick up the book and place it in the back compartment of the caddy,19,True,201,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,0,True,209,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,1,True,217,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,2,True,229,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,3,True,213,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,4,True,248,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,5,True,220,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,6,True,220,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,7,True,217,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,8,True,218,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,9,True,224,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,10,True,217,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,11,True,443,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,12,True,215,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,13,True,209,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,14,True,271,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,15,True,223,530
+5,pick up the book and place it in the back compartment of the caddy,19,True,194,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,0,True,227,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,1,True,228,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,2,True,221,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,3,True,212,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,4,True,333,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,5,True,238,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,6,True,226,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,7,True,218,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,8,True,222,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,9,True,231,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,10,True,227,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,11,True,276,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,12,True,219,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,13,True,216,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,14,False,530,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,15,True,225,530
 6,put the white mug on the plate and put the chocolate pudding to the right of the plate,16,True,229,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,17,True,216,530
-6,put the white mug on the plate and put the chocolate pudding to the right of the plate,18,True,221,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,17,True,232,530
+6,put the white mug on the plate and put the chocolate pudding to the right of the plate,18,True,237,530
 6,put the white mug on the plate and put the chocolate pudding to the right of the plate,19,True,224,530
-7,put both the alphabet soup and the cream cheese box in the basket,0,True,245,530
-7,put both the alphabet soup and the cream cheese box in the basket,1,True,269,530
-7,put both the alphabet soup and the cream cheese box in the basket,2,True,265,530
-7,put both the alphabet soup and the cream cheese box in the basket,3,True,252,530
-7,put both the alphabet soup and the cream cheese box in the basket,4,True,277,530
-7,put both the alphabet soup and the cream cheese box in the basket,5,True,252,530
-7,put both the alphabet soup and the cream cheese box in the basket,6,True,277,530
-7,put both the alphabet soup and the cream cheese box in the basket,7,True,242,530
-7,put both the alphabet soup and the cream cheese box in the basket,8,True,291,530
-7,put both the alphabet soup and the cream cheese box in the basket,9,True,262,530
-7,put both the alphabet soup and the cream cheese box in the basket,10,True,261,530
-7,put both the alphabet soup and the cream cheese box in the basket,11,True,268,530
-7,put both the alphabet soup and the cream cheese box in the basket,12,True,247,530
-7,put both the alphabet soup and the cream cheese box in the basket,13,True,238,530
-7,put both the alphabet soup and the cream cheese box in the basket,14,True,272,530
+7,put both the alphabet soup and the cream cheese box in the basket,0,True,234,530
+7,put both the alphabet soup and the cream cheese box in the basket,1,True,264,530
+7,put both the alphabet soup and the cream cheese box in the basket,2,True,266,530
+7,put both the alphabet soup and the cream cheese box in the basket,3,True,278,530
+7,put both the alphabet soup and the cream cheese box in the basket,4,True,454,530
+7,put both the alphabet soup and the cream cheese box in the basket,5,True,262,530
+7,put both the alphabet soup and the cream cheese box in the basket,6,True,261,530
+7,put both the alphabet soup and the cream cheese box in the basket,7,True,237,530
+7,put both the alphabet soup and the cream cheese box in the basket,8,True,317,530
+7,put both the alphabet soup and the cream cheese box in the basket,9,True,258,530
+7,put both the alphabet soup and the cream cheese box in the basket,10,True,256,530
+7,put both the alphabet soup and the cream cheese box in the basket,11,True,288,530
+7,put both the alphabet soup and the cream cheese box in the basket,12,True,264,530
+7,put both the alphabet soup and the cream cheese box in the basket,13,True,248,530
+7,put both the alphabet soup and the cream cheese box in the basket,14,True,289,530
 7,put both the alphabet soup and the cream cheese box in the basket,15,True,269,530
 7,put both the alphabet soup and the cream cheese box in the basket,16,True,250,530
-7,put both the alphabet soup and the cream cheese box in the basket,17,True,257,530
-7,put both the alphabet soup and the cream cheese box in the basket,18,True,237,530
-7,put both the alphabet soup and the cream cheese box in the basket,19,True,283,530
-8,put both moka pots on the stove,0,True,378,530
-8,put both moka pots on the stove,1,True,388,530
-8,put both moka pots on the stove,2,False,530,530
-8,put both moka pots on the stove,3,True,392,530
-8,put both moka pots on the stove,4,True,388,530
-8,put both moka pots on the stove,5,True,385,530
-8,put both moka pots on the stove,6,True,415,530
-8,put both moka pots on the stove,7,True,389,530
-8,put both moka pots on the stove,8,True,428,530
-8,put both moka pots on the stove,9,True,386,530
-8,put both moka pots on the stove,10,True,377,530
-8,put both moka pots on the stove,11,True,418,530
-8,put both moka pots on the stove,12,False,530,530
-8,put both moka pots on the stove,13,True,370,530
-8,put both moka pots on the stove,14,True,411,530
-8,put both moka pots on the stove,15,False,530,530
-8,put both moka pots on the stove,16,True,357,530
+7,put both the alphabet soup and the cream cheese box in the basket,17,True,251,530
+7,put both the alphabet soup and the cream cheese box in the basket,18,True,245,530
+7,put both the alphabet soup and the cream cheese box in the basket,19,True,258,530
+8,put both moka pots on the stove,0,True,425,530
+8,put both moka pots on the stove,1,True,402,530
+8,put both moka pots on the stove,2,True,371,530
+8,put both moka pots on the stove,3,True,390,530
+8,put both moka pots on the stove,4,True,390,530
+8,put both moka pots on the stove,5,True,397,530
+8,put both moka pots on the stove,6,True,385,530
+8,put both moka pots on the stove,7,True,416,530
+8,put both moka pots on the stove,8,True,435,530
+8,put both moka pots on the stove,9,True,382,530
+8,put both moka pots on the stove,10,True,367,530
+8,put both moka pots on the stove,11,True,379,530
+8,put both moka pots on the stove,12,True,516,530
+8,put both moka pots on the stove,13,True,407,530
+8,put both moka pots on the stove,14,True,386,530
+8,put both moka pots on the stove,15,True,478,530
+8,put both moka pots on the stove,16,True,370,530
 8,put both moka pots on the stove,17,True,404,530
-8,put both moka pots on the stove,18,True,437,530
+8,put both moka pots on the stove,18,True,443,530
 8,put both moka pots on the stove,19,True,391,530
-9,put the yellow and white mug in the microwave and close it,0,True,367,530
-9,put the yellow and white mug in the microwave and close it,1,True,278,530
+9,put the yellow and white mug in the microwave and close it,0,True,248,530
+9,put the yellow and white mug in the microwave and close it,1,True,317,530
 9,put the yellow and white mug in the microwave and close it,2,True,247,530
-9,put the yellow and white mug in the microwave and close it,3,True,266,530
-9,put the yellow and white mug in the microwave and close it,4,False,530,530
+9,put the yellow and white mug in the microwave and close it,3,True,263,530
+9,put the yellow and white mug in the microwave and close it,4,True,265,530
 9,put the yellow and white mug in the microwave and close it,5,True,248,530
-9,put the yellow and white mug in the microwave and close it,6,True,262,530
-9,put the yellow and white mug in the microwave and close it,7,True,251,530
-9,put the yellow and white mug in the microwave and close it,8,True,263,530
-9,put the yellow and white mug in the microwave and close it,9,True,284,530
-9,put the yellow and white mug in the microwave and close it,10,True,252,530
-9,put the yellow and white mug in the microwave and close it,11,True,293,530
-9,put the yellow and white mug in the microwave and close it,12,True,275,530
-9,put the yellow and white mug in the microwave and close it,13,True,252,530
+9,put the yellow and white mug in the microwave and close it,6,True,296,530
+9,put the yellow and white mug in the microwave and close it,7,True,257,530
+9,put the yellow and white mug in the microwave and close it,8,True,256,530
+9,put the yellow and white mug in the microwave and close it,9,True,270,530
+9,put the yellow and white mug in the microwave and close it,10,True,258,530
+9,put the yellow and white mug in the microwave and close it,11,True,260,530
+9,put the yellow and white mug in the microwave and close it,12,False,530,530
+9,put the yellow and white mug in the microwave and close it,13,True,253,530
 9,put the yellow and white mug in the microwave and close it,14,True,256,530
-9,put the yellow and white mug in the microwave and close it,15,True,349,530
-9,put the yellow and white mug in the microwave and close it,16,True,282,530
-9,put the yellow and white mug in the microwave and close it,17,True,267,530
+9,put the yellow and white mug in the microwave and close it,15,True,275,530
+9,put the yellow and white mug in the microwave and close it,16,True,267,530
+9,put the yellow and white mug in the microwave and close it,17,True,259,530
 9,put the yellow and white mug in the microwave and close it,18,False,530,530
-9,put the yellow and white mug in the microwave and close it,19,True,383,530
+9,put the yellow and white mug in the microwave and close it,19,True,299,530

@@ -1,201 +1,201 @@
 task_id,task_name,episode_idx,success,steps,max_steps
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,0,True,83,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,0,True,80,230
 0,pick up the black bowl between the plate and the ramekin and place it on the plate,1,True,117,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,2,True,93,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,3,True,85,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,4,True,82,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,5,True,88,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,6,True,84,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,7,True,91,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,8,True,91,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,9,True,87,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,10,True,85,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,11,True,87,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,2,True,120,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,3,True,86,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,4,True,83,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,5,True,90,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,6,True,78,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,7,True,94,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,8,True,89,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,9,True,182,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,10,True,114,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,11,True,84,230
 0,pick up the black bowl between the plate and the ramekin and place it on the plate,12,True,86,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,13,True,93,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,14,True,92,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,15,True,82,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,16,True,87,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,13,True,117,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,14,True,90,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,15,True,86,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,16,True,86,230
 0,pick up the black bowl between the plate and the ramekin and place it on the plate,17,True,81,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,18,True,90,230
-0,pick up the black bowl between the plate and the ramekin and place it on the plate,19,True,92,230
-1,pick up the black bowl next to the ramekin and place it on the plate,0,True,122,230
-1,pick up the black bowl next to the ramekin and place it on the plate,1,True,112,230
-1,pick up the black bowl next to the ramekin and place it on the plate,2,True,118,230
-1,pick up the black bowl next to the ramekin and place it on the plate,3,True,114,230
-1,pick up the black bowl next to the ramekin and place it on the plate,4,True,118,230
-1,pick up the black bowl next to the ramekin and place it on the plate,5,True,115,230
-1,pick up the black bowl next to the ramekin and place it on the plate,6,True,117,230
-1,pick up the black bowl next to the ramekin and place it on the plate,7,True,121,230
-1,pick up the black bowl next to the ramekin and place it on the plate,8,True,116,230
-1,pick up the black bowl next to the ramekin and place it on the plate,9,True,117,230
-1,pick up the black bowl next to the ramekin and place it on the plate,10,True,117,230
-1,pick up the black bowl next to the ramekin and place it on the plate,11,True,119,230
-1,pick up the black bowl next to the ramekin and place it on the plate,12,True,121,230
-1,pick up the black bowl next to the ramekin and place it on the plate,13,True,119,230
-1,pick up the black bowl next to the ramekin and place it on the plate,14,True,116,230
-1,pick up the black bowl next to the ramekin and place it on the plate,15,True,116,230
-1,pick up the black bowl next to the ramekin and place it on the plate,16,True,115,230
-1,pick up the black bowl next to the ramekin and place it on the plate,17,True,113,230
-1,pick up the black bowl next to the ramekin and place it on the plate,18,True,118,230
-1,pick up the black bowl next to the ramekin and place it on the plate,19,True,122,230
-2,pick up the black bowl from table center and place it on the plate,0,True,113,230
-2,pick up the black bowl from table center and place it on the plate,1,True,113,230
-2,pick up the black bowl from table center and place it on the plate,2,True,108,230
-2,pick up the black bowl from table center and place it on the plate,3,True,107,230
-2,pick up the black bowl from table center and place it on the plate,4,True,114,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,18,True,104,230
+0,pick up the black bowl between the plate and the ramekin and place it on the plate,19,True,82,230
+1,pick up the black bowl next to the ramekin and place it on the plate,0,True,123,230
+1,pick up the black bowl next to the ramekin and place it on the plate,1,True,102,230
+1,pick up the black bowl next to the ramekin and place it on the plate,2,True,111,230
+1,pick up the black bowl next to the ramekin and place it on the plate,3,True,116,230
+1,pick up the black bowl next to the ramekin and place it on the plate,4,True,114,230
+1,pick up the black bowl next to the ramekin and place it on the plate,5,True,113,230
+1,pick up the black bowl next to the ramekin and place it on the plate,6,True,116,230
+1,pick up the black bowl next to the ramekin and place it on the plate,7,True,120,230
+1,pick up the black bowl next to the ramekin and place it on the plate,8,True,111,230
+1,pick up the black bowl next to the ramekin and place it on the plate,9,True,113,230
+1,pick up the black bowl next to the ramekin and place it on the plate,10,True,111,230
+1,pick up the black bowl next to the ramekin and place it on the plate,11,True,117,230
+1,pick up the black bowl next to the ramekin and place it on the plate,12,True,117,230
+1,pick up the black bowl next to the ramekin and place it on the plate,13,True,116,230
+1,pick up the black bowl next to the ramekin and place it on the plate,14,True,112,230
+1,pick up the black bowl next to the ramekin and place it on the plate,15,True,115,230
+1,pick up the black bowl next to the ramekin and place it on the plate,16,True,117,230
+1,pick up the black bowl next to the ramekin and place it on the plate,17,True,103,230
+1,pick up the black bowl next to the ramekin and place it on the plate,18,True,122,230
+1,pick up the black bowl next to the ramekin and place it on the plate,19,True,113,230
+2,pick up the black bowl from table center and place it on the plate,0,True,115,230
+2,pick up the black bowl from table center and place it on the plate,1,True,119,230
+2,pick up the black bowl from table center and place it on the plate,2,True,130,230
+2,pick up the black bowl from table center and place it on the plate,3,True,101,230
+2,pick up the black bowl from table center and place it on the plate,4,True,105,230
 2,pick up the black bowl from table center and place it on the plate,5,True,110,230
-2,pick up the black bowl from table center and place it on the plate,6,True,110,230
+2,pick up the black bowl from table center and place it on the plate,6,True,105,230
 2,pick up the black bowl from table center and place it on the plate,7,True,113,230
-2,pick up the black bowl from table center and place it on the plate,8,True,110,230
-2,pick up the black bowl from table center and place it on the plate,9,True,108,230
-2,pick up the black bowl from table center and place it on the plate,10,True,106,230
-2,pick up the black bowl from table center and place it on the plate,11,True,118,230
-2,pick up the black bowl from table center and place it on the plate,12,True,107,230
-2,pick up the black bowl from table center and place it on the plate,13,True,112,230
-2,pick up the black bowl from table center and place it on the plate,14,True,104,230
-2,pick up the black bowl from table center and place it on the plate,15,True,118,230
-2,pick up the black bowl from table center and place it on the plate,16,True,110,230
-2,pick up the black bowl from table center and place it on the plate,17,True,113,230
-2,pick up the black bowl from table center and place it on the plate,18,True,107,230
-2,pick up the black bowl from table center and place it on the plate,19,True,113,230
-3,pick up the black bowl on the cookie box and place it on the plate,0,False,230,230
-3,pick up the black bowl on the cookie box and place it on the plate,1,True,92,230
-3,pick up the black bowl on the cookie box and place it on the plate,2,True,92,230
-3,pick up the black bowl on the cookie box and place it on the plate,3,True,96,230
-3,pick up the black bowl on the cookie box and place it on the plate,4,True,145,230
-3,pick up the black bowl on the cookie box and place it on the plate,5,True,100,230
-3,pick up the black bowl on the cookie box and place it on the plate,6,True,98,230
-3,pick up the black bowl on the cookie box and place it on the plate,7,True,94,230
-3,pick up the black bowl on the cookie box and place it on the plate,8,True,95,230
-3,pick up the black bowl on the cookie box and place it on the plate,9,True,97,230
-3,pick up the black bowl on the cookie box and place it on the plate,10,True,100,230
-3,pick up the black bowl on the cookie box and place it on the plate,11,True,91,230
-3,pick up the black bowl on the cookie box and place it on the plate,12,True,95,230
-3,pick up the black bowl on the cookie box and place it on the plate,13,True,96,230
-3,pick up the black bowl on the cookie box and place it on the plate,14,True,97,230
-3,pick up the black bowl on the cookie box and place it on the plate,15,True,93,230
-3,pick up the black bowl on the cookie box and place it on the plate,16,True,96,230
-3,pick up the black bowl on the cookie box and place it on the plate,17,True,96,230
-3,pick up the black bowl on the cookie box and place it on the plate,18,True,94,230
-3,pick up the black bowl on the cookie box and place it on the plate,19,True,93,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,0,True,139,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,1,True,135,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,2,True,128,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,3,True,138,230
+2,pick up the black bowl from table center and place it on the plate,8,True,107,230
+2,pick up the black bowl from table center and place it on the plate,9,True,113,230
+2,pick up the black bowl from table center and place it on the plate,10,True,107,230
+2,pick up the black bowl from table center and place it on the plate,11,True,135,230
+2,pick up the black bowl from table center and place it on the plate,12,True,105,230
+2,pick up the black bowl from table center and place it on the plate,13,True,108,230
+2,pick up the black bowl from table center and place it on the plate,14,True,103,230
+2,pick up the black bowl from table center and place it on the plate,15,True,116,230
+2,pick up the black bowl from table center and place it on the plate,16,True,107,230
+2,pick up the black bowl from table center and place it on the plate,17,True,110,230
+2,pick up the black bowl from table center and place it on the plate,18,True,102,230
+2,pick up the black bowl from table center and place it on the plate,19,True,114,230
+3,pick up the black bowl on the cookie box and place it on the plate,0,True,105,230
+3,pick up the black bowl on the cookie box and place it on the plate,1,True,93,230
+3,pick up the black bowl on the cookie box and place it on the plate,2,True,95,230
+3,pick up the black bowl on the cookie box and place it on the plate,3,True,97,230
+3,pick up the black bowl on the cookie box and place it on the plate,4,False,230,230
+3,pick up the black bowl on the cookie box and place it on the plate,5,True,95,230
+3,pick up the black bowl on the cookie box and place it on the plate,6,True,88,230
+3,pick up the black bowl on the cookie box and place it on the plate,7,True,91,230
+3,pick up the black bowl on the cookie box and place it on the plate,8,True,92,230
+3,pick up the black bowl on the cookie box and place it on the plate,9,True,93,230
+3,pick up the black bowl on the cookie box and place it on the plate,10,True,94,230
+3,pick up the black bowl on the cookie box and place it on the plate,11,True,87,230
+3,pick up the black bowl on the cookie box and place it on the plate,12,True,90,230
+3,pick up the black bowl on the cookie box and place it on the plate,13,True,91,230
+3,pick up the black bowl on the cookie box and place it on the plate,14,True,94,230
+3,pick up the black bowl on the cookie box and place it on the plate,15,True,90,230
+3,pick up the black bowl on the cookie box and place it on the plate,16,True,88,230
+3,pick up the black bowl on the cookie box and place it on the plate,17,True,92,230
+3,pick up the black bowl on the cookie box and place it on the plate,18,True,89,230
+3,pick up the black bowl on the cookie box and place it on the plate,19,True,91,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,0,True,130,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,1,True,145,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,2,False,230,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,3,True,131,230
 4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,4,False,230,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,5,True,139,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,6,True,146,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,7,True,141,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,8,True,134,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,9,True,140,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,5,True,126,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,6,True,139,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,7,True,137,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,8,True,135,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,9,True,133,230
 4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,10,True,132,230
 4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,11,True,139,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,12,True,145,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,12,True,133,230
 4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,13,True,136,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,14,True,133,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,15,True,134,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,16,True,129,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,17,True,132,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,18,True,138,230
-4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,19,True,135,230
-5,pick up the black bowl on the ramekin and place it on the plate,0,True,101,230
-5,pick up the black bowl on the ramekin and place it on the plate,1,True,101,230
-5,pick up the black bowl on the ramekin and place it on the plate,2,True,100,230
-5,pick up the black bowl on the ramekin and place it on the plate,3,True,96,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,14,True,131,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,15,True,132,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,16,True,135,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,17,True,139,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,18,True,129,230
+4,pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate,19,True,130,230
+5,pick up the black bowl on the ramekin and place it on the plate,0,True,103,230
+5,pick up the black bowl on the ramekin and place it on the plate,1,True,113,230
+5,pick up the black bowl on the ramekin and place it on the plate,2,True,96,230
+5,pick up the black bowl on the ramekin and place it on the plate,3,True,95,230
 5,pick up the black bowl on the ramekin and place it on the plate,4,True,101,230
-5,pick up the black bowl on the ramekin and place it on the plate,5,True,100,230
-5,pick up the black bowl on the ramekin and place it on the plate,6,True,103,230
-5,pick up the black bowl on the ramekin and place it on the plate,7,True,103,230
-5,pick up the black bowl on the ramekin and place it on the plate,8,True,100,230
-5,pick up the black bowl on the ramekin and place it on the plate,9,True,106,230
-5,pick up the black bowl on the ramekin and place it on the plate,10,True,101,230
-5,pick up the black bowl on the ramekin and place it on the plate,11,True,94,230
-5,pick up the black bowl on the ramekin and place it on the plate,12,True,99,230
-5,pick up the black bowl on the ramekin and place it on the plate,13,True,100,230
-5,pick up the black bowl on the ramekin and place it on the plate,14,True,103,230
-5,pick up the black bowl on the ramekin and place it on the plate,15,True,112,230
-5,pick up the black bowl on the ramekin and place it on the plate,16,True,113,230
-5,pick up the black bowl on the ramekin and place it on the plate,17,True,98,230
-5,pick up the black bowl on the ramekin and place it on the plate,18,True,99,230
-5,pick up the black bowl on the ramekin and place it on the plate,19,True,108,230
-6,pick up the black bowl next to the cookie box and place it on the plate,0,True,116,230
-6,pick up the black bowl next to the cookie box and place it on the plate,1,True,113,230
-6,pick up the black bowl next to the cookie box and place it on the plate,2,True,118,230
-6,pick up the black bowl next to the cookie box and place it on the plate,3,True,111,230
-6,pick up the black bowl next to the cookie box and place it on the plate,4,True,108,230
-6,pick up the black bowl next to the cookie box and place it on the plate,5,True,121,230
-6,pick up the black bowl next to the cookie box and place it on the plate,6,True,117,230
-6,pick up the black bowl next to the cookie box and place it on the plate,7,True,110,230
-6,pick up the black bowl next to the cookie box and place it on the plate,8,True,122,230
+5,pick up the black bowl on the ramekin and place it on the plate,5,True,99,230
+5,pick up the black bowl on the ramekin and place it on the plate,6,True,99,230
+5,pick up the black bowl on the ramekin and place it on the plate,7,True,97,230
+5,pick up the black bowl on the ramekin and place it on the plate,8,True,98,230
+5,pick up the black bowl on the ramekin and place it on the plate,9,True,111,230
+5,pick up the black bowl on the ramekin and place it on the plate,10,True,111,230
+5,pick up the black bowl on the ramekin and place it on the plate,11,True,103,230
+5,pick up the black bowl on the ramekin and place it on the plate,12,True,104,230
+5,pick up the black bowl on the ramekin and place it on the plate,13,True,99,230
+5,pick up the black bowl on the ramekin and place it on the plate,14,True,102,230
+5,pick up the black bowl on the ramekin and place it on the plate,15,True,105,230
+5,pick up the black bowl on the ramekin and place it on the plate,16,True,114,230
+5,pick up the black bowl on the ramekin and place it on the plate,17,True,89,230
+5,pick up the black bowl on the ramekin and place it on the plate,18,True,102,230
+5,pick up the black bowl on the ramekin and place it on the plate,19,True,100,230
+6,pick up the black bowl next to the cookie box and place it on the plate,0,True,119,230
+6,pick up the black bowl next to the cookie box and place it on the plate,1,True,161,230
+6,pick up the black bowl next to the cookie box and place it on the plate,2,True,112,230
+6,pick up the black bowl next to the cookie box and place it on the plate,3,True,117,230
+6,pick up the black bowl next to the cookie box and place it on the plate,4,True,110,230
+6,pick up the black bowl next to the cookie box and place it on the plate,5,True,119,230
+6,pick up the black bowl next to the cookie box and place it on the plate,6,True,119,230
+6,pick up the black bowl next to the cookie box and place it on the plate,7,True,112,230
+6,pick up the black bowl next to the cookie box and place it on the plate,8,True,117,230
 6,pick up the black bowl next to the cookie box and place it on the plate,9,True,111,230
-6,pick up the black bowl next to the cookie box and place it on the plate,10,True,118,230
-6,pick up the black bowl next to the cookie box and place it on the plate,11,True,115,230
+6,pick up the black bowl next to the cookie box and place it on the plate,10,True,111,230
+6,pick up the black bowl next to the cookie box and place it on the plate,11,True,108,230
 6,pick up the black bowl next to the cookie box and place it on the plate,12,True,116,230
-6,pick up the black bowl next to the cookie box and place it on the plate,13,True,108,230
-6,pick up the black bowl next to the cookie box and place it on the plate,14,True,111,230
-6,pick up the black bowl next to the cookie box and place it on the plate,15,True,117,230
+6,pick up the black bowl next to the cookie box and place it on the plate,13,True,145,230
+6,pick up the black bowl next to the cookie box and place it on the plate,14,True,106,230
+6,pick up the black bowl next to the cookie box and place it on the plate,15,True,113,230
 6,pick up the black bowl next to the cookie box and place it on the plate,16,True,104,230
-6,pick up the black bowl next to the cookie box and place it on the plate,17,True,110,230
-6,pick up the black bowl next to the cookie box and place it on the plate,18,True,120,230
-6,pick up the black bowl next to the cookie box and place it on the plate,19,True,99,230
-7,pick up the black bowl on the stove and place it on the plate,0,True,127,230
+6,pick up the black bowl next to the cookie box and place it on the plate,17,True,105,230
+6,pick up the black bowl next to the cookie box and place it on the plate,18,True,113,230
+6,pick up the black bowl next to the cookie box and place it on the plate,19,True,105,230
+7,pick up the black bowl on the stove and place it on the plate,0,True,124,230
 7,pick up the black bowl on the stove and place it on the plate,1,True,130,230
-7,pick up the black bowl on the stove and place it on the plate,2,True,170,230
-7,pick up the black bowl on the stove and place it on the plate,3,True,124,230
-7,pick up the black bowl on the stove and place it on the plate,4,True,124,230
-7,pick up the black bowl on the stove and place it on the plate,5,True,124,230
-7,pick up the black bowl on the stove and place it on the plate,6,True,123,230
-7,pick up the black bowl on the stove and place it on the plate,7,True,129,230
-7,pick up the black bowl on the stove and place it on the plate,8,True,127,230
-7,pick up the black bowl on the stove and place it on the plate,9,True,129,230
-7,pick up the black bowl on the stove and place it on the plate,10,True,185,230
+7,pick up the black bowl on the stove and place it on the plate,2,True,126,230
+7,pick up the black bowl on the stove and place it on the plate,3,True,122,230
+7,pick up the black bowl on the stove and place it on the plate,4,True,123,230
+7,pick up the black bowl on the stove and place it on the plate,5,True,122,230
+7,pick up the black bowl on the stove and place it on the plate,6,True,134,230
+7,pick up the black bowl on the stove and place it on the plate,7,True,128,230
+7,pick up the black bowl on the stove and place it on the plate,8,True,125,230
+7,pick up the black bowl on the stove and place it on the plate,9,True,124,230
+7,pick up the black bowl on the stove and place it on the plate,10,True,172,230
 7,pick up the black bowl on the stove and place it on the plate,11,True,142,230
-7,pick up the black bowl on the stove and place it on the plate,12,True,122,230
-7,pick up the black bowl on the stove and place it on the plate,13,True,132,230
-7,pick up the black bowl on the stove and place it on the plate,14,True,120,230
-7,pick up the black bowl on the stove and place it on the plate,15,True,138,230
-7,pick up the black bowl on the stove and place it on the plate,16,True,150,230
-7,pick up the black bowl on the stove and place it on the plate,17,True,165,230
-7,pick up the black bowl on the stove and place it on the plate,18,True,121,230
-7,pick up the black bowl on the stove and place it on the plate,19,True,118,230
-8,pick up the black bowl next to the plate and place it on the plate,0,True,103,230
+7,pick up the black bowl on the stove and place it on the plate,12,True,114,230
+7,pick up the black bowl on the stove and place it on the plate,13,True,136,230
+7,pick up the black bowl on the stove and place it on the plate,14,True,153,230
+7,pick up the black bowl on the stove and place it on the plate,15,True,136,230
+7,pick up the black bowl on the stove and place it on the plate,16,True,128,230
+7,pick up the black bowl on the stove and place it on the plate,17,True,128,230
+7,pick up the black bowl on the stove and place it on the plate,18,True,125,230
+7,pick up the black bowl on the stove and place it on the plate,19,True,119,230
+8,pick up the black bowl next to the plate and place it on the plate,0,True,113,230
 8,pick up the black bowl next to the plate and place it on the plate,1,True,107,230
-8,pick up the black bowl next to the plate and place it on the plate,2,True,105,230
-8,pick up the black bowl next to the plate and place it on the plate,3,True,113,230
-8,pick up the black bowl next to the plate and place it on the plate,4,True,108,230
-8,pick up the black bowl next to the plate and place it on the plate,5,True,110,230
-8,pick up the black bowl next to the plate and place it on the plate,6,True,101,230
-8,pick up the black bowl next to the plate and place it on the plate,7,True,104,230
-8,pick up the black bowl next to the plate and place it on the plate,8,True,110,230
-8,pick up the black bowl next to the plate and place it on the plate,9,True,98,230
-8,pick up the black bowl next to the plate and place it on the plate,10,True,105,230
-8,pick up the black bowl next to the plate and place it on the plate,11,True,102,230
-8,pick up the black bowl next to the plate and place it on the plate,12,True,100,230
-8,pick up the black bowl next to the plate and place it on the plate,13,True,104,230
-8,pick up the black bowl next to the plate and place it on the plate,14,True,102,230
-8,pick up the black bowl next to the plate and place it on the plate,15,True,102,230
-8,pick up the black bowl next to the plate and place it on the plate,16,True,104,230
-8,pick up the black bowl next to the plate and place it on the plate,17,True,108,230
-8,pick up the black bowl next to the plate and place it on the plate,18,True,103,230
-8,pick up the black bowl next to the plate and place it on the plate,19,True,110,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,0,True,135,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,1,True,132,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,2,True,126,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,3,True,131,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,4,True,128,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,5,True,132,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,6,True,136,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,7,True,125,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,8,True,132,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,9,True,136,230
+8,pick up the black bowl next to the plate and place it on the plate,2,True,103,230
+8,pick up the black bowl next to the plate and place it on the plate,3,True,104,230
+8,pick up the black bowl next to the plate and place it on the plate,4,True,109,230
+8,pick up the black bowl next to the plate and place it on the plate,5,True,106,230
+8,pick up the black bowl next to the plate and place it on the plate,6,True,99,230
+8,pick up the black bowl next to the plate and place it on the plate,7,True,97,230
+8,pick up the black bowl next to the plate and place it on the plate,8,True,120,230
+8,pick up the black bowl next to the plate and place it on the plate,9,True,101,230
+8,pick up the black bowl next to the plate and place it on the plate,10,True,101,230
+8,pick up the black bowl next to the plate and place it on the plate,11,True,144,230
+8,pick up the black bowl next to the plate and place it on the plate,12,True,144,230
+8,pick up the black bowl next to the plate and place it on the plate,13,True,103,230
+8,pick up the black bowl next to the plate and place it on the plate,14,True,105,230
+8,pick up the black bowl next to the plate and place it on the plate,15,True,96,230
+8,pick up the black bowl next to the plate and place it on the plate,16,True,111,230
+8,pick up the black bowl next to the plate and place it on the plate,17,True,100,230
+8,pick up the black bowl next to the plate and place it on the plate,18,True,110,230
+8,pick up the black bowl next to the plate and place it on the plate,19,True,109,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,0,True,130,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,1,True,146,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,2,True,130,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,3,True,127,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,4,False,230,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,5,True,127,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,6,True,127,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,7,True,145,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,8,True,135,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,9,True,141,230
 9,pick up the black bowl on the wooden cabinet and place it on the plate,10,True,124,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,11,True,135,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,12,True,120,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,13,True,128,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,14,True,134,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,15,True,132,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,16,True,119,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,17,True,132,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,18,True,135,230
-9,pick up the black bowl on the wooden cabinet and place it on the plate,19,True,161,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,11,True,124,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,12,True,127,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,13,True,126,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,14,True,139,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,15,True,125,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,16,True,131,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,17,True,135,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,18,True,125,230
+9,pick up the black bowl on the wooden cabinet and place it on the plate,19,True,129,230

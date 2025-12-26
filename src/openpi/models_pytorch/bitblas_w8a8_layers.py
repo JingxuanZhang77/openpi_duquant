@@ -837,10 +837,11 @@ def load_w8a8_policy(
         if truly_missing:
             logger.warning(f"[W8A8] Missing {len(truly_missing)} keys: {truly_missing[:5]}...")
 
-    model.paligemma_with_expert.to_bfloat16_for_selected_params("bfloat16")
-    model = model.to(device)
+    # Step 5: Replace Linear layers with BitBLASW8A8Linear BEFORE moving to GPU
+    # This avoids loading FP32 weights to GPU and then replacing them
+    import gc
 
-    # Step 5: Replace Linear layers with BitBLASW8A8Linear
+    replaced_count = 0
     for layer_name in w8a8_layer_names:
         # Get the Linear layer
         parts = layer_name.split(".")
@@ -854,7 +855,7 @@ def load_w8a8_policy(
             logger.warning(f"[W8A8] {layer_name}: Expected Linear, got {type(linear)}")
             continue
 
-        # Create BitBLASW8A8Linear
+        # Create BitBLASW8A8Linear (on CPU first)
         w8a8_layer = BitBLASW8A8Linear(
             in_features=linear.in_features,
             out_features=linear.out_features,
@@ -864,38 +865,58 @@ def load_w8a8_policy(
             opt_M=opt_M,
         )
 
-        # Load INT8 weights
+        # Load INT8 weights (keep on CPU for now)
         qweight_key = f"{layer_name}.qweight"
         scale_key = f"{layer_name}.weight_scale"
 
         if qweight_key in state_dict and scale_key in state_dict:
-            qweight = state_dict[qweight_key].to(device)
-            weight_scale = state_dict[scale_key].to(device)
+            qweight = state_dict[qweight_key]
+            weight_scale = state_dict[scale_key]
 
-            # Transform weight for BitBLAS if available
-            if w8a8_layer.bitblas_matmul is not None:
-                try:
-                    transformed = w8a8_layer.bitblas_matmul.transform_weight(qweight)
-                    if isinstance(transformed, list):
-                        transformed = transformed[0]
-                    w8a8_layer.qweight = transformed
-                except Exception as e:
-                    logger.warning(f"[W8A8] {layer_name}: transform_weight failed: {e}")
-                    w8a8_layer.qweight = qweight
-            else:
-                w8a8_layer.qweight = qweight
-
+            # Store weights (will be moved to GPU with model.to(device))
+            w8a8_layer.qweight = qweight
             w8a8_layer.weight_scale = weight_scale
 
             # Load bias if present
             bias_key = f"{layer_name}.bias"
             if bias_key in state_dict:
-                w8a8_layer.bias = state_dict[bias_key].to(device)
+                w8a8_layer.bias = state_dict[bias_key]
 
-            # Replace in model
+            # Replace in model (delete old Linear to free memory)
+            delattr(parent, attr_name)
             setattr(parent, attr_name, w8a8_layer)
+            replaced_count += 1
 
-    logger.info(f"[W8A8] Replaced {len(w8a8_layer_names)} Linear layers with BitBLASW8A8Linear")
+            # Free the old Linear layer's memory
+            del linear
+
+    # Force garbage collection to free replaced Linear layers
+    gc.collect()
+
+    logger.info(f"[W8A8] Replaced {replaced_count} Linear layers with BitBLASW8A8Linear")
+
+    # Now convert to bfloat16 and move to GPU
+    model.paligemma_with_expert.to_bfloat16_for_selected_params("bfloat16")
+    model = model.to(device)
+
+    # Transform weights for BitBLAS after moving to GPU
+    for layer_name in w8a8_layer_names:
+        parts = layer_name.split(".")
+        parent = model
+        for part in parts[:-1]:
+            parent = getattr(parent, part)
+        attr_name = parts[-1]
+        w8a8_layer = getattr(parent, attr_name)
+
+        if isinstance(w8a8_layer, BitBLASW8A8Linear) and w8a8_layer.bitblas_matmul is not None:
+            if w8a8_layer.qweight is not None:
+                try:
+                    transformed = w8a8_layer.bitblas_matmul.transform_weight(w8a8_layer.qweight)
+                    if isinstance(transformed, list):
+                        transformed = transformed[0]
+                    w8a8_layer.qweight = transformed
+                except Exception as e:
+                    logger.warning(f"[W8A8] {layer_name}: transform_weight failed: {e}")
 
     # Step 6: Create policy object
     from openpi.training import checkpoints as _checkpoints

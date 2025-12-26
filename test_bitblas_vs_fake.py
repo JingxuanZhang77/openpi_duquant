@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Compare BitBLAS true INT8 computation vs Fake W8A8 (FP16 simulation).
 
-This test verifies that BitBLAS INT8 kernel produces results equivalent to
-FP16 simulation with the same quantization strategy.
+Uses REAL weights from Pi0.5 model and REAL activations captured from Libero.
 
 Quantization strategy (same for both):
 - Weight: per-channel absmax, scale = max(|W[i,:]|) / 127
@@ -18,35 +17,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-
-def fake_w8a8_forward(x, W_fp16, weight_scale):
-    """Fake W8A8: FP16 simulation with same quantization strategy as BitBLAS.
-
-    Args:
-        x: Input tensor (batch, in_features), FP16
-        W_fp16: Original FP16 weight (out_features, in_features)
-        weight_scale: Per-channel weight scale (out_features,)
-
-    Returns:
-        Output tensor (batch, out_features), FP16
-    """
-    # Step 1: Quantize activation (per-tensor absmax)
-    act_absmax = x.abs().max()
-    act_scale = act_absmax / 127.0
-    x_q = (x / act_scale).round().clamp(-127, 127)  # Still FP16, but quantized values
-
-    # Step 2: Quantize weight (per-channel absmax)
-    W_q = (W_fp16 / weight_scale[:, None]).round().clamp(-127, 127)  # Still FP16
-
-    # Step 3: FP16 matmul (simulating INT8 computation)
-    # Note: This uses FP16 accumulator, while BitBLAS uses INT32
-    y = F.linear(x_q, W_q)
-
-    # Step 4: Dequantize
-    y = y * (act_scale * weight_scale)
-
-    return y
 
 
 def fake_w8a8_forward_int32_accum(x, W_fp16, weight_scale):
@@ -71,109 +41,203 @@ def fake_w8a8_forward_int32_accum(x, W_fp16, weight_scale):
     return y.half()
 
 
-def test_bitblas_vs_fake():
-    """Test MSE between BitBLAS and Fake W8A8."""
+def test_bitblas_vs_fake_real():
+    """Test MSE between BitBLAS and Fake W8A8 using REAL W and a from Libero."""
     print("=" * 70)
     print("BitBLAS W8A8 vs Fake W8A8 MSE Comparison")
+    print("Using REAL weights from Pi0.5 and REAL activations from Libero")
     print("=" * 70)
-
-    from openpi.models_pytorch.bitblas_w8a8_layers import BitBLASW8A8Linear
 
     device = torch.device("cuda")
 
-    # Test dimensions (typical sizes)
-    test_cases = [
-        (2048, 8192, "MLP up_proj (2048 -> 8192)"),
-        (8192, 2048, "MLP down_proj (8192 -> 2048)"),
-        (2048, 2048, "Attention proj (2048 -> 2048)"),
-        (4096, 4096, "Large square (4096 -> 4096)"),
-    ]
+    # =========================================================================
+    # Step 1: Load Pi0.5 model
+    # =========================================================================
+    print("\n[1] Loading Pi0.5 model...")
 
-    batch_sizes = [1, 4, 16, 32]
+    from openpi.training import config as _config
+    from openpi.policies import policy_config as _policy_config
 
-    for in_features, out_features, desc in test_cases:
-        print(f"\n{'=' * 70}")
-        print(f"Test: {desc}")
-        print(f"Dimensions: {in_features} -> {out_features}")
-        print(f"{'=' * 70}")
+    config = _config.get_config("pi05_libero")
+    checkpoint_dir = "/home/jz97/VLM_REPO/openpi/ckpts/pi05_libero_torch"
 
-        # Create reference FP16 linear
-        torch.manual_seed(42)
-        linear_fp16 = nn.Linear(in_features, out_features, bias=False).half().to(device)
-        W_fp16 = linear_fp16.weight.data.clone()
+    policy = _policy_config.create_trained_policy(config, checkpoint_dir)
+    model = policy._model
 
-        # Compute weight scale (per-channel absmax)
-        weight_absmax = W_fp16.float().abs().max(dim=1)[0]
-        weight_scale = (weight_absmax / 127.0).clamp(min=1e-8).half()
+    print(f"    Model loaded: {type(model).__name__}")
 
-        # Create BitBLAS W8A8 layer
-        bitblas_layer = BitBLASW8A8Linear(
-            in_features=in_features,
-            out_features=out_features,
-            bias=False,
-            name="test",
-            enable_tuning=False,
-            opt_M=[1, 4, 16, 32],
-        )
-        bitblas_layer.load_from_linear(linear_fp16)
-        bitblas_layer = bitblas_layer.to(device)
+    # =========================================================================
+    # Step 2: Select a layer and get real W
+    # =========================================================================
+    LAYER_NAME = "paligemma.language_model.model.layers.0.mlp.gate_proj"
 
-        print(f"\n{'Batch':<8} {'MSE (FP16 accum)':<18} {'MSE (INT32 accum)':<18} {'Max Abs Diff':<15}")
-        print("-" * 60)
+    print(f"\n[2] Extracting layer: {LAYER_NAME}")
 
-        for batch_size in batch_sizes:
-            # Generate random input
-            torch.manual_seed(123 + batch_size)
-            x = torch.randn(batch_size, in_features, dtype=torch.float16, device=device)
+    parts = LAYER_NAME.split(".")
+    layer = model
+    for part in parts:
+        layer = getattr(layer, part)
 
-            with torch.no_grad():
-                # BitBLAS output (true INT8)
-                y_bitblas = bitblas_layer(x)
+    W_fp16 = layer.weight.data.clone()
+    in_features = layer.in_features
+    out_features = layer.out_features
 
-                # Fake W8A8 with FP16 accumulator
-                y_fake_fp16 = fake_w8a8_forward(x, W_fp16, weight_scale)
+    print(f"    Shape: ({out_features}, {in_features})")
+    print(f"    W range: [{W_fp16.min().item():.4f}, {W_fp16.max().item():.4f}]")
 
-                # Fake W8A8 with INT32 accumulator simulation
-                y_fake_int32 = fake_w8a8_forward_int32_accum(x, W_fp16, weight_scale)
+    # =========================================================================
+    # Step 3: Capture real activation from Libero
+    # =========================================================================
+    print("\n[3] Capturing real activation from Libero...")
 
-            # Compute MSE
-            mse_fp16 = ((y_bitblas - y_fake_fp16) ** 2).mean().item()
-            mse_int32 = ((y_bitblas - y_fake_int32) ** 2).mean().item()
-            max_diff = (y_bitblas - y_fake_int32).abs().max().item()
+    captured_input = None
 
-            print(f"{batch_size:<8} {mse_fp16:<18.2e} {mse_int32:<18.2e} {max_diff:<15.6f}")
+    def capture_hook(module, input, output):
+        nonlocal captured_input
+        captured_input = input[0].detach().clone()
 
-        # Detailed analysis for batch=16
-        print(f"\nDetailed analysis (batch=16):")
-        torch.manual_seed(123 + 16)
-        x = torch.randn(16, in_features, dtype=torch.float16, device=device)
+    hook = layer.register_forward_hook(capture_hook)
 
-        with torch.no_grad():
-            y_bitblas = bitblas_layer(x)
-            y_fake_int32 = fake_w8a8_forward_int32_accum(x, W_fp16, weight_scale)
-            y_fp16_baseline = linear_fp16(x)  # FP16 baseline (no quantization)
+    # Create Libero environment and get observation
+    from examples.libero.main import make_libero_env
 
-        # Compare to FP16 baseline
-        mse_bitblas_vs_fp16 = ((y_bitblas - y_fp16_baseline) ** 2).mean().item()
-        mse_fake_vs_fp16 = ((y_fake_int32 - y_fp16_baseline) ** 2).mean().item()
+    env = make_libero_env(
+        task_suite_name="libero_spatial",
+        task_id=0,
+        resolution=224,
+    )
 
-        print(f"  BitBLAS vs FP16 baseline MSE: {mse_bitblas_vs_fp16:.2e}")
-        print(f"  Fake W8A8 vs FP16 baseline MSE: {mse_fake_vs_fp16:.2e}")
-        print(f"  BitBLAS vs Fake W8A8 MSE: {mse_int32:.2e}")
+    obs, _ = env.reset()
+    print(f"    Got observation from Libero")
 
-        # Relative error
-        rel_error = (y_bitblas - y_fake_int32).abs() / (y_fake_int32.abs() + 1e-8)
-        print(f"  Relative error (mean): {rel_error.mean().item():.2e}")
-        print(f"  Relative error (max): {rel_error.max().item():.2e}")
+    # Run inference to capture activation
+    sample = {
+        "observation/image": obs["agentview_rgb"],
+        "observation/wrist_image": obs["robot0_eye_in_hand_rgb"],
+        "observation/state": obs["robot0_proprio"],
+        "prompt": "pick up the object",
+    }
 
-    print(f"\n{'=' * 70}")
+    with torch.no_grad():
+        _ = policy.infer(sample)
+
+    hook.remove()
+    env.close()
+
+    if captured_input is None:
+        print("    ERROR: Failed to capture activation!")
+        return
+
+    x = captured_input.to(device)
+    print(f"    Captured x: shape={x.shape}, dtype={x.dtype}")
+    print(f"    x range: [{x.min().item():.4f}, {x.max().item():.4f}]")
+
+    # Flatten to 2D
+    x_2d = x.view(-1, in_features)
+    batch_size = x_2d.shape[0]
+    print(f"    Reshaped to: ({batch_size}, {in_features})")
+
+    # =========================================================================
+    # Step 4: Compute weight scale
+    # =========================================================================
+    print("\n[4] Computing weight scale...")
+
+    weight_absmax = W_fp16.float().abs().max(dim=1)[0]
+    weight_scale = (weight_absmax / 127.0).clamp(min=1e-8).to(device)
+
+    print(f"    Weight scale range: [{weight_scale.min().item():.6f}, {weight_scale.max().item():.6f}]")
+
+    # =========================================================================
+    # Step 5: Create BitBLAS W8A8 layer
+    # =========================================================================
+    print("\n[5] Creating BitBLAS W8A8 layer...")
+
+    from openpi.models_pytorch.bitblas_w8a8_layers import BitBLASW8A8Linear
+
+    # Create a temporary nn.Linear to load from
+    temp_linear = nn.Linear(in_features, out_features, bias=False).to(device).half()
+    temp_linear.weight.data = W_fp16.to(device)
+
+    bitblas_layer = BitBLASW8A8Linear(
+        in_features=in_features,
+        out_features=out_features,
+        bias=False,
+        name=LAYER_NAME,
+        enable_tuning=False,
+        opt_M=[1, batch_size, 16, 32],
+    )
+    bitblas_layer.load_from_linear(temp_linear)
+    bitblas_layer = bitblas_layer.to(device)
+
+    print(f"    BitBLAS layer created")
+
+    # =========================================================================
+    # Step 6: Compute outputs and compare
+    # =========================================================================
+    print("\n[6] Computing outputs...")
+
+    with torch.no_grad():
+        # BitBLAS output (true INT8)
+        y_bitblas = bitblas_layer(x_2d)
+
+        # Fake W8A8 with INT32 accumulator simulation
+        y_fake_int32 = fake_w8a8_forward_int32_accum(x_2d, W_fp16.to(device), weight_scale)
+
+        # FP16 baseline (no quantization)
+        y_fp16 = F.linear(x_2d, W_fp16.to(device))
+
+    print(f"    y_bitblas range: [{y_bitblas.min().item():.4f}, {y_bitblas.max().item():.4f}]")
+    print(f"    y_fake range: [{y_fake_int32.min().item():.4f}, {y_fake_int32.max().item():.4f}]")
+    print(f"    y_fp16 range: [{y_fp16.min().item():.4f}, {y_fp16.max().item():.4f}]")
+
+    # =========================================================================
+    # Step 7: Compare results
+    # =========================================================================
+    print("\n[7] Comparing results...")
+    print("-" * 70)
+
+    # BitBLAS vs Fake W8A8 (core comparison)
+    mse_bitblas_vs_fake = ((y_bitblas.float() - y_fake_int32.float()) ** 2).mean().item()
+    max_diff_bitblas_vs_fake = (y_bitblas.float() - y_fake_int32.float()).abs().max().item()
+
+    print(f"BitBLAS vs Fake W8A8 (核心比较):")
+    print(f"    MSE:      {mse_bitblas_vs_fake:.6e}")
+    print(f"    Max diff: {max_diff_bitblas_vs_fake:.6e}")
+
+    # BitBLAS vs FP16 baseline
+    mse_bitblas_vs_fp16 = ((y_bitblas.float() - y_fp16.float()) ** 2).mean().item()
+    print(f"\nBitBLAS vs FP16 baseline:")
+    print(f"    MSE:      {mse_bitblas_vs_fp16:.6e}")
+
+    # Fake W8A8 vs FP16 baseline
+    mse_fake_vs_fp16 = ((y_fake_int32.float() - y_fp16.float()) ** 2).mean().item()
+    print(f"\nFake W8A8 vs FP16 baseline:")
+    print(f"    MSE:      {mse_fake_vs_fp16:.6e}")
+
+    # Relative error
+    rel_error = (y_bitblas.float() - y_fake_int32.float()).abs() / (y_fake_int32.float().abs() + 1e-8)
+    print(f"\nRelative error (BitBLAS vs Fake):")
+    print(f"    Mean: {rel_error.mean().item():.6e}")
+    print(f"    Max:  {rel_error.max().item():.6e}")
+
+    # =========================================================================
+    # Summary
+    # =========================================================================
+    print("\n" + "=" * 70)
     print("Summary:")
-    print("- MSE between BitBLAS and Fake W8A8 (INT32 accum) should be ~0")
-    print("- Any difference is due to:")
-    print("  1. BitBLAS weight transform (packing)")
-    print("  2. Numerical precision differences")
     print("=" * 70)
+    print(f"Layer: {LAYER_NAME}")
+    print(f"Real W from Pi0.5, Real a from Libero")
+    print(f"Dimensions: ({batch_size}, {in_features}) x ({out_features}, {in_features})")
+    print()
+
+    if mse_bitblas_vs_fake < 1e-10:
+        print("✅ SUCCESS: MSE < 1e-10, BitBLAS matches Fake W8A8 exactly!")
+    elif mse_bitblas_vs_fake < 1e-5:
+        print("✅ SUCCESS: MSE < 1e-5, BitBLAS matches Fake W8A8 closely!")
+    else:
+        print(f"⚠ WARNING: MSE = {mse_bitblas_vs_fake:.2e}")
 
 
 if __name__ == "__main__":
-    test_bitblas_vs_fake()
+    test_bitblas_vs_fake_real()
