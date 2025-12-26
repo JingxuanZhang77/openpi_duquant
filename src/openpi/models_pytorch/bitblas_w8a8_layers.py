@@ -1,15 +1,19 @@
-"""BitBLAS W8A8 Quantization Layer.
+"""BitBLAS W8A8/W8FP16 Quantization Layer.
 
-True INT8×INT8 quantization using BitBLAS kernels with native Tensor Core support.
-No DuQuant transforms (perm/rotation) needed - INT8 precision is sufficient.
+Supports two quantization modes via OPENPI_W8A8_ACTIVATION_DTYPE:
+- W8A8 (default): INT8 weights × INT8 activations (dynamic quantization)
+- W8FP16: INT8 weights × FP16 activations (no activation quantization)
 
-Architecture:
+W8A8 Architecture:
     FP16 Input → INT8 quantize → INT8×INT8 kernel → INT32 accum → FP16 Output
+
+W8FP16 Architecture:
+    FP16 Input → FP16×INT8 kernel → FP16 Output (BitBLAS dequantize internally)
 
 Benefits:
     - 50% memory reduction (INT8 weights vs FP16)
-    - 1.5-2x speedup (native INT8 Tensor Core on SM86)
-    - Simple implementation (no transforms needed)
+    - W8A8: 1.5-2x speedup (native INT8 Tensor Core on SM86)
+    - W8FP16: Higher accuracy (no activation quantization loss)
 """
 
 import logging
@@ -153,10 +157,13 @@ def load_tuning_cache():
 
 
 class BitBLASW8A8Linear(nn.Module):
-    """INT8×INT8 Linear layer using BitBLAS.
+    """INT8 weight Linear layer using BitBLAS.
 
-    Weights are stored as INT8, activations are quantized to INT8 at runtime.
-    Uses native INT8 Tensor Core for computation.
+    Supports two modes via activation_dtype:
+    - W8A8 (activation_dtype="int8"): INT8 weights × INT8 activations (dynamic quantization)
+    - W8FP16 (activation_dtype="float16"): INT8 weights × FP16 activations (no activation quantization)
+
+    Weights are always stored as INT8.
     """
 
     def __init__(
@@ -167,6 +174,7 @@ class BitBLASW8A8Linear(nn.Module):
         name: str = "",
         enable_tuning: bool = False,
         opt_M: list = None,
+        activation_dtype: str = "int8",  # "int8" (W8A8) or "float16" (W8FP16)
     ):
         super().__init__()
 
@@ -174,6 +182,7 @@ class BitBLASW8A8Linear(nn.Module):
         self.out_features = out_features
         self.name = name
         self.enable_tuning = enable_tuning
+        self.activation_dtype = activation_dtype  # "int8" or "float16"
 
         if opt_M is None:
             opt_M = [1, 16, 32, 64]
@@ -197,30 +206,51 @@ class BitBLASW8A8Linear(nn.Module):
             return
 
         try:
-            # Check cache first
-            cache_key = (out_features, in_features, tuple(opt_M), enable_tuning)
+            # Check cache first - include activation_dtype in cache key
+            cache_key = (out_features, in_features, tuple(opt_M), enable_tuning, activation_dtype)
             if cache_key in _MATMUL_CACHE:
                 self.bitblas_matmul = _MATMUL_CACHE[cache_key]
                 self.has_bias = bias
-                logger.info(f"[W8A8] {name}: Reusing cached Matmul for ({out_features}, {in_features})")
+                mode_str = "W8A8" if activation_dtype == "int8" else "W8FP16"
+                logger.info(f"[{mode_str}] {name}: Reusing cached Matmul for ({out_features}, {in_features})")
                 return
 
             target = auto_detect_nvidia_target()
-            logger.info(f"[W8A8] {name}: Target={target}, creating new Matmul for ({out_features}, {in_features})")
+            mode_str = "W8A8" if activation_dtype == "int8" else "W8FP16"
+            logger.info(f"[{mode_str}] {name}: Target={target}, creating new Matmul for ({out_features}, {in_features})")
 
-            # W8A8 MatmulConfig
-            matmul_config = MatmulConfig(
-                M=opt_M,
-                N=out_features,
-                K=in_features,
-                A_dtype="int8",
-                W_dtype="int8",
-                out_dtype="int32",
-                accum_dtype="int32",
-                layout="nt",
-                with_scaling=False,
-                with_bias=False,
-            )
+            # Create MatmulConfig based on activation_dtype
+            if activation_dtype == "int8":
+                # W8A8: INT8 × INT8 → INT32 → FP16
+                matmul_config = MatmulConfig(
+                    M=opt_M,
+                    N=out_features,
+                    K=in_features,
+                    A_dtype="int8",
+                    W_dtype="int8",
+                    out_dtype="int32",
+                    accum_dtype="int32",
+                    layout="nt",
+                    with_scaling=False,
+                    with_bias=False,
+                )
+            else:
+                # W8FP16: FP16 × INT8 → FP16 (with dequantization)
+                # BitBLAS will dequantize INT8 weights to FP16 internally
+                matmul_config = MatmulConfig(
+                    M=opt_M,
+                    N=out_features,
+                    K=in_features,
+                    A_dtype="float16",
+                    W_dtype="int8",
+                    out_dtype="float16",
+                    accum_dtype="float16",
+                    layout="nt",
+                    with_scaling=True,  # Enable per-channel scaling for dequantization
+                    group_size=in_features,  # Per-channel quantization (group_size = K)
+                    with_bias=False,
+                )
+
             self.has_bias = bias
             self._matmul_config = matmul_config  # Store for cache persistence
 
@@ -237,12 +267,13 @@ class BitBLASW8A8Linear(nn.Module):
             # BitBLAS doesn't auto-add to cache, we must do it manually
             if enable_tuning and global_operator_cache is not None:
                 global_operator_cache.add(matmul_config, self.bitblas_matmul)
-                logger.info(f"[W8A8] {name}: Added tuned operator to global cache for persistence")
+                logger.info(f"[{mode_str}] {name}: Added tuned operator to global cache for persistence")
 
-            logger.info(f"[W8A8] {name}: BitBLAS Matmul created and cached")
+            logger.info(f"[{mode_str}] {name}: BitBLAS Matmul created and cached")
 
         except Exception as e:
-            logger.error(f"[W8A8] {name}: Failed to create BitBLAS Matmul: {e}")
+            mode_str = "W8A8" if activation_dtype == "int8" else "W8FP16"
+            logger.error(f"[{mode_str}] {name}: Failed to create BitBLAS Matmul: {e}")
             self.bitblas_matmul = None
 
     def load_from_linear(self, linear: nn.Linear, act_scale: Optional[torch.Tensor] = None):
@@ -298,7 +329,11 @@ class BitBLASW8A8Linear(nn.Module):
                    f"weight_scale={self.weight_scale.shape}")
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """Forward pass with INT8×INT8 computation via BitBLAS.
+        """Forward pass with INT8 weight computation via BitBLAS.
+
+        Supports two modes:
+        - W8A8 (activation_dtype="int8"): INT8×INT8 → INT32 → FP16
+        - W8FP16 (activation_dtype="float16"): FP16×INT8 → FP16
 
         Args:
             x: Input tensor of shape (..., in_features), any dtype
@@ -313,25 +348,39 @@ class BitBLASW8A8Linear(nn.Module):
         x_2d = x.view(-1, self.in_features)
         batch_size = x_2d.shape[0]
 
-        # Step 1: Optimized dynamic quantization to INT8
-        # Stay in FP16 as long as possible, then convert to int8 directly
-        act_absmax = x_2d.abs().max()
-        # Use inverse scale for faster multiplication
-        scale_inv = 127.0 / (act_absmax + 1e-8)
-        x_int8 = (x_2d * scale_inv).round().clamp(-127, 127).to(torch.int8)
-        act_scale = act_absmax.float() / 127.0
+        if self.activation_dtype == "int8":
+            # W8A8 mode: Dynamic quantization of activations
+            # Step 1: Optimized dynamic quantization to INT8
+            act_absmax = x_2d.abs().max()
+            scale_inv = 127.0 / (act_absmax + 1e-8)
+            x_int8 = (x_2d * scale_inv).round().clamp(-127, 127).to(torch.int8)
+            act_scale = act_absmax.float() / 127.0
 
-        # Step 2: INT8×INT8 matmul via BitBLAS
-        if self.bitblas_matmul is not None:
-            output_int32 = torch.empty(batch_size, self.out_features, dtype=torch.int32, device=x.device)
-            self.bitblas_matmul(x_int8, self.qweight, output=output_int32)
+            # Step 2: INT8×INT8 matmul via BitBLAS
+            if self.bitblas_matmul is not None:
+                output_int32 = torch.empty(batch_size, self.out_features, dtype=torch.int32, device=x.device)
+                self.bitblas_matmul(x_int8, self.qweight, output=output_int32)
 
-            # Step 3: Dequantize: y = y_int32 * (act_scale * weight_scale)
-            combined_scale = act_scale * self.weight_scale.float()
-            output = output_int32.float() * combined_scale
+                # Step 3: Dequantize: y = y_int32 * (act_scale * weight_scale)
+                combined_scale = act_scale * self.weight_scale.float()
+                output = output_int32.float() * combined_scale
+            else:
+                # Fallback: use FP matmul with dequantized weights
+                output = self._fallback_forward(x_2d.float())
         else:
-            # Fallback: use FP matmul with dequantized weights
-            output = self._fallback_forward(x_2d.float())
+            # W8FP16 mode: No activation quantization, FP16×INT8 via BitBLAS dequantization
+            if self.bitblas_matmul is not None:
+                # Convert input to FP16
+                x_fp16 = x_2d.half()
+                output_fp16 = torch.empty(batch_size, self.out_features, dtype=torch.float16, device=x.device)
+
+                # BitBLAS with scaling: A_fp16 × (W_int8 * scale) → out_fp16
+                # Pass weight_scale as the scaling factor for dequantization
+                self.bitblas_matmul(x_fp16, self.qweight, scale=self.weight_scale, output=output_fp16)
+                output = output_fp16.float()
+            else:
+                # Fallback: use FP matmul with dequantized weights
+                output = self._fallback_forward(x_2d.float())
 
         # Add bias if present
         if self.bias is not None:
@@ -345,6 +394,7 @@ class BitBLASW8A8Linear(nn.Module):
                 if pattern is None or (pattern and re.search(pattern, self.name)):
                     # Get dequantized FP16 weight
                     W_fp16 = self.qweight.float() * self.weight_scale[:, None].float()
+                    mode_str = "W8A8" if self.activation_dtype == "int8" else "W8FP16"
                     _ACTIVATION_CAPTURE["samples"].append({
                         "layer_name": self.name,
                         "x": x_2d.detach().clone(),
@@ -352,7 +402,7 @@ class BitBLASW8A8Linear(nn.Module):
                         "weight_scale": self.weight_scale.detach().clone(),
                         "y_bitblas": output.detach().clone(),
                     })
-                    logger.info(f"[W8A8] Captured activation {len(_ACTIVATION_CAPTURE['samples'])}/{_ACTIVATION_CAPTURE['max_samples']} from {self.name}")
+                    logger.info(f"[{mode_str}] Captured activation {len(_ACTIVATION_CAPTURE['samples'])}/{_ACTIVATION_CAPTURE['max_samples']} from {self.name}")
 
         # Restore original shape and dtype
         output_shape = original_shape[:-1] + (self.out_features,)
@@ -380,6 +430,7 @@ def wrap_w8a8(
     enable_tuning: bool = False,
     opt_M: list = None,
     act_scales: dict = None,
+    activation_dtype: str = "int8",
 ) -> int:
     """Replace Linear layers with BitBLASW8A8Linear.
 
@@ -389,11 +440,13 @@ def wrap_w8a8(
         enable_tuning: Whether to enable BitBLAS auto-tuning
         opt_M: Batch sizes to optimize for
         act_scales: Optional dict of {layer_name: activation_scale}
+        activation_dtype: "int8" (W8A8) or "float16" (W8FP16)
 
     Returns:
         Number of layers successfully replaced
     """
     replaced_count = 0
+    mode_str = "W8A8" if activation_dtype == "int8" else "W8FP16"
 
     for name in layer_names:
         # Navigate to parent module
@@ -406,10 +459,10 @@ def wrap_w8a8(
         linear = getattr(parent, attr_name)
 
         if not isinstance(linear, nn.Linear):
-            logger.warning(f"[W8A8] {name}: Not a Linear layer, skipping")
+            logger.warning(f"[{mode_str}] {name}: Not a Linear layer, skipping")
             continue
 
-        # Create W8A8 layer
+        # Create W8A8/W8FP16 layer
         w8a8_linear = BitBLASW8A8Linear(
             in_features=linear.in_features,
             out_features=linear.out_features,
@@ -417,6 +470,7 @@ def wrap_w8a8(
             name=name,
             enable_tuning=enable_tuning,
             opt_M=opt_M,
+            activation_dtype=activation_dtype,
         )
 
         # Load weights
@@ -431,7 +485,7 @@ def wrap_w8a8(
         replaced_count += 1
 
         if replaced_count <= 5 or replaced_count % 20 == 0:
-            logger.info(f"[W8A8] Replaced {name}")
+            logger.info(f"[{mode_str}] Replaced {name}")
 
     return replaced_count
 
@@ -478,11 +532,27 @@ def select_targets_for_w8a8(
 
 
 def get_w8a8_config_from_env() -> dict:
-    """Get W8A8 configuration from environment variables."""
+    """Get W8A8/W8FP16 configuration from environment variables.
+
+    Environment variables:
+        OPENPI_W8A8_ACTIVATION_DTYPE: "int8" (W8A8, default) or "float16" (W8FP16)
+        OPENPI_W8A8_ENABLE_TUNING: "0" or "1" (default: "1")
+        OPENPI_W8A8_OPT_M: Comma-separated batch sizes (default: "1,16,32,64")
+        OPENPI_W8A8_INCLUDE: Regex pattern for layers to include
+        OPENPI_W8A8_EXCLUDE: Regex pattern for layers to exclude
+        OPENPI_W8A8_DEBUG: "0" or "1" (default: "0")
+    """
     opt_M_str = os.environ.get("OPENPI_W8A8_OPT_M", "1,16,32,64")
     opt_M = [int(x.strip()) for x in opt_M_str.split(",") if x.strip()]
 
+    # Get activation dtype: "int8" (W8A8) or "float16" (W8FP16)
+    activation_dtype = os.environ.get("OPENPI_W8A8_ACTIVATION_DTYPE", "int8")
+    if activation_dtype not in ("int8", "float16"):
+        logger.warning(f"[W8A8] Invalid OPENPI_W8A8_ACTIVATION_DTYPE '{activation_dtype}', using 'int8'")
+        activation_dtype = "int8"
+
     return {
+        "activation_dtype": activation_dtype,
         "enable_tuning": os.environ.get("OPENPI_W8A8_ENABLE_TUNING", "1") not in ("0", "false", "False"),
         "opt_M": opt_M,
         "include_regex": os.environ.get(
@@ -498,7 +568,7 @@ def get_w8a8_config_from_env() -> dict:
 
 
 def enable_w8a8_if_configured(model: nn.Module) -> int:
-    """Enable W8A8 quantization if OPENPI_W8A8_ENABLE=1.
+    """Enable W8A8/W8FP16 quantization if OPENPI_W8A8_ENABLE=1.
 
     Args:
         model: The model to quantize
@@ -510,9 +580,10 @@ def enable_w8a8_if_configured(model: nn.Module) -> int:
         return 0
 
     config = get_w8a8_config_from_env()
+    mode_str = "W8A8" if config["activation_dtype"] == "int8" else "W8FP16"
 
     if config["debug"]:
-        logger.info("[W8A8] Configuration from environment:")
+        logger.info(f"[{mode_str}] Configuration from environment:")
         for k, v in config.items():
             logger.info(f"  {k}: {v}")
 
@@ -522,6 +593,7 @@ def enable_w8a8_if_configured(model: nn.Module) -> int:
         exclude_regex=config["exclude_regex"],
         enable_tuning=config["enable_tuning"],
         opt_M=config["opt_M"],
+        activation_dtype=config["activation_dtype"],
     )
 
 
@@ -532,8 +604,9 @@ def apply_w8a8_quantization(
     enable_tuning: bool = True,
     opt_M: list = None,
     act_scales: dict = None,
+    activation_dtype: str = "int8",
 ) -> int:
-    """Apply W8A8 quantization to a model.
+    """Apply W8A8/W8FP16 quantization to a model.
 
     Args:
         model: The model to quantize
@@ -542,6 +615,7 @@ def apply_w8a8_quantization(
         enable_tuning: Whether to enable BitBLAS auto-tuning
         opt_M: Batch sizes to optimize for
         act_scales: Optional dict of pre-calibrated activation scales
+        activation_dtype: "int8" (W8A8) or "float16" (W8FP16)
 
     Returns:
         Number of layers quantized
@@ -549,25 +623,28 @@ def apply_w8a8_quantization(
     if opt_M is None:
         opt_M = [1, 16, 32, 64]
 
-    logger.info("[W8A8] Starting W8A8 quantization")
-    logger.info(f"[W8A8] Include pattern: {include_regex}")
-    logger.info(f"[W8A8] Exclude pattern: {exclude_regex}")
-    logger.info(f"[W8A8] Tuning enabled: {enable_tuning}")
+    mode_str = "W8A8" if activation_dtype == "int8" else "W8FP16"
+
+    logger.info(f"[{mode_str}] Starting {mode_str} quantization")
+    logger.info(f"[{mode_str}] Activation dtype: {activation_dtype}")
+    logger.info(f"[{mode_str}] Include pattern: {include_regex}")
+    logger.info(f"[{mode_str}] Exclude pattern: {exclude_regex}")
+    logger.info(f"[{mode_str}] Tuning enabled: {enable_tuning}")
 
     # Try to load previously tuned operators from database
     cached_count = load_tuning_cache()
     if cached_count > 0:
-        logger.info(f"[W8A8] Will use {cached_count} cached tuned operators")
+        logger.info(f"[{mode_str}] Will use {cached_count} cached tuned operators")
 
     # Select target layers
     layer_names = select_targets_for_w8a8(model, include_regex, exclude_regex)
 
-    logger.info(f"[W8A8] Found {len(layer_names)} layers to quantize")
+    logger.info(f"[{mode_str}] Found {len(layer_names)} layers to quantize")
     if len(layer_names) > 0:
         for name in layer_names[:10]:
-            logger.info(f"[W8A8]   - {name}")
+            logger.info(f"[{mode_str}]   - {name}")
         if len(layer_names) > 10:
-            logger.info(f"[W8A8]   ... and {len(layer_names) - 10} more")
+            logger.info(f"[{mode_str}]   ... and {len(layer_names) - 10} more")
 
     # Replace layers
     replaced_count = wrap_w8a8(
@@ -576,9 +653,10 @@ def apply_w8a8_quantization(
         enable_tuning=enable_tuning,
         opt_M=opt_M,
         act_scales=act_scales,
+        activation_dtype=activation_dtype,
     )
 
-    logger.info(f"[W8A8] Successfully replaced {replaced_count}/{len(layer_names)} layers")
+    logger.info(f"[{mode_str}] Successfully replaced {replaced_count}/{len(layer_names)} layers")
 
     # Save tuned operators to database for future use
     if enable_tuning:
