@@ -376,7 +376,9 @@ class BitBLASW8A8Linear(nn.Module):
 
                 # BitBLAS with scaling: A_fp16 × (W_int8 * scale) → out_fp16
                 # Pass weight_scale as the scaling factor for dequantization
-                self.bitblas_matmul(x_fp16, self.qweight, scale=self.weight_scale, output=output_fp16)
+                # IMPORTANT: weight_scale must be FP16 for BitBLAS (may be bfloat16 after model.to_bfloat16)
+                scale_fp16 = self.weight_scale.half()
+                self.bitblas_matmul(x_fp16, self.qweight, scale=scale_fp16, output=output_fp16)
                 output = output_fp16.float()
             else:
                 # Fallback: use FP matmul with dequantized weights
