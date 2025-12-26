@@ -809,8 +809,9 @@ def load_w8a8_policy(
     enable_tuning: bool = False,
     opt_M: list = None,
     device: str = "cuda",
+    activation_dtype: str = "int8",
 ):
-    """Load complete W8A8 quantized model from HuggingFace or local path.
+    """Load complete W8A8/W8FP16 quantized model from HuggingFace or local path.
 
     This function loads a complete W8A8 model that includes:
     - INT8 quantized weights for LLM/DiT layers
@@ -827,12 +828,16 @@ def load_w8a8_policy(
         enable_tuning: Whether to enable BitBLAS tuning
         opt_M: Batch sizes to optimize for
         device: Device to load model on
+        activation_dtype: Activation data type - "int8" for W8A8 or "float16" for W8FP16
 
     Returns:
         Policy object ready for inference
 
     Example:
-        >>> policy = load_w8a8_policy("fatdove/pi05-libero-w8a8")
+        >>> # W8A8 (INT8 weights x INT8 activations)
+        >>> policy = load_w8a8_policy("fatdove/pi05-libero-w8a8", activation_dtype="int8")
+        >>> # W8FP16 (INT8 weights x FP16 activations)
+        >>> policy = load_w8a8_policy("fatdove/pi05-libero-w8a8", activation_dtype="float16")
         >>> result = policy.infer(observation)
     """
     import json
@@ -941,6 +946,7 @@ def load_w8a8_policy(
             name=layer_name,
             enable_tuning=enable_tuning,
             opt_M=opt_M,
+            activation_dtype=activation_dtype,
         )
 
         # Load INT8 weights (keep on CPU for now)
